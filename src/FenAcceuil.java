@@ -60,7 +60,7 @@ public class FenAcceuil extends JFrame implements ActionListener{
 
 	public FenAcceuil() {
 		data_config = new Configuration();
-		this.setTitle("Comptabilité BDE 2017");
+		this.setTitle("Comptabilite BDE 2017");
 		this.setResizable(true);
 		this.setSize(600, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -71,15 +71,15 @@ public class FeuilleCourse {
 		addCell(sheet, ligne, 3, CellType.STRING, sdf.format(dateCreation), style);
 		ligne++;
 		
-		addCell(sheet, ligne, 5, CellType.STRING, "Total théorique", style);
+		addCell(sheet, ligne, 5, CellType.STRING, "Total theorique", style);
 		addCell(sheet, ligne, 6, CellType.NUMERIC, this.totalAttendu, style);
 		addCell(sheet, ligne, 7, CellType.STRING, "Total ticket", style);
 		addCell(sheet, ligne, 8, CellType.NUMERIC, this.totalTicket, style);
 		ligne++;
 				
 		addCell(sheet, ligne, 0, CellType.STRING, "Type", style);
-		addCell(sheet, ligne, 1, CellType.STRING, "Catégorie", style);
-		addCell(sheet, ligne, 2, CellType.STRING, "Quantité", style);
+		addCell(sheet, ligne, 1, CellType.STRING, "Categorie", style);
+		addCell(sheet, ligne, 2, CellType.STRING, "Quantite", style);
 		addCell(sheet, ligne, 3, CellType.STRING, "Prix total", style);
 		
 		ligne++;

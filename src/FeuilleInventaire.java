@@ -22,7 +22,7 @@ public class FeuilleInventaire {
 	private int TotaleCaisse = 0;
 	private int FondCaisseSuivant = 50;
 	private double recetteTheorique;
-	private double recetteRéelle;
+	private double recetteReelle;
 	private double BonSnac;
 	
 	private ArrayList<LigneInventaire> listeProd = new ArrayList<LigneInventaire>();
@@ -56,7 +56,7 @@ public class FeuilleInventaire {
 	public String toString() {
 		String r = "FeuilleInventaire [dateCreation=" + dateCreation + ", FondCaissePrecedent=" + FondCaissePrecedent
 				+ ", TotaleCaisse=" + TotaleCaisse + ", FondCaisseSuivant=" + FondCaisseSuivant + ", recetteTheorique="
-				+ recetteTheorique + ", recetteRéelle=" + recetteRéelle + "]";
+				+ recetteTheorique + ", recetteReelle=" + recetteReelle + "]";
 		r +="\nlisteProd\n";
 		for(LigneInventaire i : listeProd)
 			r+= "\t"+i+"\n";
@@ -82,24 +82,24 @@ public class FeuilleInventaire {
 		addCell(sheet, 5, 9, CellType.NUMERIC, this.TotaleCaisse, style);
 		addCell(sheet, 6, 9, CellType.STRING, "Fond de caisse suivant", style);
 		addCell(sheet, 7, 9, CellType.NUMERIC, this.FondCaisseSuivant, style);
-		addCell(sheet, 10, 9, CellType.STRING, "Recette théorique", style);
+		addCell(sheet, 10, 9, CellType.STRING, "Recette theorique", style);
 		addCell(sheet, 11, 9, CellType.NUMERIC, this.recetteTheorique, style);
-		addCell(sheet, 13, 9, CellType.STRING, "Recette réelle", style);
-		addCell(sheet, 14, 9, CellType.NUMERIC, this.recetteRéelle, style);
+		addCell(sheet, 13, 9, CellType.STRING, "Recette reelle", style);
+		addCell(sheet, 14, 9, CellType.NUMERIC, this.recetteReelle, style);
 		addCell(sheet, 15, 9, CellType.STRING, "Bon Snac", style);
 		addCell(sheet, 16, 9, CellType.NUMERIC, this.BonSnac, style);
 
-		addCell(sheet, 10, 10, CellType.STRING, "Différence", style);
-		addCell(sheet, 11, 10, CellType.NUMERIC, recetteRéelle - recetteTheorique, style);
+		addCell(sheet, 10, 10, CellType.STRING, "Difference", style);
+		addCell(sheet, 11, 10, CellType.NUMERIC, recetteReelle - recetteTheorique, style);
 		addCell(sheet, 13, 10, CellType.STRING, "Inventaire OK", style);
 		addCell(sheet, 14, 10, CellType.STRING, "", style);
 		
 		int ligne = 2;
-		addCell(sheet, ligne, 0, CellType.STRING, "Catégorie", style);
+		addCell(sheet, ligne, 0, CellType.STRING, "Categorie", style);
 		addCell(sheet, ligne, 1, CellType.STRING, "Produit", style);
-		addCell(sheet, ligne, 2, CellType.STRING, "Qté precedent", style);
-		addCell(sheet, ligne, 3, CellType.STRING, "Qté course", style);
-		addCell(sheet, ligne, 4, CellType.STRING, "Qté restante", style);
+		addCell(sheet, ligne, 2, CellType.STRING, "Qte precedent", style);
+		addCell(sheet, ligne, 3, CellType.STRING, "Qte course", style);
+		addCell(sheet, ligne, 4, CellType.STRING, "Qte restante", style);
 		addCell(sheet, ligne, 5, CellType.STRING, "Vendus", style);
 		addCell(sheet, ligne, 6, CellType.STRING, "Prix", style);
 		addCell(sheet, ligne, 7, CellType.STRING, "Recette", style);

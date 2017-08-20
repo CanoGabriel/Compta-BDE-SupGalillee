@@ -32,7 +32,7 @@ public class LigneCourse{
 
 	private void ajouterPack(Pack p) {
 		pack.add(p);
-		//maj des donnée;
+		//maj des donnee;
 		qtProd += p.getQuantiteProd()*p.getNombrePack();
 		prixLigne += p.getPrixPack()*p.getNombrePack();
 	}
