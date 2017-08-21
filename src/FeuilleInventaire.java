@@ -22,6 +22,77 @@ public class FeuilleInventaire {
 	private int TotaleCaisse = 0;
 	private int FondCaisseSuivant = 50;
 	private double recetteTheorique;
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
+	public int getFondCaissePrecedent() {
+		return FondCaissePrecedent;
+	}
+
+	public void setFondCaissePrecedent(int fondCaissePrecedent) {
+		FondCaissePrecedent = fondCaissePrecedent;
+	}
+
+	public int getTotaleCaisse() {
+		return TotaleCaisse;
+	}
+
+	public void setTotaleCaisse(int totaleCaisse) {
+		TotaleCaisse = totaleCaisse;
+	}
+
+	public int getFondCaisseSuivant() {
+		return FondCaisseSuivant;
+	}
+
+	public void setFondCaisseSuivant(int fondCaisseSuivant) {
+		FondCaisseSuivant = fondCaisseSuivant;
+	}
+
+	public double getRecetteTheorique() {
+		return recetteTheorique;
+	}
+
+	public void setRecetteTheorique(double recetteTheorique) {
+		this.recetteTheorique = recetteTheorique;
+	}
+
+	public double getRecetteReelle() {
+		return recetteReelle;
+	}
+
+	public void setRecetteReelle(double recetteReelle) {
+		this.recetteReelle = recetteReelle;
+	}
+
+	public double getBonSnac() {
+		return BonSnac;
+	}
+
+	public void setBonSnac(double bonSnac) {
+		BonSnac = bonSnac;
+	}
+
+	public ArrayList<LigneInventaire> getListeProd() {
+		return listeProd;
+	}
+
+	public void setListeProd(ArrayList<LigneInventaire> listeProd) {
+		this.listeProd = listeProd;
+	}
+
+	public ArrayList<String> getListCategorie() {
+		return listCategorie;
+	}
+
+	public void setListCategorie(ArrayList<String> listCategorie) {
+		this.listCategorie = listCategorie;
+	}
 	private double recetteReelle;
 	private double BonSnac;
 	
@@ -33,21 +104,26 @@ public class FeuilleInventaire {
 	}
 	
 	public void ajouterLigne(LigneInventaire l) {
-		listeProd.add(l);
-		if(!listCategorie.contains(l.getCategorie())) {
-			listCategorie.add(l.getCategorie());
-			Collections.sort(listCategorie, new Comparator<String>() {
+		if(!listeProd.contains(l)) {
+			listeProd.add(l);
+			//Mise a jour de la list des categorie relative à la feuille courante
+			if(!listCategorie.contains(l.getCategorie())) {
+				listCategorie.add(l.getCategorie());
+				Collections.sort(listCategorie, new Comparator<String>() {
 
-				@Override
-				public int compare(String o1, String o2) {
-					// TODO Auto-generated method stub
-					return o1.compareTo(o2);
-				}
-			});
-		}
-		recetteTheorique = 0;
-		for(LigneInventaire i : listeProd) {
-			recetteTheorique += i.getRecetteLigne();
+					@Override
+					public int compare(String o1, String o2) {
+						// TODO Auto-generated method stub
+						return o1.compareTo(o2);
+					}
+				});
+			}
+
+			//Mise a jour de la recette théorique
+			recetteTheorique = 0;
+			for(LigneInventaire i : listeProd) {
+				recetteTheorique += i.getRecetteLigne();
+			}
 		}
 	}
 	
@@ -69,7 +145,7 @@ public class FeuilleInventaire {
 	public void writeXLS(String path,String name) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy | HH:mm:ss");
 		HSSFWorkbook wb = new HSSFWorkbook();
-		HSSFSheet sheet = wb.createSheet("ma feuille");
+		HSSFSheet sheet = wb.createSheet("Inventaire");
 		HSSFCellStyle style = wb.createCellStyle();
 		style.setAlignment(HorizontalAlignment.CENTER);
 		
@@ -111,12 +187,12 @@ public class FeuilleInventaire {
 			for(LigneInventaire i : listeProd) {
 				if(i.getCategorie().equals(listCategorie.get(indexCat))) {
 
-					addCell(sheet, ligne, 1, CellType.STRING, i.getProduit().getNom(), style);
-					addCell(sheet, ligne, 2, CellType.NUMERIC,i.getQtPrecedent(), style);
-					addCell(sheet, ligne, 3, CellType.NUMERIC,i.getQtCourse(), style);
-					addCell(sheet, ligne, 4, CellType.NUMERIC,i.getQtRestante(), style);
+					addCell(sheet, ligne, 1, CellType.STRING, i.nom, style);
+					addCell(sheet, ligne, 2, CellType.NUMERIC,i.qtPrecedent, style);
+					addCell(sheet, ligne, 3, CellType.NUMERIC,i.qtCourse, style);
+					addCell(sheet, ligne, 4, CellType.NUMERIC,i.qtCourse, style);
 					addCell(sheet, ligne, 5, CellType.NUMERIC,i.getQtVendu(), style);
-					addCell(sheet, ligne, 6, CellType.NUMERIC,i.getProduit().getPrixUnitaire(), style);
+					addCell(sheet, ligne, 6, CellType.NUMERIC,i.prixUnitaire, style);
 					addCell(sheet, ligne, 7, CellType.NUMERIC,i.getRecetteLigne(), style);
 					ligne++;
 				}

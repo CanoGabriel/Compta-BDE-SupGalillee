@@ -1,54 +1,39 @@
 import java.util.ArrayList;
 
-public class LigneCourse{
-	private String categorie;
-	private int qtProd = 0;
-	private double prixLigne = 0;
+public class LigneCourse extends Produit{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8536069087642469910L;
 	private ArrayList<Pack> pack = new ArrayList<Pack>();
 
-	public int getQtProd() {
-		return qtProd;
+	public LigneCourse(String categorie,String nom,double prixUnitaire) {
+		super(categorie,nom,prixUnitaire);
 	}
 
-	public double getPrixLigne() {
-		return prixLigne;
-	}
-
-	public LigneCourse(
-			String categorie,
-			String nom,
-			int qtPack,
-			int qtProdPack,
-			double prixPack) {
-		this.categorie = categorie;
-		Pack temp = new Pack(qtPack, qtProdPack, prixPack,new Produit(nom, prixPack/qtPack));
-		ajouterPack(temp);
-		this.qtProd = qtProdPack*qtPack;
-		this.prixLigne = qtProd*temp.getProduit().getPrixUnitaire();
-	}
-	public ArrayList<Pack> getPack() {
-		return pack;
-	}
-
-	private void ajouterPack(Pack p) {
-		pack.add(p);
-		//maj des donnee;
-		qtProd += p.getQuantiteProd()*p.getNombrePack();
-		prixLigne += p.getPrixPack()*p.getNombrePack();
-	}
-
-	@Override
 	public String toString() {
-		return "LigneCourse [categorie=" + categorie + ", qtProd=" + qtProd + ", prixLigne=" + prixLigne + ", pack="
-				+ pack + "]";
+		String r = super.toString() + "\npack = \n";
+		for(Pack i : pack)
+			r += "\t" + i + "\n";
+		return r;
 	}
-
-	public String getCategorie() {
-		return categorie;
+	
+	public int getPrixLigne() {
+		int r = 0;
+		for (Pack i : pack)
+			r += i.getNombrePack()*i.getPrixPack();
+		return r;
 	}
-
-	public void setCategorie(String categorie) {
-		this.categorie = categorie;
+	
+	public int getNombreProduitLigne() {
+		int r = 0;
+		for(Pack i : pack)
+			r += i.getQuantiteProd()*i.getNombrePack();
+		return r;
 	}
-
+	
+	public void addPack(Pack p) {
+		pack.add(p);
+		prixUnitaire = getPrixLigne()/getNombreProduitLigne();
+	}
 }

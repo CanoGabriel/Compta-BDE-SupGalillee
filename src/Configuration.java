@@ -17,7 +17,7 @@ public class Configuration implements Serializable{
 	private static final long serialVersionUID = 8123741264481871298L;
 
 	private String defaultSaveFilePath;
-	public ArrayList<InnerTemp> list = new ArrayList<InnerTemp>();
+	public ArrayList<Produit> listProduit = new ArrayList<Produit>();
 	public ArrayList<String> categorie = new ArrayList<String>();
 	public String getDefaultSaveFilePath() {
 		return defaultSaveFilePath;
@@ -34,41 +34,57 @@ public class Configuration implements Serializable{
 			in = new ObjectInputStream(new FileInputStream(fichier));
 			Configuration temp = (Configuration) in.readObject();
 			this.defaultSaveFilePath = temp.defaultSaveFilePath;
-			this.list = temp.getList();
+			this.listProduit = temp.getList();
+			categorie = temp.getListCategorie();
 		}catch (Exception e) {
 			//			e.printStackTrace();
 			this.defaultSaveFilePath = "";
-			this.list = new ArrayList<InnerTemp>();
+			this.listProduit = new ArrayList<Produit>();
 		}
 		finally {
 			try {
 				if(in != null)
 					in.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				this.defaultSaveFilePath = "";
-				this.list = new ArrayList<InnerTemp>();
+				this.listProduit = new ArrayList<Produit>();
 			}
 		}
-		for(InnerTemp i : list) {
-			if(!categorie.contains(i.categorie)) {
-				categorie.add(i.categorie);
-				Collections.sort(categorie, new Comparator<String>() {
+
+	}
+
+	public ArrayList<String> getListCategorie(){
+		ArrayList<String> l = new ArrayList<String>();
+		for(Produit i : listProduit) {
+			if(!l.contains(i.getCategorie())) {
+				l.add(i.getCategorie());
+				Collections.sort(l, new Comparator<String>() {
 
 					@Override
 					public int compare(String o1, String o2) {
-						// TODO Auto-generated method stub
 						return o1.compareTo(o2);
 					}
 				});
 			}
 		}
+		return l;
 	}
 
-	public InnerTemp initInnerTemp(Produit prod,String cat) {
-		return new InnerTemp(prod, cat);
-	}
+	public ArrayList<Produit> getProduitByCategorie(String cat){
+		ArrayList<Produit> l = new ArrayList<Produit>();
+		for(Produit i : this.listProduit)
+			if(i.getCategorie().equals(cat)) {
+				l.add(i);
+				Collections.sort(l, new Comparator<Produit>() {
 
+					@Override
+					public int compare(Produit o1, Produit o2) {
+						return o1.getNom().compareTo(o2.getNom());
+					}
+				});
+			}
+		return l;
+	}
 	public void write() {
 		ObjectOutputStream out = null;
 		File fichier = new File("configuration.ser");
@@ -80,26 +96,31 @@ public class Configuration implements Serializable{
 				out.close();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void addProduit(Produit p) {
+		if(!listProduit.contains(p)) 
+			listProduit.add(p);
+		if(!categorie.contains(p.categorie))
+			categorie.add(p.categorie);
+	}
+
 	public void setDefaultSaveFilePath(String defaultSaveFilePath) {
 		this.defaultSaveFilePath = defaultSaveFilePath;
 	}
 
-	public ArrayList<InnerTemp> getList() {
-		return list;
+	public ArrayList<Produit> getList() {
+		return listProduit;
 	}
 
 	@Override
 	public String toString() {
 		String r = "defaultSaveFilePath = " + defaultSaveFilePath + "\n";
-		for(InnerTemp i : list)
+		for(Produit i : listProduit)
 			r += i+"\n";
 		return r;
 	}

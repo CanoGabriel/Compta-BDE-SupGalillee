@@ -92,9 +92,9 @@ public class FeuilleCourse {
 			for(LigneCourse i : listeProd) {
 				if(i.getCategorie().equals(listCategorie.get(indexCat))) {
 
-					addCell(sheet, ligne, 1, CellType.STRING, i.getPack().get(0).getProduit().getNom(), style);
-					addCell(sheet, ligne, 2, CellType.NUMERIC,i.getQtProd(), style);
-					addCell(sheet, ligne, 3, CellType.NUMERIC,i.getPrixLigne(), style);
+					addCell(sheet, ligne, 1, CellType.STRING, i.nom, style);
+					addCell(sheet, ligne, 2, CellType.NUMERIC, i.getNombreProduitLigne(), style);
+					addCell(sheet, ligne, 3, CellType.NUMERIC, i.getPrixLigne(), style);
 					ligne++;
 				}
 			}

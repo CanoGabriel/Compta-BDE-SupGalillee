@@ -1,66 +1,36 @@
 
-public class LigneInventaire {
-	@SuppressWarnings("unused")
-	private String categorie;
-	private Produit produit;
-	private double recetteLigne;
-	@SuppressWarnings("unused")
-	private int qtPrecedent;
-	@SuppressWarnings("unused")
-	private int qtCourse;
-	private int qtRestante;
-	public int getQtCourse() {
-		return qtCourse;
-	}
+public class LigneInventaire extends Produit{
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5275644157447099384L;
+//	@SuppressWarnings("unused")
+//	private double recetteLigne;
+//	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
+	public int qtPrecedent;
+	public int qtCourse;
+	public int qtRestante;
 
-	private int qtVendu;
-	public LigneInventaire(
-			String categorie,
-			String nom,
-			double prixUnitaire,
-			int qtPrecedent,
-			int qtCourse,
-			int qtRestante) {
-		this.produit = new Produit(nom, prixUnitaire);
-		this.categorie = categorie;
+	public LigneInventaire(String categorie,String nom,double prixUnitaire,int qtPrec,int qtCourse,int qtRest) {
+		super(categorie,nom,prixUnitaire);
+		qtPrecedent = qtPrec;
 		this.qtCourse = qtCourse;
-		this.qtPrecedent = qtPrecedent;
-		this.qtRestante = qtRestante;
-		this.qtVendu = qtCourse + qtPrecedent - qtRestante;
-		this.recetteLigne = produit.getPrixUnitaire()*this.qtVendu;
+		qtRestante = qtRest;
 	}
-	@Override
-	public String toString() {
-		return "LigneInventaire [categorie=" + categorie + ", produit=" + produit + ", recetteLigne=" + recetteLigne
-				+ ", qtPrecedent=" + qtPrecedent + ", qtCourse=" + qtCourse + ", qtRestante=" + qtRestante
-				+ ", qtVendu=" + qtVendu + "]";
-	}
-	public String getCategorie() {
-		return categorie;
-	}
-	public int getQtRestante() {
-		return qtRestante;
-	}
-	public void setQtRestante(int qtRestante) {
-		this.qtRestante = qtRestante;
-	}
-	public Produit getProduit() {
-		return produit;
-	}
-	public double getRecetteLigne() {
-		return recetteLigne;
-	}
+	
 	public int getQtVendu() {
-		return qtVendu;
+		return qtPrecedent + qtCourse - qtRestante;
 	}
-	public void setQtPrecedent(int qtPrecedent) {
-		this.qtPrecedent = qtPrecedent;
+	
+	public double getRecetteLigne() {
+		return prixUnitaire*this.getQtVendu();
 	}
-	public void setQtCourse(int qtCourse) {
-		this.qtCourse = qtCourse;
+	
+	public String toString() {
+		String r = super.toString()+" ";
+		r += "[ qtPrecedent=" + qtPrecedent + ", qtCourse=" + qtCourse + ", qtRestante=" + qtRestante+" ]";
+		return r;
 	}
-	public int getQtPrecedent() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 }
