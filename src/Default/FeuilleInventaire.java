@@ -1,3 +1,4 @@
+package Default;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -106,7 +107,7 @@ public class FeuilleInventaire {
 	public void ajouterLigne(LigneInventaire l) {
 		if(!listeProd.contains(l)) {
 			listeProd.add(l);
-			//Mise a jour de la list des categorie relative à la feuille courante
+			//Mise a jour de la list des categorie relative ï¿½ la feuille courante
 			if(!listCategorie.contains(l.getCategorie())) {
 				listCategorie.add(l.getCategorie());
 				Collections.sort(listCategorie, new Comparator<String>() {
@@ -119,7 +120,7 @@ public class FeuilleInventaire {
 				});
 			}
 
-			//Mise a jour de la recette théorique
+			//Mise a jour de la recette thï¿½orique
 			recetteTheorique = 0;
 			for(LigneInventaire i : listeProd) {
 				recetteTheorique += i.getRecetteLigne();

@@ -1,3 +1,4 @@
+package Default;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,10 +35,10 @@ public class PopupProduit extends JDialog implements ActionListener{
 		this.setLocationRelativeTo(null);
 		this.setContentPane(content);
 		NumberFormat nf=  NumberFormat.getNumberInstance();
-		nf.setMinimumIntegerDigits(1);
-		nf.setMinimumFractionDigits(0);
-		nf.setMaximumFractionDigits(2);
-		nf.setMaximumIntegerDigits(3);
+//		nf.setMinimumIntegerDigits(1);
+		nf.setMinimumFractionDigits(1);
+//		nf.setMaximumFractionDigits(2);
+//		nf.setMaximumIntegerDigits(3);
 		prix = new JFormattedTextField(nf);
 
 		content.setLayout(new GridLayout(4, 1));
@@ -90,6 +91,7 @@ public class PopupProduit extends JDialog implements ActionListener{
 		if(e.getSource() == validation) {
 			String cat = categorie.getText();
 			String n = nom.getText();
+//			double p = ((Long) prix.getValue()).doubleValue(); 
 			double p = ((Long) prix.getValue()).doubleValue(); 
 			this.p= new Produit(cat, n, p);
 			this.dispose();

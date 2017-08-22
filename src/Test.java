@@ -7,6 +7,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
 
+import Default.Configuration;
+import Default.FenAcceuil;
+import Default.FeuilleCourse;
+import Default.FeuilleInventaire;
+import Default.LigneCourse;
+import Default.LigneInventaire;
+import Default.Pack;
+import Default.Produit;
+
 public class Test {
 
 	public static void main(String[] args) {

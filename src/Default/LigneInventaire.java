@@ -1,3 +1,4 @@
+package Default;
 
 public class LigneInventaire extends Produit{
 /**

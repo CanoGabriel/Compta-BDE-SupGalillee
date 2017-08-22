@@ -1,3 +1,4 @@
+package Default;
 
 public class Pack {
 	private int quantiteProd;

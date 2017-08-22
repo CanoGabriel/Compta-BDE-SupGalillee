@@ -1,3 +1,4 @@
+package Default;
 import java.io.Serializable;
 
 public class Produit implements Serializable{
@@ -29,7 +30,7 @@ public class Produit implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Categorie :"+categorie+"\nNom :" + nom + "\nPrix" + prixUnitaire;
+		return "Categorie : " + categorie + "\nNom : " + nom + "\nPrix : " + prixUnitaire;
 	}
 	public String getCategorie() {
 		return categorie;
