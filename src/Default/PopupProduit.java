@@ -5,11 +5,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.NumberFormat;
+import java.text.ParseException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -35,10 +37,10 @@ public class PopupProduit extends JDialog implements ActionListener{
 		this.setLocationRelativeTo(null);
 		this.setContentPane(content);
 		NumberFormat nf=  NumberFormat.getNumberInstance();
-//		nf.setMinimumIntegerDigits(1);
-		nf.setMinimumFractionDigits(1);
-//		nf.setMaximumFractionDigits(2);
-//		nf.setMaximumIntegerDigits(3);
+		nf.setMinimumIntegerDigits(0);
+		nf.setMinimumFractionDigits(2);
+		nf.setMaximumFractionDigits(2);
+		nf.setMaximumIntegerDigits(2);
 		prix = new JFormattedTextField(nf);
 
 		content.setLayout(new GridLayout(4, 1));
@@ -92,8 +94,19 @@ public class PopupProduit extends JDialog implements ActionListener{
 			String cat = categorie.getText();
 			String n = nom.getText();
 //			double p = ((Long) prix.getValue()).doubleValue(); 
-			double p = ((Long) prix.getValue()).doubleValue(); 
-			this.p= new Produit(cat, n, p);
+			try {
+				prix.commitEdit();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showConfirmDialog(null, e1.getMessage());
+			}
+			Object p = prix.getValue();
+			if (p instanceof Long)
+				this.p= new Produit(cat, n, ((Long) p).doubleValue());
+			else if (p instanceof java.lang.Double)
+				this.p=new Produit(cat, n,(double)p);
+			else
+				JOptionPane.showConfirmDialog(null, "Cast Exception");
 			this.dispose();
 		}
 	}

@@ -20,6 +20,22 @@ public class Configuration implements Serializable{
 	private String defaultSaveFilePath;
 	public ArrayList<Produit> listProduit = new ArrayList<Produit>();
 	public ArrayList<String> categorie = new ArrayList<String>();
+	public ArrayList<Produit> getListProduit() {
+		return listProduit;
+	}
+
+	public void setListProduit(ArrayList<Produit> listProduit) {
+		this.listProduit = listProduit;
+	}
+
+	public ArrayList<String> getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(ArrayList<String> categorie) {
+		this.categorie = categorie;
+	}
+
 	public String getDefaultSaveFilePath() {
 		return defaultSaveFilePath;
 	}
@@ -71,6 +87,12 @@ public class Configuration implements Serializable{
 		return l;
 	}
 
+	public Produit shearchProduit(String cat,String nom) {
+		for(Produit i : listProduit)
+			if(cat.equals(i.categorie) && nom.equals(i.nom))
+				return i;
+		return null;
+	}
 	public ArrayList<Produit> getProduitByCategorie(String cat){
 		ArrayList<Produit> l = new ArrayList<Produit>();
 		for(Produit i : this.listProduit)
@@ -106,7 +128,7 @@ public class Configuration implements Serializable{
 	public void addProduit(Produit p) {
 		if(!listProduit.contains(p)) 
 			listProduit.add(p);
-		if(!categorie.contains(p.categorie))
+		if(shearchProduit(p.categorie, p.nom) == null)
 			categorie.add(p.categorie);
 	}
 

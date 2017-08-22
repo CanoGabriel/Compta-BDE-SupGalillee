@@ -96,15 +96,6 @@ public class IHMConfigOverview extends JPanel implements IHMBase{
 	}
 	
 	public void buildArbre(Configuration data) {
-		for(String i : data.categorie) {
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(i); 
-			for(Produit j : data.listProduit) {
-				if(j.getCategorie().equals(i)) {
-					node.add(new DefaultMutableTreeNode(j.getNom()));
-					System.out.println("initArbre : "+j);
-				}
-			}
-		}
 		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
 		for(String i : data.categorie)
 			racine.add(new DefaultMutableTreeNode(i));
