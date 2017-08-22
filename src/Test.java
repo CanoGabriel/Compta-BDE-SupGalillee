@@ -12,13 +12,21 @@ public class Test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		testIHM();
+//		testConfig();
+//		testCourse();
+//		testInventaire();
 	}
 	@SuppressWarnings("unused")
 	private static void testCourse() {
 		FeuilleCourse f = new FeuilleCourse(new Date());
-		f.ajouterLigne(new LigneCourse("cat1", "prod1", 1, 2, 0.5));
-		f.ajouterLigne(new LigneCourse("cat3", "prod2", 1, 2, 0.6));
-		f.ajouterLigne(new LigneCourse("cat1", "prod3", 1, 2, 0.7));
+		LigneCourse l = new LigneCourse("cat1", "prod1",0);
+		l.addPack(new Pack(1, 1, 0.5));
+		
+		l = new LigneCourse("cat3", "prod2", 0); 
+		l.addPack(new Pack(1, 1, 0.6));
+		
+		l = new LigneCourse("cat1", "prod3", 0); 
+		l.addPack(new Pack(1, 1, 0.7));
 		System.out.println(f);
 		f.writeXLS(null, "CourseTest.xls");
 	}
@@ -32,10 +40,11 @@ public class Test {
 		f.writeXLS(null, "InventaireTest.xls");
 	}
 	
+	@SuppressWarnings("unused")
 	private static void testConfig() {
 		Configuration conf = new Configuration("Mon chemin");
 		for(int i = 0; i < 5 ; i++)
-			conf.list.add(conf.initInnerTemp(new Produit("Produit " +i, i), "Categ "+(i%2)+1));
+			conf.listProduit.add(new Produit("Categ "+(i%2)+1,"Produit " +i, i));
 		System.out.println(conf+"\n\n");
 		ObjectOutputStream out = null;
 		File fichier = null;

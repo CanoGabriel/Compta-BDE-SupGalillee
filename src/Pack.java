@@ -3,19 +3,17 @@ public class Pack {
 	private int quantiteProd;
 	private int nombrePack;
 	private double prixPack;
-	private Produit produit;
 	
-	public Pack(int nb,int qtProd,double prix, Produit prod) {
+	public Pack(int nb,int qtProd,double prix) {
 		nombrePack = nb;
 		quantiteProd = qtProd;
 		prixPack = prix;
-		produit = prod;
 	}
 
 	@Override
 	public String toString() {
 		return "Pack [quantiteProd=" + quantiteProd + ", nombrePack=" + nombrePack + ", prixPack=" + prixPack
-				+ ", produit=" + produit + "]";
+				+ "]";
 	}
 
 	public int getQuantiteProd() {
@@ -40,14 +38,6 @@ public class Pack {
 
 	public void setPrixPack(double prixPack) {
 		this.prixPack = prixPack;
-	}
-
-	public Produit getProduit() {
-		return produit;
-	}
-
-	public void setProduit(Produit produit) {
-		this.produit = produit;
 	}
 
 }

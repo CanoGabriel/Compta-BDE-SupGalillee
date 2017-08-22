@@ -4,12 +4,14 @@ public class Produit implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3143360128045219497L;
-	private String nom;
-	private double prixUnitaire;
+	protected static final long serialVersionUID = -3143360128045219497L;
+	protected String nom;
+	protected String categorie;
+	protected double prixUnitaire;
 
-	public Produit(String nom,double prixUnitaire) {
+	public Produit(String categorie,String nom,double prixUnitaire) {
 		this.nom = nom;
+		this.setCategorie(categorie);
 		this.prixUnitaire = prixUnitaire;
 	}
 	public String getNom() {
@@ -27,7 +29,13 @@ public class Produit implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Produit [nom=" + nom + ", prixUnitaire=" + prixUnitaire + "]";
+		return "Categorie :"+categorie+"\nNom :" + nom + "\nPrix" + prixUnitaire;
+	}
+	public String getCategorie() {
+		return categorie;
+	}
+	public void setCategorie(String categorie) {
+		this.categorie = categorie;
 	}
 	
 }
