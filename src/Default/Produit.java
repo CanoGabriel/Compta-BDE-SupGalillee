@@ -30,7 +30,7 @@ public class Produit implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return ""+nom;
+		return "Cattegorie : "+categorie+"\nNom : "+nom+"\nPrix : "+prixUnitaire+" E";
 	}
 	public String getCategorie() {
 		return categorie;

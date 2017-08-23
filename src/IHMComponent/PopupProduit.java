@@ -1,19 +1,19 @@
-package Default;
+package IHMComponent;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import Default.Produit;
 
 public class PopupProduit extends JDialog implements ActionListener{
 	private Produit p = null;
@@ -48,42 +48,14 @@ public class PopupProduit extends JDialog implements ActionListener{
 		content.add(nom);
 		content.add(prix);
 		content.add(validation);
+		nom.setBorder(BorderFactory.createTitledBorder("Entrer le nom du produit : "));
+		categorie.setBorder(BorderFactory.createTitledBorder("Entrer la categorie du produit : "));
+		prix.setBorder(BorderFactory.createTitledBorder("Entrer le prix du produit : "));
 		validation.addActionListener(this);
 
 	}
 
-	private class Boutton extends JButton implements MouseListener{
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -4372214834361000899L;
-
-		public Boutton(String string) {
-			super(string);
-		}
-
-		public void mouseClicked(MouseEvent e) {
-
-		}
-
-		public void mousePressed(MouseEvent e) {
-
-		}
-
-		public void mouseReleased(MouseEvent e) {
-
-		}
-
-		public void mouseEntered(MouseEvent e) {
-
-		}
-
-		public void mouseExited(MouseEvent e) {
-
-		}
-
-	}
+	
 	public Produit showDialog(){
 		this.setVisible(true);      
 		return this.p;      

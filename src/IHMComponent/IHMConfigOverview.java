@@ -7,16 +7,13 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import Default.Configuration;
 import Default.FenAcceuil;
-import Default.Produit;
 
 public class IHMConfigOverview extends JPanel implements IHMBase{
 	/**
@@ -39,9 +36,11 @@ public class IHMConfigOverview extends JPanel implements IHMBase{
 	private JPanel center_c2 = new JPanel();
 	private JPanel south_c1 = new JPanel();
 	private JPanel south_c2 = new JPanel();
+	
+	private JPanel north_east = new JPanel();
 
 	private Boutton btn_modifier = new Boutton("Modifier");
-	private Boutton btn_ac= new Boutton("Acceuil");
+	private Boutton btn_ac = new Boutton("Acceuil");
 	private Boutton btn_pathOK = new Boutton("OK");
 	private JTextField txtf_path = new JTextField();
 
@@ -71,7 +70,7 @@ public class IHMConfigOverview extends JPanel implements IHMBase{
 		south_c2.setLayout(new BorderLayout());
 
 		north.add(txtf_path, BorderLayout.CENTER);
-		north.add(btn_pathOK, BorderLayout.EAST);
+		north_east.add(btn_pathOK);
 
 		center_c1.add(catTree,BorderLayout.CENTER);
 		center_c1.setBorder(BorderFactory.createTitledBorder("Categories"));
@@ -86,6 +85,7 @@ public class IHMConfigOverview extends JPanel implements IHMBase{
 		this.add(center, BorderLayout.CENTER);
 		this.add(south, BorderLayout.SOUTH);
 
+		north.add(north_east, BorderLayout.EAST);
 		center.add(center_c1);
 		center.add(center_c2);
 
@@ -97,24 +97,15 @@ public class IHMConfigOverview extends JPanel implements IHMBase{
 	}
 	
 	public void buildArbre(Configuration data) {
-//		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
-//		for(String i : data.categorie)
-//			racine.add(new DefaultMutableTreeNode(i));
-//		JTree temp = new JTree(racine);
 		JTree temp = data.buildTree(null, false);
 		temp.setRootVisible(false);
 		temp.addTreeSelectionListener(new TreeSelectionListener() {
 			
 			@Override
 			public void valueChanged(TreeSelectionEvent event) {
-//				DefaultMutableTreeNode racine2 = new DefaultMutableTreeNode("root");
 				JTree temp2;
 				if(temp.getLastSelectedPathComponent() != null){
 					temp2=data.buildTree(temp.getLastSelectedPathComponent().toString(), true);
-//					for(Produit i : data.getProduitByCategorie(temp.getLastSelectedPathComponent().toString())) {
-//						racine2.add(new DefaultMutableTreeNode(i.getNom() +"("+i.getPrixUnitaire()+"E)"));
-//					}
-//					JTree temp2 = new JTree(racine2);
 					temp2.setRootVisible(false);
 					prodTree = new JScrollPane(temp2);
 					center_c2.removeAll();

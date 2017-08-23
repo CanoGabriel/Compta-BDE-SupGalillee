@@ -1,7 +1,7 @@
 package IHMComponent;
 
 public interface IHMBase {
-	public void actualiser();
+//	public void actualiser();
 //	{
 //		this.repaint();
 //		this.revalidate();

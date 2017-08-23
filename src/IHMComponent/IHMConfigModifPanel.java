@@ -3,29 +3,23 @@ package IHMComponent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 
 import Default.Configuration;
 import Default.FenAcceuil;
 import Default.Produit;
 
-public class IHMConfigModifPanel extends JPanel{
+public class IHMConfigModifPanel extends JPanel implements IHMBase{
 	/**
 	 * 
 	 */
@@ -75,39 +69,9 @@ public class IHMConfigModifPanel extends JPanel{
 		btn_ok.setName(BTN_OK);
 		listBoutton.add(btn_ok);
 		btn_valider.addActionListener(parent);
-		btn_valider.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 		btn_valider.setName(BTN_VALIDER);
 		listBoutton.add(btn_valider);
+
 		this.setLayout(new BorderLayout());
 		center.setLayout(new GridLayout(1, 2));
 		center_c1.setLayout(new BorderLayout());
@@ -116,7 +80,7 @@ public class IHMConfigModifPanel extends JPanel{
 		center_c2_center_l1.setLayout(new BorderLayout());
 		center_c2_center_l2.setLayout(new BorderLayout());
 		center_c2_center_l3.setLayout(new BorderLayout());
-		center_c2_south.setLayout(new BorderLayout());
+//		center_c2_south.setLayout(new BorderLayout());
 		south.setLayout(new GridLayout(1, 3));
 		south_c1.setLayout(new BorderLayout());
 		south_c2.setLayout(new BorderLayout());
@@ -126,10 +90,6 @@ public class IHMConfigModifPanel extends JPanel{
 		center_c2_center_l1.add(txtf_categorie, BorderLayout.CENTER);
 		center_c2_center_l2.add(txtf_nom, BorderLayout.CENTER);
 		NumberFormat nf=  NumberFormat.getNumberInstance();
-		//		nf.setMinimumIntegerDigits(0);
-		//		nf.setMinimumFractionDigits(0);
-		//		nf.setMaximumFractionDigits(2);
-		//		nf.setMaximumIntegerDigits(3);
 		nf.setParseIntegerOnly(false);
 		txtf_prix = new JFormattedTextField(nf);
 		center_c2_center_l3.add(txtf_prix, BorderLayout.CENTER);
@@ -152,6 +112,7 @@ public class IHMConfigModifPanel extends JPanel{
 		south.add(south_c3);
 
 		center_c1.setBorder(BorderFactory.createTitledBorder("Arbre des produit classe par categorie :"));
+		center_c2.setBorder(BorderFactory.createTitledBorder("Descriptif de la selection :"));
 		txtf_categorie.setBorder(BorderFactory.createTitledBorder("Categorie :"));
 		txtf_categorie.setSize(center_c2.getSize());
 		txtf_nom.setBorder(BorderFactory.createTitledBorder("Nom du produit :"));
@@ -173,13 +134,6 @@ public class IHMConfigModifPanel extends JPanel{
 	}
 
 	public void buildArbre(Configuration data) {
-//		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
-//		for(String i : data.getListCategorie()) {
-//			DefaultMutableTreeNode t = new DefaultMutableTreeNode(i);
-//			for(Produit j : data.listProduit) 
-//				t.add(new DefaultMutableTreeNode(j));
-//			racine.add(t);
-//		}
 		JTree temp = data.buildTree(null, true);
 		temp.setRootVisible(false);
 		temp.addTreeSelectionListener(new TreeSelectionListener() {

@@ -1,14 +1,19 @@
 package Default;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import IHMComponent.Boutton;
 import IHMComponent.IHMAcceuil;
 import IHMComponent.IHMConfigModifPanel;
 import IHMComponent.IHMConfigOverview;
+import IHMComponent.IHMCourse;
+import IHMComponent.IHMInventaire;
+import IHMComponent.PopupProduit;
 
 public class FenAcceuil extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 4358673801877559732L;
@@ -17,12 +22,15 @@ public class FenAcceuil extends JFrame implements ActionListener{
 	private IHMAcceuil acceuil = new IHMAcceuil(this);
 	private IHMConfigOverview config = new IHMConfigOverview(this);
 	private IHMConfigModifPanel modif_config = new IHMConfigModifPanel(this);
+	private IHMCourse course = new IHMCourse(this);
+	private IHMInventaire inventaire = new IHMInventaire(this);
 
 	public FenAcceuil() {
 		data_config = new Configuration();
 		this.setTitle("Comptabilite BDE 2017");
 		this.setResizable(true);
-		this.setSize(600, 300);
+		this.setSize(600, 500);
+		this.setMinimumSize(new Dimension(600, 500));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 
@@ -33,8 +41,19 @@ public class FenAcceuil extends JFrame implements ActionListener{
 	@SuppressWarnings("static-access")
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(((Boutton)e.getSource()).getName());
-		if(e.getSource() == config.getBoutton(IHMConfigOverview.BTN_ACCEUIL) || e.getSource() == modif_config.getBoutton(IHMConfigModifPanel.BTN_ACCEUIL)) {
+		if(e.getSource() instanceof Boutton)
+			System.out.println(((Boutton)e.getSource()).getName());
+		else if (e.getSource() instanceof JMenuItem){
+			System.out.println(((JMenuItem)e.getSource()).getName());
+		}
+		else
+			System.out.println(e.getSource().toString());
+		
+		
+		if(e.getSource() == config.getBoutton(IHMConfigOverview.BTN_ACCEUIL) 
+				|| e.getSource() == modif_config.getBoutton(IHMConfigModifPanel.BTN_ACCEUIL)
+				|| e.getSource() == course.getBoutton(IHMCourse.BTN_ACCEUIL)
+				|| e.getSource() == inventaire.getBoutton(IHMInventaire.BTN_ACCEUIL)) {
 			this.setContentPane(acceuil);
 			data_config.setDefaultSaveFilePath(config.getTxtf_path().getText());
 			data_config.write();
@@ -42,8 +61,7 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == acceuil.getBoutton(IHMAcceuil.BTN_CONFIG)) {
 			this.setContentPane(config);
-//			data_config = new Configuration();
-			System.out.println(data_config);
+//			System.out.println(data_config);
 			config.getTxtf_path().setText(data_config.getDefaultSaveFilePath());
 			config.buildArbre(data_config);
 			actualiser();
@@ -58,6 +76,7 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		}
 		else if (e.getSource() == modif_config.getBoutton(IHMConfigModifPanel.BTN_VALIDER)) {
 			this.setContentPane(config);
+			config.buildArbre(data_config);
 			data_config.write();
 			actualiser();
 		}
@@ -87,6 +106,14 @@ public class FenAcceuil extends JFrame implements ActionListener{
 				modif_config.curProduit.setPrixUnitaire((double)modif_config.getTxtf_prix().getValue());
 				modif_config.actualiser(data_config);
 			}
+		}
+		else if(e.getSource() == acceuil.getBoutton(IHMAcceuil.BTN_COURSE)) {
+			this.setContentPane(course);
+			actualiser();
+		}
+		else if(e.getSource() == acceuil.getBoutton(IHMAcceuil.BTN_INVENTAIRE)) {
+			this.setContentPane(inventaire);
+			actualiser();
 		}
 	}
 

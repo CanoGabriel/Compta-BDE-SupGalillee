@@ -29,7 +29,9 @@ public class IHMAcceuil extends JPanel {
 	
 	public IHMAcceuil(FenAcceuil parent ){
 		btn_config.addActionListener(parent);
-
+		btn_course.addActionListener(parent);
+		btn_inventaire.addActionListener(parent);
+		
 		this.setLayout(new GridLayout(3, 1));
 		l1.setLayout(new BorderLayout());
 		l2.setLayout(new BorderLayout());
