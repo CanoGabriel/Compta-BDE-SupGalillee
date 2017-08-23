@@ -25,7 +25,7 @@ import Default.Configuration;
 import Default.FenAcceuil;
 import Default.Produit;
 
-public class IHMConfigModifPanel extends JPanel implements IHMBase{
+public class IHMConfigModifPanel extends JPanel{
 	/**
 	 * 
 	 */
@@ -173,14 +173,14 @@ public class IHMConfigModifPanel extends JPanel implements IHMBase{
 	}
 
 	public void buildArbre(Configuration data) {
-		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
-		for(String i : data.getListCategorie()) {
-			DefaultMutableTreeNode t = new DefaultMutableTreeNode(i);
-			for(Produit j : data.listProduit) 
-				t.add(new DefaultMutableTreeNode(j));
-			racine.add(t);
-		}
-		JTree temp = new JTree(racine);
+//		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
+//		for(String i : data.getListCategorie()) {
+//			DefaultMutableTreeNode t = new DefaultMutableTreeNode(i);
+//			for(Produit j : data.listProduit) 
+//				t.add(new DefaultMutableTreeNode(j));
+//			racine.add(t);
+//		}
+		JTree temp = data.buildTree(null, true);
 		temp.setRootVisible(false);
 		temp.addTreeSelectionListener(new TreeSelectionListener() {
 
@@ -234,14 +234,14 @@ public class IHMConfigModifPanel extends JPanel implements IHMBase{
 	}
 
 
-	@Override
-	public void actualiser() {
-		// TODO Auto-generated method stub
-
+	public void actualiser(Configuration data) {
+		data.categorie=data.getListCategorie();
+		buildArbre(data);
+		repaint();
+		revalidate();
 	}
 
 
-	@Override
 	public Boutton getBoutton(String name) {
 		for(Boutton i : listBoutton ){
 			if(name.equals(i.getName()))

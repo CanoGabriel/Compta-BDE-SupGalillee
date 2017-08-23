@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
@@ -96,21 +97,24 @@ public class IHMConfigOverview extends JPanel implements IHMBase{
 	}
 	
 	public void buildArbre(Configuration data) {
-		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
-		for(String i : data.categorie)
-			racine.add(new DefaultMutableTreeNode(i));
-		JTree temp = new JTree(racine);
+//		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
+//		for(String i : data.categorie)
+//			racine.add(new DefaultMutableTreeNode(i));
+//		JTree temp = new JTree(racine);
+		JTree temp = data.buildTree(null, false);
 		temp.setRootVisible(false);
 		temp.addTreeSelectionListener(new TreeSelectionListener() {
 			
 			@Override
 			public void valueChanged(TreeSelectionEvent event) {
-				DefaultMutableTreeNode racine2 = new DefaultMutableTreeNode("root");
+//				DefaultMutableTreeNode racine2 = new DefaultMutableTreeNode("root");
+				JTree temp2;
 				if(temp.getLastSelectedPathComponent() != null){
-					for(Produit i : data.getProduitByCategorie(temp.getLastSelectedPathComponent().toString())) {
-						racine2.add(new DefaultMutableTreeNode(i.getNom() +"("+i.getPrixUnitaire()+"E)"));
-					}
-					JTree temp2 = new JTree(racine2);
+					temp2=data.buildTree(temp.getLastSelectedPathComponent().toString(), true);
+//					for(Produit i : data.getProduitByCategorie(temp.getLastSelectedPathComponent().toString())) {
+//						racine2.add(new DefaultMutableTreeNode(i.getNom() +"("+i.getPrixUnitaire()+"E)"));
+//					}
+//					JTree temp2 = new JTree(racine2);
 					temp2.setRootVisible(false);
 					prodTree = new JScrollPane(temp2);
 					center_c2.removeAll();

@@ -85,12 +85,14 @@ public class FenAcceuil extends JFrame implements ActionListener{
 				modif_config.curProduit.setCategorie(modif_config.getTxtf_categorie().getText());
 				modif_config.curProduit.setNom(modif_config.getTxtf_nom().getText());
 				modif_config.curProduit.setPrixUnitaire((double)modif_config.getTxtf_prix().getValue());
+				modif_config.actualiser(data_config);
 			}
 		}
 	}
 
 	private void actualiser() {
 		modif_config.buildArbre(data_config);
+		data_config.categorie = data_config.getListCategorie();
 		this.repaint();
 		this.revalidate();
 	}

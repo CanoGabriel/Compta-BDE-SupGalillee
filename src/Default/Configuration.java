@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 public class Configuration implements Serializable{
 	/**
 	 * 
@@ -148,4 +151,34 @@ public class Configuration implements Serializable{
 		return r;
 	}
 
+	public JTree buildTree(String categorie,boolean produit){
+		//si categorie == null -> prendre toutes les categories
+		//si produit == true -> prendre les produit pour toutes les categorie considérées.
+		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
+		if(categorie == null){
+			for(String i : getCategorie()){
+				DefaultMutableTreeNode node = new DefaultMutableTreeNode(i);
+				if(produit){
+					for(Produit j : getProduitByCategorie(i)){
+						node.add(new DefaultMutableTreeNode(j.getNom()));
+					}
+				}
+				racine.add(node);
+			}
+		}
+		else{
+			if (produit == true){
+				for(Produit j : getProduitByCategorie(categorie)){
+					racine.add(new DefaultMutableTreeNode(j.getNom()));
+				}
+			}
+		}
+		JTree tree = new JTree(racine);
+		int row = 0;
+		while (row < tree.getRowCount()) {
+			tree.expandRow(row);
+			row++;
+		}
+		return tree;
+	}
 }
