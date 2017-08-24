@@ -193,7 +193,7 @@ public class IHMInventaire extends JPanel{
 		center_c2_south_l2.setBorder(BorderFactory.createTitledBorder("Total caisse :"));
 		center_c2_south_l3.setBorder(BorderFactory.createTitledBorder("Recette theorique :"));
 		center_c2_south_l4.setBorder(BorderFactory.createTitledBorder("Recette reelle :"));
-		center_c2_south_l5.setBorder(BorderFactory.createTitledBorder("Différence :"));
+		center_c2_south_l5.setBorder(BorderFactory.createTitledBorder("Difference :"));
 		
 		menu.add(fichier);
 		fichier.add(ouvrir);
