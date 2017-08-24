@@ -149,7 +149,6 @@ public class IHMConfigModifPanel extends JPanel implements IHMBase{
 						t.setPrixUnitaire((double)txtf_prix.getValue());
 					}
 				}
-//				System.out.println(e.getPath().getLastPathComponent().toString());
 				String parentPath = e.getPath().getParentPath().getLastPathComponent().toString();
 				String currentPath = e.getPath().getLastPathComponent().toString();
 				if(parentPath.equals("root")){

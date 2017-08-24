@@ -21,8 +21,8 @@ public class FeuilleCourse {
 	private Date dateCreation;
 	private ArrayList<LigneCourse> listeProd = new ArrayList<LigneCourse>();
 	private ArrayList<String> listCategorie = new ArrayList<String>();
-	private double totalAttendu = 0;
 	private double totalTicket = 0;
+	private double totalAttendu = 0;
 	public FeuilleCourse(Date date) {
 		dateCreation = date;
 	}
@@ -46,6 +46,13 @@ public class FeuilleCourse {
 		}
 	}
 
+	public LigneCourse shearchLine(String cat,String nom) {
+		for(LigneCourse i : listeProd)
+			if(cat.equals(i.categorie) && nom.equals(i.nom))
+				return i;
+		return null;
+	}
+	
 	@Override
 	public String toString() {
 		String r = "FeuilleCourse [dateCreation=" + dateCreation + ", totalAttendu=" + totalAttendu + ", totalTicket=" + totalTicket + "]";
@@ -129,6 +136,22 @@ public class FeuilleCourse {
 		}
 	}
 	
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+	
+	public double getTotalAttendu() {
+		totalAttendu = 0;
+		for (LigneCourse i : listeProd)
+			for(Pack j : i.getPack())
+				totalAttendu += j.getPrixPack()*j.getNombrePack()*j.getQuantiteProd();
+		return totalAttendu;
+	}
+
+	public double getTotalTicket() {
+		return totalTicket;
+	}
+
 	private void addCell(HSSFSheet sheet,int r,int c,CellType type, String valeur, HSSFCellStyle style) {
 		HSSFRow row;
 		HSSFCell cell;

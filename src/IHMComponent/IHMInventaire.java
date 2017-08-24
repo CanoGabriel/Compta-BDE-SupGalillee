@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
@@ -21,8 +22,6 @@ public class IHMInventaire extends JPanel{
 
 	public static String BTN_AJOUTER_PRODUIT = "ajouter produit";
 	public static String BTN_SUPPRIMER_PRODUIT = "supprimer produit";
-//	public static String BTN_AJOUTER_PACK = "ajouter pack";
-//	public static String BTN_SUPPRIMER_PACK = "supprimer pack";
 	public static String BTN_ACCEUIL = "acceuil";
 	public static String BTN_VALIDER = "valider";
 	
@@ -34,7 +33,8 @@ public class IHMInventaire extends JPanel{
 	private ArrayList<Boutton> listBoutton = new ArrayList<Boutton>();
 	private ArrayList<JMenuItem> listMenuItem = new ArrayList<JMenuItem>();
 	
-	private FeuilleCourse data = null;
+	@SuppressWarnings("unused")
+	private FeuilleCourse data = new FeuilleCourse(new Date());
 	
 	private static final long serialVersionUID = -5825014758787535331L;
 	private JPanel center = new JPanel();
@@ -48,10 +48,7 @@ public class IHMInventaire extends JPanel{
 	private JPanel center_c2_center_l1 = new JPanel();
 	private JPanel center_c2_center_l2 = new JPanel();
 	private JPanel center_c2_center_l3 = new JPanel();
-//	private JPanel center_c2_center_center = new JPanel();
-//	private JPanel center_c2_center_south = new JPanel();
-//	private JPanel center_c2_center_south_c1 = new JPanel();
-//	private JPanel center_c2_center_south_c2 = new JPanel();
+	private JPanel center_c2_center_l4 = new JPanel();
 	private JPanel center_c2_south = new JPanel();
 	private JPanel center_c2_south_l1 = new JPanel();
 	private JPanel center_c2_south_l2 = new JPanel();
@@ -64,8 +61,6 @@ public class IHMInventaire extends JPanel{
 
 	private Boutton btn_AjouterProd = new Boutton("Ajouter produit");
 	private Boutton btn_SupprimerProd = new Boutton("Supprimer produit");
-	private Boutton btn_AjouterPack = new Boutton("Ajouter pack");
-	private Boutton btn_SupprimerPack = new Boutton("Supprimer pack");
 	private Boutton btn_Acceuil= new Boutton("Acceuil");
 	private Boutton btn_valider= new Boutton("Valider");
 	
@@ -77,7 +72,8 @@ public class IHMInventaire extends JPanel{
 	private JFormattedTextField ftxtf_recetteReelle = null;
 	private JFormattedTextField ftxtf_totalCaisse = null;
 
-	private JFormattedTextField ftxtf_qtPrecedente= null;
+	private JFormattedTextField ftxtf_qtPrecedente = null;
+	private JFormattedTextField ftxtf_qtRestante = null;
 	private JFormattedTextField ftxtf_qtCourse= null;
 	private JLabel lab_qtVendu= new JLabel();
 	
@@ -98,10 +94,13 @@ public class IHMInventaire extends JPanel{
 		
 		NumberFormat nfint1=  NumberFormat.getNumberInstance();
 		NumberFormat nfint2=  NumberFormat.getNumberInstance();
+		NumberFormat nfint3=  NumberFormat.getNumberInstance();
 		nfint1.setParseIntegerOnly(true);
 		nfint2.setParseIntegerOnly(true);
+		nfint3.setParseIntegerOnly(true);
 		ftxtf_qtCourse = new JFormattedTextField(nfint1);
 		ftxtf_qtPrecedente = new JFormattedTextField(nfint2);
+		ftxtf_qtRestante = new JFormattedTextField(nfint3);
 		
 		btn_Acceuil.addActionListener(parent);
 		listBoutton.add(btn_Acceuil);
@@ -125,12 +124,11 @@ public class IHMInventaire extends JPanel{
 		center_c1_center.setLayout(new BorderLayout());
 		center_c1_south.setLayout(new GridLayout(1, 2));
 		center_c2.setLayout(new BorderLayout());
-		center_c2_center.setLayout(new GridLayout(3, 1));
+		center_c2_center.setLayout(new GridLayout(2, 2));
 		center_c2_center_l1.setLayout(new BorderLayout());
 		center_c2_center_l2.setLayout(new BorderLayout());
 		center_c2_center_l3.setLayout(new BorderLayout());
-//		center_c2_center_center.setLayout(new BorderLayout());
-//		center_c2_center_south.setLayout(new GridLayout(1, 2));
+		center_c2_center_l4.setLayout(new BorderLayout());
 		center_c2_south.setLayout(new GridLayout(5, 1));
 		center_c2_south_l1.setLayout(new BorderLayout());
 		center_c2_south_l2.setLayout(new BorderLayout());
@@ -145,13 +143,12 @@ public class IHMInventaire extends JPanel{
 		center_c1_south_c1.add(btn_AjouterProd, BorderLayout.CENTER);
 		center_c1_south_c2.add(btn_SupprimerProd, BorderLayout.CENTER);
 		
-		center_c2_center.add(center_c2_center_l1);
-		center_c2_center.add(center_c2_center_l2);
-		center_c2_center.add(center_c2_center_l3);
+		
 		
 		center_c2_center_l1.add(ftxtf_qtPrecedente,BorderLayout.CENTER);
 		center_c2_center_l2.add(ftxtf_qtCourse,BorderLayout.CENTER);
-		center_c2_center_l3.add(lab_qtVendu,BorderLayout.CENTER);
+		center_c2_center_l3.add(ftxtf_qtRestante,BorderLayout.CENTER);
+		center_c2_center_l4.add(lab_qtVendu,BorderLayout.CENTER);
 		
 		center_c2_south_l1.add(lab_date,BorderLayout.CENTER);
 		center_c2_south_l2.add(ftxtf_totalCaisse,BorderLayout.CENTER);
@@ -169,11 +166,12 @@ public class IHMInventaire extends JPanel{
 		center_c1_south.add(center_c1_south_c1);
 		center_c1_south.add(center_c1_south_c2);
 		center.add(center_c2);
-		center_c2.add(center_c2_center, BorderLayout.CENTER);
+		center_c2.add(center_c2_center, BorderLayout.NORTH);
 		center_c2_center.add(center_c2_center_l1);
 		center_c2_center.add(center_c2_center_l2);
 		center_c2_center.add(center_c2_center_l3);
-
+		center_c2_center.add(center_c2_center_l4);
+		
 		center_c2.add(center_c2_south, BorderLayout.SOUTH);
 		center_c2_south.add(center_c2_south_l1);
 		center_c2_south.add(center_c2_south_l2);
@@ -186,9 +184,10 @@ public class IHMInventaire extends JPanel{
 		
 		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information general :"));
 		center_c2_center.setBorder(BorderFactory.createTitledBorder("Information produit :"));
-		center_c2_center_l1.setBorder(BorderFactory.createTitledBorder("Quantite restante :"));
+		center_c2_center_l1.setBorder(BorderFactory.createTitledBorder("Quantite precedente :"));
 		center_c2_center_l2.setBorder(BorderFactory.createTitledBorder("Quantite course :"));
-		center_c2_center_l3.setBorder(BorderFactory.createTitledBorder("Quantite vendu :"));
+		center_c2_center_l3.setBorder(BorderFactory.createTitledBorder("Quantite restante :"));
+		center_c2_center_l4.setBorder(BorderFactory.createTitledBorder("Quantite vendu :"));
 		center_c2_south_l1.setBorder(BorderFactory.createTitledBorder("Date :"));
 		center_c2_south_l2.setBorder(BorderFactory.createTitledBorder("Total caisse :"));
 		center_c2_south_l3.setBorder(BorderFactory.createTitledBorder("Recette theorique :"));

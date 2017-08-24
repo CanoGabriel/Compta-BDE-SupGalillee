@@ -65,7 +65,6 @@ public class PopupProduit extends JDialog implements ActionListener{
 		if(e.getSource() == validation) {
 			String cat = categorie.getText();
 			String n = nom.getText();
-//			double p = ((Long) prix.getValue()).doubleValue(); 
 			try {
 				prix.commitEdit();
 			} catch (ParseException e1) {
@@ -74,9 +73,9 @@ public class PopupProduit extends JDialog implements ActionListener{
 			}
 			Object p = prix.getValue();
 			if (p instanceof Long)
-				this.p= new Produit(cat, n, ((Long) p).doubleValue());
+				this.p = new Produit(cat, n, ((Long) p).doubleValue());
 			else if (p instanceof java.lang.Double)
-				this.p=new Produit(cat, n,(double)p);
+				this.p = new Produit(cat, n,(double)p);
 			else
 				JOptionPane.showConfirmDialog(null, "Cast Exception");
 			this.dispose();
