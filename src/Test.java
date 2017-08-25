@@ -14,12 +14,14 @@ import Default.FeuilleInventaire;
 import Default.LigneCourse;
 import Default.LigneInventaire;
 import Default.Pack;
+import Default.PopupImportModele;
 import Default.Produit;
 
 public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+//		testPopup();
 		testIHM();
 //		testConfig();
 //		testCourse();
@@ -101,5 +103,9 @@ public class Test {
 	public static void testIHM() {
 		@SuppressWarnings("unused")
 		FenAcceuil f = new FenAcceuil(); 
+	}
+	public static void testPopup(){
+		PopupImportModele pop = new PopupImportModele();
+		pop.showDialog();
 	}
 }

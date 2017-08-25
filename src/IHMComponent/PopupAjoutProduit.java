@@ -30,9 +30,9 @@ public class PopupAjoutProduit extends JDialog implements ActionListener{
 	private Boutton btn_ok = new Boutton("ok");
 
 	private JPanel content = new JPanel();
-	private JPanel center = new JPanel();
-	private JPanel center_l1 = new JPanel();
-	private JPanel center_l2 = new JPanel();
+	private JPanel north = new JPanel();
+	private JPanel north_l1 = new JPanel();
+	private JPanel north_l2 = new JPanel();
 	private JPanel south = new JPanel();
 	
 	private Produit produit = null;
@@ -43,7 +43,7 @@ public class PopupAjoutProduit extends JDialog implements ActionListener{
 		
 		this.setTitle("Saisir les informations du produit");
 		this.setResizable(false);
-		this.setSize(600, 200);
+		this.setSize(600, 170);
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setContentPane(content);
@@ -60,22 +60,22 @@ public class PopupAjoutProduit extends JDialog implements ActionListener{
 		btn_ok.addActionListener(this);
 		
 		content.setLayout(new BorderLayout());
-		center.setLayout(new GridLayout(2, 1));
-		center_l1.setLayout(new BorderLayout());
-		center_l2.setLayout(new BorderLayout());
+		north.setLayout(new GridLayout(2, 1));
+		north_l1.setLayout(new BorderLayout());
+		north_l2.setLayout(new BorderLayout());
 		
-		center_l1.add(cb_categorie, BorderLayout.CENTER);
-		center_l2.add(cb_produit, BorderLayout.CENTER);
+		north_l1.add(cb_categorie, BorderLayout.CENTER);
+		north_l2.add(cb_produit, BorderLayout.CENTER);
 		
-		center.add(center_l1);
-		center.add(center_l2);
+		north.add(north_l1);
+		north.add(north_l2);
 		south.add(btn_ok);
 		
-		content.add(center, BorderLayout.CENTER);
+		content.add(north, BorderLayout.NORTH);
 		content.add(south, BorderLayout.SOUTH);
 		
-		center_l1.setBorder(BorderFactory.createTitledBorder("Selection de la categorie :"));
-		center_l2.setBorder(BorderFactory.createTitledBorder("Selection du produit :"));
+		north_l1.setBorder(BorderFactory.createTitledBorder("Selection de la categorie :"));
+		north_l2.setBorder(BorderFactory.createTitledBorder("Selection du produit :"));
 		
 		cb_categorie.addActionListener(new ActionListener() {
 			

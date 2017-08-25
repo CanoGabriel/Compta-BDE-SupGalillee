@@ -15,6 +15,7 @@ import IHMComponent.IHMCourse;
 import IHMComponent.IHMInventaire;
 import IHMComponent.PopupAjoutProduit;
 import IHMComponent.PopupAjouterPack;
+import IHMComponent.PopupExportModele;
 import IHMComponent.PopupProduit;
 
 public class FenAcceuil extends JFrame implements ActionListener{
@@ -147,6 +148,36 @@ public class FenAcceuil extends JFrame implements ActionListener{
 			}
 			else
 				JOptionPane.showMessageDialog(null, "Vous n'avez selectionner aucune ligne...");
+		}
+		else if(e.getSource() == course.getBoutton(IHMCourse.BTN_SUPPRIMER_PRODUIT)){
+			if(course.curLine != null) {
+				JOptionPane pop = new JOptionPane();
+				int option = pop.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce produit ?","Demande de confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (option == JOptionPane.OK_OPTION){
+					course.data.supprimerLigne(course.curLine);
+					Configuration temp = course.getLocal_config();
+					temp.listProduit.remove(temp.shearchProduit(course.curLine.categorie, course.curLine.nom));
+					temp.categorie = temp.getListCategorie();
+				}
+				course.actualiserTab();
+				course.actualiserArbre();
+				course.actualiserChamp();
+			}
+			else
+				JOptionPane.showMessageDialog(null, "Vous n'avez selectionner aucune ligne...");
+		}
+		else if(e.getSource() == course.getJMenuItem(IHMCourse.JMI_EXPORTER_MODELE)){
+			PopupExportModele pop = new PopupExportModele(course.data);
+			pop.showDialog();
+		}
+		else if (e.getSource() == course.getJMenuItem(IHMCourse.JMI_IMPORTER_MODELE)){
+			PopupImportModele pop = new PopupImportModele();
+			course.data = pop.showDialog();
+			int option = JOptionPane.showConfirmDialog(null, "Demander pour l'ajout d'un produit non configuré ?", "Mode auto : Activation ?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			course.setLocal_config(course.data.convertToConfig(option != JOptionPane.OK_OPTION));
+			course.actualiserArbre();
+			course.actualiserChamp();
+//			actualiser();
 		}
 	}
 

@@ -1,12 +1,19 @@
 package Default;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+
+import javax.swing.JOptionPane;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -17,14 +24,74 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 
-public class FeuilleCourse {
+public class FeuilleCourse implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 372538109112150394L;
 	private Date dateCreation;
 	private ArrayList<LigneCourse> listeProd = new ArrayList<LigneCourse>();
 	private ArrayList<String> listCategorie = new ArrayList<String>();
 	private double totalTicket = 0;
 	private double totalAttendu = 0;
+
 	public FeuilleCourse(Date date) {
 		dateCreation = date;
+	}
+
+	public FeuilleCourse(File modele){
+		ObjectInputStream in = null;
+		FeuilleCourse temp = null;
+		try {
+			in = new ObjectInputStream(new FileInputStream(modele));
+			if(in != null) {
+				temp = (FeuilleCourse) in.readObject();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		dateCreation = temp.dateCreation;
+		listeProd = temp.listeProd;
+		listCategorie = temp.listCategorie;
+		totalAttendu = temp.totalAttendu;
+		totalTicket = temp.totalTicket;
+	}
+
+	public Configuration convertToConfig(boolean auto){
+		//auto --> vrai alors on rajoute tous les produits inconnu
+		//auto --> faux on pose la question de l'ajout pour chaque produit inconnu
+		Configuration data = new Configuration("");
+		Configuration config = new Configuration();
+		for(LigneCourse i : listeProd){
+			Produit temp = config.shearchProduit(i.categorie, i.nom);
+			if(temp != null)
+				data.addProduit(temp);
+			else {
+				if (!auto){
+					int option = JOptionPane.showConfirmDialog(null, "Produit non répertorié\nImport ","Erreur !!!",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+					if (option == JOptionPane.OK_OPTION){
+						config.addProduit(temp);
+						data.addProduit(temp);
+						config.write();
+						config = new Configuration();
+					}
+				}
+				else {
+					config.addProduit(temp);
+					data.addProduit(temp);
+					config.write();
+					config = new Configuration();
+				}
+			}
+		}
+
+		return data;
 	}
 
 	public void ajouterLigne(LigneCourse l) {
@@ -46,13 +113,32 @@ public class FeuilleCourse {
 		}
 	}
 
+	public void supprimerLigne(LigneCourse l){
+		if(listeProd.remove(l)){
+			listCategorie.clear();
+			for(LigneCourse i : listeProd){
+				if(!listCategorie.contains(i.getCategorie())) {
+					listCategorie.add(i.getCategorie());
+					Collections.sort(listCategorie, new Comparator<String>() {
+
+						@Override
+						public int compare(String o1, String o2) {
+							// TODO Auto-generated method stub
+							return o1.compareTo(o2);
+						}
+					});
+				}
+			}
+		}
+	}
+
 	public LigneCourse shearchLine(String cat,String nom) {
 		for(LigneCourse i : listeProd)
 			if(cat.equals(i.categorie) && nom.equals(i.nom))
 				return i;
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		String r = "FeuilleCourse [dateCreation=" + dateCreation + ", totalAttendu=" + totalAttendu + ", totalTicket=" + totalTicket + "]";
@@ -72,28 +158,28 @@ public class FeuilleCourse {
 		HSSFSheet sheet = wb.createSheet("ma feuille");
 		HSSFCellStyle style = wb.createCellStyle();
 		style.setAlignment(HorizontalAlignment.CENTER);
-		
+
 
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));
 		addCell(sheet, ligne, 0, CellType.STRING, "Fiche de course", style);
 		addCell(sheet, ligne, 3, CellType.STRING, sdf.format(dateCreation), style);
 		ligne++;
-		
+
 		addCell(sheet, ligne, 5, CellType.STRING, "Total theorique", style);
 		addCell(sheet, ligne, 6, CellType.NUMERIC, this.totalAttendu, style);
 		addCell(sheet, ligne, 7, CellType.STRING, "Total ticket", style);
 		addCell(sheet, ligne, 8, CellType.NUMERIC, this.totalTicket, style);
 		ligne++;
-				
+
 		addCell(sheet, ligne, 0, CellType.STRING, "Type", style);
 		addCell(sheet, ligne, 1, CellType.STRING, "Categorie", style);
 		addCell(sheet, ligne, 2, CellType.STRING, "Quantite", style);
 		addCell(sheet, ligne, 3, CellType.STRING, "Prix total", style);
-		
+
 		ligne++;
 		ligne++;
-		
-		
+
+
 		for(int indexCat = 0 ; indexCat < listCategorie.size();indexCat++ ) {
 			addCell(sheet, ligne, 0, CellType.STRING, listCategorie.get(indexCat), style);
 			ligne++;
@@ -107,7 +193,7 @@ public class FeuilleCourse {
 				}
 			}
 		}
-		
+
 		for(int i = 0 ; i < 9 ; i++)
 			sheet.autoSizeColumn(i, true);
 
@@ -135,11 +221,11 @@ public class FeuilleCourse {
 			}
 		}
 	}
-	
+
 	public Date getDateCreation() {
 		return dateCreation;
 	}
-	
+
 	public double getTotalAttendu() {
 		totalAttendu = 0;
 		for (LigneCourse i : listeProd)
@@ -171,6 +257,23 @@ public class FeuilleCourse {
 		cell = row.createCell(c,type);
 		cell.setCellValue(valeur);
 		cell.setCellStyle(style);
+	}
+
+	public void writeModele(String name) {
+		ObjectOutputStream out = null;
+		File fichier = new File("Modele/"+name+".mod");
+		try {
+			out = new ObjectOutputStream(new FileOutputStream(fichier));
+			if(out != null) {
+				out.writeObject(this);
+				out.flush();
+				out.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

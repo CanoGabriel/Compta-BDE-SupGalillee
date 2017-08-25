@@ -37,17 +37,15 @@ public class IHMCourse extends JPanel implements IHMBase{
 	public static String BTN_AJOUTER_PACK = "ajouter pack";
 	public static String BTN_SUPPRIMER_PACK = "supprimer pack";
 	public static String BTN_ACCEUIL = "acceuil";
-	public static String BTN_VALIDER = "valider";
 
 	public static String JMI_OUVRIR = "ouvrir";
 	public static String JMI_SAUVER = "sauver";
-	public static String JMI_IMPORTER_PRODUIT = "impMod"; 
-	public static String JMI_EXPORTER_PRODUIT = "expMod";
+	public static String JMI_IMPORTER_MODELE = "impMod"; 
+	public static String JMI_EXPORTER_MODELE = "expMod";
 
 	private ArrayList<Boutton> listBoutton = new ArrayList<Boutton>();
 	private ArrayList<JMenuItem> listMenuItem = new ArrayList<JMenuItem>();
 
-	@SuppressWarnings("unused")
 	public FeuilleCourse data = new FeuilleCourse(new Date());
 	private Configuration local_config = new Configuration("none");
 
@@ -69,15 +67,12 @@ public class IHMCourse extends JPanel implements IHMBase{
 	private JPanel center_c2_south_l2 = new JPanel();
 	private JPanel center_c2_south_l3 = new JPanel();
 	private JPanel south = new JPanel();
-	private JPanel south_c1 = new JPanel();
-	private JPanel south_c2 = new JPanel();
 
 	private Boutton btn_AjouterProd = new Boutton("Ajouter produit");
 	private Boutton btn_SupprimerProd = new Boutton("Supprimer produit");
 	private Boutton btn_AjouterPack = new Boutton("Ajouter pack");
 	private Boutton btn_SupprimerPack = new Boutton("Supprimer pack");
 	private Boutton btn_Acceuil= new Boutton("Acceuil");
-	private Boutton btn_valider= new Boutton("Valider");
 
 	private JScrollPane viewProd = new JScrollPane();
 	public JTable prod = new JTable();
@@ -121,10 +116,6 @@ public class IHMCourse extends JPanel implements IHMBase{
 		listBoutton.add(btn_SupprimerProd);
 		btn_SupprimerProd.setName(BTN_SUPPRIMER_PRODUIT);
 
-		btn_valider.addActionListener(parent);
-		listBoutton.add(btn_valider);
-		btn_valider.setName(BTN_VALIDER);
-
 		this.setLayout(new BorderLayout());
 		center.setLayout(new GridLayout(1, 2));
 		center_c1.setLayout(new BorderLayout());
@@ -140,9 +131,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_south_l1.setLayout(new BorderLayout());
 		center_c2_south_l2.setLayout(new BorderLayout());
 		center_c2_south_l3.setLayout(new BorderLayout());
-		south.setLayout(new GridLayout(1, 2));
-		south_c1.setLayout(new BorderLayout());
-		south_c2.setLayout(new BorderLayout());
+		south.setLayout(new BorderLayout());
 
 		center_c1_center.add(viewProd, BorderLayout.CENTER);
 		center_c1_south_c1.add(btn_AjouterProd, BorderLayout.CENTER);
@@ -156,8 +145,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_south_l2.add(lab_total,BorderLayout.CENTER);
 		center_c2_south_l3.add(ftxtf_totalTicket,BorderLayout.CENTER);
 
-		south_c1.add(btn_Acceuil);
-		south_c2.add(btn_valider);
+		south.add(btn_Acceuil, BorderLayout.CENTER);
 
 		this.add(center, BorderLayout.CENTER);
 		center.add(center_c1);
@@ -175,11 +163,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_south.add(center_c2_south_l1);
 		center_c2_south.add(center_c2_south_l2);
 		center_c2_south.add(center_c2_south_l3);
-		//		center_c2_south.add(center_c2_south_c1);
-		//		center_c2_south.add(center_c2_south_c2);
 		this.add(south, BorderLayout.SOUTH);
-		south.add(south_c1);
-		south.add(south_c2);
 
 		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information general :"));
 		center_c2_center.setBorder(BorderFactory.createTitledBorder("Gestion des pack :"));
@@ -201,11 +185,15 @@ public class IHMCourse extends JPanel implements IHMBase{
 		sauver.setName(JMI_SAUVER);
 		listMenuItem.add(sauver);
 		impMod.addActionListener(parent);
-		impMod.setName(JMI_IMPORTER_PRODUIT);
+		impMod.setName(JMI_IMPORTER_MODELE);
 		listMenuItem.add(impMod);
 		expMod.addActionListener(parent);
-		expMod.setName(JMI_EXPORTER_PRODUIT);
+		expMod.setName(JMI_EXPORTER_MODELE);
 		listMenuItem.add(expMod);
+	}
+
+	public void setLocal_config(Configuration local_config) {
+		this.local_config = local_config;
 	}
 
 	public Boutton getBoutton(String name) {
@@ -322,5 +310,9 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c1_center.add(viewProd, BorderLayout.CENTER);
 		repaint();
 		revalidate();
+	}
+
+	public Configuration getLocal_config() {
+		return local_config;
 	}
 }
