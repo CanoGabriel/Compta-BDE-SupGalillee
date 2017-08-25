@@ -99,7 +99,17 @@ public class Configuration implements Serializable{
 	public ArrayList<Produit> getProduitByCategorie(String cat){
 		ArrayList<Produit> l = new ArrayList<Produit>();
 		for(Produit i : this.listProduit)
-			if(i.getCategorie().equals(cat)) {
+			if(cat != null && i.getCategorie().equals(cat)) {
+				l.add(i);
+				Collections.sort(l, new Comparator<Produit>() {
+
+					@Override
+					public int compare(Produit o1, Produit o2) {
+						return o1.getNom().compareTo(o2.getNom());
+					}
+				});
+			}
+			else if (cat == null) {
 				l.add(i);
 				Collections.sort(l, new Comparator<Produit>() {
 
@@ -129,10 +139,13 @@ public class Configuration implements Serializable{
 	}
 
 	public void addProduit(Produit p) {
-		if(!listProduit.contains(p)) 
+		if(!listProduit.contains(p)) {
 			listProduit.add(p);
+			System.out.println("\t"+p);
+		}
 		if(shearchProduit(p.categorie, p.nom) == null)
 			categorie.add(p.categorie);
+		categorie = getListCategorie();
 	}
 
 	public void setDefaultSaveFilePath(String defaultSaveFilePath) {
@@ -179,6 +192,7 @@ public class Configuration implements Serializable{
 			tree.expandRow(row);
 			row++;
 		}
+		tree.setRootVisible(false);
 		return tree;
 	}
 }

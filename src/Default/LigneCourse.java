@@ -11,6 +11,9 @@ public class LigneCourse extends Produit{
 	public LigneCourse(String categorie,String nom,double prixUnitaire) {
 		super(categorie,nom,prixUnitaire);
 	}
+	public LigneCourse(Produit p) {
+		super(p.categorie,p.nom,p.prixUnitaire);
+	}
 
 	public String toString() {
 		String r = super.toString() + "\npack = \n";
@@ -19,6 +22,9 @@ public class LigneCourse extends Produit{
 		return r;
 	}
 	
+	public ArrayList<Pack> getPack() {
+		return pack;
+	}
 	public int getPrixLigne() {
 		int r = 0;
 		for (Pack i : pack)
@@ -37,4 +43,6 @@ public class LigneCourse extends Produit{
 		pack.add(p);
 		prixUnitaire = getPrixLigne()/getNombreProduitLigne();
 	}
+	
+	
 }
