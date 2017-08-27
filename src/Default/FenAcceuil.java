@@ -1,3 +1,6 @@
+/*
+ * Cette class représente la fenetre qui acceuilera toutes les IHMs 
+ */
 package Default;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -65,7 +68,6 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == acceuil.getBoutton(IHMAcceuil.BTN_CONFIG)) {
 			this.setContentPane(config);
-//			System.out.println(data_config);
 			config.getTxtf_path().setText(data_config.getDefaultSaveFilePath());
 			config.buildArbre(data_config);
 			actualiser();
@@ -87,33 +89,33 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		else if (e.getSource() == inventaire.getBoutton(IHMInventaire.BTN_VALIDER)) {
 			try {
 				inventaire.getFtxtf_qtCourse().commitEdit();
-				inventaire.curLine.qtCourse=((Long)inventaire.getFtxtf_qtCourse().getValue()).intValue();
+				inventaire.curLine.qtCourse=Math.abs(((Long)inventaire.getFtxtf_qtCourse().getValue()).intValue());
 				inventaire.getFtxtf_qtPrecedente().commitEdit();
-				inventaire.curLine.qtPrecedent=((Long)inventaire.getFtxtf_qtPrecedente().getValue()).intValue();
+				inventaire.curLine.qtPrecedent=Math.abs(((Long)inventaire.getFtxtf_qtPrecedente().getValue()).intValue());
 				inventaire.getFtxtf_qtRestante().commitEdit();
-				inventaire.curLine.qtRestante=((Long)inventaire.getFtxtf_qtRestante().getValue()).intValue();
+				inventaire.curLine.qtRestante=Math.abs(((Long)inventaire.getFtxtf_qtRestante().getValue()).intValue());
 				inventaire.getLab_qtVendu().setText(""+inventaire.curLine.getQtVendu());
 				inventaire.getFtxtf_fondPrecedent().commitEdit();
 				if (inventaire.getFtxtf_fondPrecedent().getValue() instanceof Long)
-					inventaire.data.FondCaissePrecedent = ((Long)inventaire.getFtxtf_fondPrecedent().getValue()).doubleValue();
+					inventaire.data.FondCaissePrecedent = Math.abs(((Long)inventaire.getFtxtf_fondPrecedent().getValue()).doubleValue());
 				else
-					inventaire.data.FondCaissePrecedent = ((Double)inventaire.getFtxtf_fondPrecedent().getValue()).doubleValue();
+					inventaire.data.FondCaissePrecedent = Math.abs(((Double)inventaire.getFtxtf_fondPrecedent().getValue()).doubleValue());
 				inventaire.getFtxtf_fondSuivant().commitEdit();
 				if(inventaire.getFtxtf_fondSuivant().getValue() instanceof Long)
-					inventaire.data.FondCaisseSuivant = ((Long)inventaire.getFtxtf_fondSuivant().getValue()).doubleValue();
+					inventaire.data.FondCaisseSuivant = Math.abs(((Long)inventaire.getFtxtf_fondSuivant().getValue()).doubleValue());
 				else
-					inventaire.data.FondCaisseSuivant = ((Double)inventaire.getFtxtf_fondSuivant().getValue()).doubleValue();
+					inventaire.data.FondCaisseSuivant = Math.abs(((Double)inventaire.getFtxtf_fondSuivant().getValue()).doubleValue());
 				inventaire.getFtxtf_totalCaisse().commitEdit();
 				
 				if(inventaire.getFtxtf_totalCaisse().getValue() instanceof Long)
-					inventaire.data.setTotaleCaisse(((Long)inventaire.getFtxtf_totalCaisse().getValue()).doubleValue());
+					inventaire.data.setTotaleCaisse(Math.abs(((Long)inventaire.getFtxtf_totalCaisse().getValue()).doubleValue()));
 				else
-					inventaire.data.setTotaleCaisse(((Double)inventaire.getFtxtf_totalCaisse().getValue()).doubleValue());
+					inventaire.data.setTotaleCaisse(Math.abs(((Double)inventaire.getFtxtf_totalCaisse().getValue()).doubleValue()));
 				
 				if(inventaire.getFtxtf_bonSnack().getValue() instanceof Long)
-					inventaire.data.setBonSnac(((Long)inventaire.getFtxtf_bonSnack().getValue()).doubleValue());
+					inventaire.data.setBonSnac(Math.abs(((Long)inventaire.getFtxtf_bonSnack().getValue()).doubleValue()));
 				else
-					inventaire.data.setBonSnac(((Double)inventaire.getFtxtf_bonSnack().getValue()).doubleValue());
+					inventaire.data.setBonSnac(Math.abs(((Double)inventaire.getFtxtf_bonSnack().getValue()).doubleValue()));
 				inventaire.getLab_recetteReelle().setText(""+inventaire.data.getRecetteReelle());
 				inventaire.getLab_Difference().setText(""+inventaire.data.getDifference()+"debug");
 
@@ -125,12 +127,17 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		else if (e.getSource() == course.getBoutton(IHMCourse.BTN_VALIDER)) {
 			try {
 				course.getFtxtf_totalTicket().commitEdit();
-				course.data.setTotalTicket(((Long)course.getFtxtf_totalTicket().getValue()).doubleValue());
+				if(course.getFtxtf_totalTicket().getValue() instanceof Long)
+					course.data.setTotalTicket(Math.abs(((Long)course.getFtxtf_totalTicket().getValue()).doubleValue()));
+				else if(course.getFtxtf_totalTicket().getValue() instanceof Double)
+					course.data.setTotalTicket(Math.abs(((Double)course.getFtxtf_totalTicket().getValue()).doubleValue()));
 				inventaire.getFtxtf_qtPrecedente().commitEdit();
-				inventaire.curLine.qtPrecedent=((Long)inventaire.getFtxtf_qtPrecedente().getValue()).intValue();
+				inventaire.curLine.qtPrecedent=Math.abs(((Long)inventaire.getFtxtf_qtPrecedente().getValue()).intValue());
 				inventaire.getFtxtf_qtRestante().commitEdit();
-				inventaire.curLine.qtRestante=((Long)inventaire.getFtxtf_qtRestante().getValue()).intValue();
+				inventaire.curLine.qtRestante=Math.abs(((Long)inventaire.getFtxtf_qtRestante().getValue()).intValue());
 				inventaire.getLab_qtVendu().setText(""+inventaire.curLine.getQtVendu());
+				if(inventaire.curLine.getQtVendu()<0)
+					JOptionPane.showMessageDialog(null, "Attention quantité vendu < 0 !!!", "Avertissement", JOptionPane.WARNING_MESSAGE);
 			} catch (ParseException e1) {
 				JOptionPane.showMessageDialog(null,"Donnee invalide ou inexistente !", "Erreur",JOptionPane.ERROR_MESSAGE);
 			}
@@ -138,7 +145,7 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == modif_config.getBoutton(IHMConfigModifPanel.BTN_AJOUTER)) {
 			Produit t = null;
-			PopupProduit pop = new PopupProduit(null,"test popup",true);
+			PopupProduit pop = new PopupProduit(data_config);
 			t = pop.showDialog();
 			if (t.prixUnitaire <0)
 				t.prixUnitaire *= -1;
@@ -173,7 +180,6 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		else if(e.getSource() == course.getBoutton(IHMCourse.BTN_AJOUTER_PRODUIT)) {
 			PopupAjoutProduit pop = new PopupAjoutProduit(data_config);
 			Produit t = pop.showDialog();
-//			System.out.println(t);
 			course.addProduit(t);
 			course.actualiserArbre();
 			actualiser();
@@ -192,7 +198,14 @@ public class FenAcceuil extends JFrame implements ActionListener{
 			else if(row == -1)
 				JOptionPane.showMessageDialog(null, "Vous n'avez selectionner aucune ligne...","Erreur",JOptionPane.ERROR_MESSAGE);
 			else {
-				course.curLine.getPack().remove(row);
+				if(course.curLine.getPack().size() == 1) {
+					int option = JOptionPane.showConfirmDialog(null, "Attention vous êtes sur le point de supprimer le dernier Pack de ce produit,\nCela entrainera sa suppression de la feuille !\nConfirmer la suppression ?", "Avertissement !!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if(option == JOptionPane.OK_OPTION) {
+						course.curLine.getPack().remove(row);
+						course.data.supprimerLigne(course.curLine);
+						course.setLocal_config(course.data.convertToConfig(true));
+					}
+				}
 				course.actualiserTab();
 				course.actualiserArbre();
 			}

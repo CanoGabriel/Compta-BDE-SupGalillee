@@ -3,6 +3,10 @@ package Default;
 import java.io.Serializable;
 
 public class Pack implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3334835104321955905L;
 	private int quantiteProd;
 	private int nombrePack;
 	private double prixPack;

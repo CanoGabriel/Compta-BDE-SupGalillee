@@ -98,9 +98,9 @@ public class PopupAjouterPack extends JDialog implements ActionListener{
 				prix.setText(prix.getText().replaceAll("[.]", ","));
 				prix.commitEdit();
 				if(prix.getValue() instanceof Long)
-					pack = new Pack(((Long)nbPack.getValue()).intValue(),((Long) nbProd.getValue()).intValue(),((Long) prix.getValue()).doubleValue());
+					pack = new Pack(Math.abs(((Long)nbPack.getValue()).intValue()),Math.abs(((Long) nbProd.getValue()).intValue()),Math.abs(((Long) prix.getValue()).doubleValue()));
 				else if(prix.getValue() instanceof Double)
-					pack = new Pack(((Long)nbPack.getValue()).intValue(),((Long) nbProd.getValue()).intValue(),((Double) prix.getValue()).doubleValue());
+					pack = new Pack(Math.abs(((Long)nbPack.getValue()).intValue()),Math.abs(((Long) nbProd.getValue()).intValue()),Math.abs(((Double) prix.getValue()).doubleValue()));
 				else
 					JOptionPane.showMessageDialog(null, "Donnée invalide");
 					

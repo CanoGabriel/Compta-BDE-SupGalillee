@@ -140,6 +140,10 @@ public class FeuilleCourse implements Serializable{
 					});
 				}
 			}
+			totalAttendu = 0;
+			for(LigneCourse i : listeProd) {
+				totalAttendu += i.getPrixLigne();
+			}
 		}
 	}
 
@@ -298,12 +302,8 @@ public class FeuilleCourse implements Serializable{
 				sheetSimple.autoSizeColumn(i, true);
 		}
 		FileOutputStream fileOut;
-			String chemin = "Course/Feuille de course du "+(new SimpleDateFormat("dd-MM-yyyy_HHmmss").format(dateCreation))+".xlsx";
+		String chemin = "Course/Feuille de course du "+(new SimpleDateFormat("dd-MM-yyyy_HHmmss").format(dateCreation))+".xlsx";
 		try {
-//			if(path == null)
-//				chemin = name+".xlsx";
-//			else
-//				chemin = path+name+".xlsx";
 			File dir = new File("Course");
 			if(!dir.exists())
 				dir.mkdir();
@@ -390,7 +390,7 @@ public class FeuilleCourse implements Serializable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void readXLS(File fichier) {
 		XSSFWorkbook wb = null;
 		try {

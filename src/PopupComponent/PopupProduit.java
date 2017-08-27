@@ -6,13 +6,14 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
+import Default.Configuration;
 import Default.Produit;
 import IHMComponent.Boutton;
 
@@ -22,15 +23,17 @@ public class PopupProduit extends JDialog implements ActionListener{
 	 * 
 	 */
 	private JPanel content = new JPanel();
-	private JTextField categorie = new JTextField();
-	private JTextField nom = new JTextField();
+	private JComboBox<String> cb_cat = new JComboBox<String>(); 
+	private JComboBox<String> cb_nom = new JComboBox<String>(); 
 	private JFormattedTextField prix = null;
 	private Boutton validation = new Boutton("Valider Saisie");
+	private final Configuration d;
 
 	private static final long serialVersionUID = 6011373255368842196L;
 
-	public PopupProduit(JFrame parent,String title,boolean modal) {
-		super(parent,title,modal);
+	public PopupProduit(Configuration data) {
+		super((JFrame)null,"Ajout d'un produit",true);
+		d = data;
 		this.setTitle("Saisir les informations du produit");
 		this.setResizable(false);
 		this.setSize(600, 200);
@@ -43,14 +46,24 @@ public class PopupProduit extends JDialog implements ActionListener{
 		nf.setMaximumFractionDigits(2);
 		nf.setMaximumIntegerDigits(2);
 		prix = new JFormattedTextField(nf);
-
+		
+		for(String i : data.categorie)
+			cb_cat.addItem(i);
+		cb_cat.addActionListener(this);
+		cb_cat.setEditable(true);
+		
+		cb_nom.addItem("");
+		for(Produit i : data.getProduitByCategorie((String) cb_cat.getSelectedItem()))
+			cb_nom.addItem(i.getNom());
+		cb_nom.setEditable(true);
+		
 		content.setLayout(new GridLayout(4, 1));
-		content.add(categorie);
-		content.add(nom);
+		content.add(cb_cat);
+		content.add(cb_nom);
 		content.add(prix);
 		content.add(validation);
-		nom.setBorder(BorderFactory.createTitledBorder("Entrer le nom du produit : "));
-		categorie.setBorder(BorderFactory.createTitledBorder("Entrer la categorie du produit : "));
+		cb_nom.setBorder(BorderFactory.createTitledBorder("Entrer le nom du produit : "));
+		cb_cat.setBorder(BorderFactory.createTitledBorder("Entrer la categorie du produit : "));
 		prix.setBorder(BorderFactory.createTitledBorder("Entrer le prix du produit : "));
 		validation.addActionListener(this);
 
@@ -64,22 +77,27 @@ public class PopupProduit extends JDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == validation) {
-			String cat = categorie.getText();
-			String n = nom.getText();
+			String cat = (String) cb_cat.getSelectedItem();
+			String n = (String) cb_nom.getSelectedItem();
 			try {
 				prix.commitEdit();
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				JOptionPane.showConfirmDialog(null, e1.getMessage());
+				JOptionPane.showMessageDialog(null, "Problème de convertion...","Erreur",JOptionPane.WARNING_MESSAGE);
 			}
 			Object p = prix.getValue();
 			if (p instanceof Long)
-				this.p = new Produit(cat, n, ((Long) p).doubleValue());
+				this.p = new Produit(cat, n, Math.abs(((Long) p).doubleValue()));
 			else if (p instanceof java.lang.Double)
-				this.p = new Produit(cat, n,(double)p);
+				this.p = new Produit(cat, n,Math.abs((double)p));
 			else
-				JOptionPane.showConfirmDialog(null, "Cast Exception");
+				JOptionPane.showMessageDialog(null, "Prix : Donnee invalide","Erreur",JOptionPane.ERROR_MESSAGE);
 			this.dispose();
+		}
+		else if (e.getSource() == cb_cat) {
+			cb_nom.removeAllItems();
+			cb_nom.addItem("");
+			for(Produit i : d.getProduitByCategorie((String) cb_cat.getSelectedItem()))
+				cb_nom.addItem(i.getNom());
 		}
 	}
 

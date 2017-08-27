@@ -97,6 +97,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 	public IHMCourse(FenAcceuil parent) {
 		NumberFormat nf=  NumberFormat.getNumberInstance();
 		nf.setParseIntegerOnly(false);
+		nf.setMinimumFractionDigits(1);
 		ftxtf_totalTicket = new JFormattedTextField(nf);
 
 		btn_Acceuil.addActionListener(parent);
@@ -286,7 +287,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 						try {
 							ftxtf_totalTicket.commitEdit();
 						} catch (ParseException e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage());
+							JOptionPane.showMessageDialog(null, e1.getMessage(),"Erreur",JOptionPane.ERROR_MESSAGE);
 							e1.printStackTrace();
 						}
 					}

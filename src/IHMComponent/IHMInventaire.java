@@ -418,7 +418,7 @@ public class IHMInventaire extends JPanel{
 							ftxtf_qtCourse.commitEdit();
 							ftxtf_qtRestante.commitEdit();
 						} catch (ParseException e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage());
+							JOptionPane.showMessageDialog(null, e1.getMessage(),"Erreur",JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					curLine = t;
