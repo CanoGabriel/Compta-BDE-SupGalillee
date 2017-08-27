@@ -14,8 +14,8 @@ import Default.FeuilleInventaire;
 import Default.LigneCourse;
 import Default.LigneInventaire;
 import Default.Pack;
-import Default.PopupImportModele;
 import Default.Produit;
+import PopupComponent.PopupImportModele;
 
 public class Test {
 
@@ -32,14 +32,22 @@ public class Test {
 		FeuilleCourse f = new FeuilleCourse(new Date());
 		LigneCourse l = new LigneCourse("cat1", "prod1",0);
 		l.addPack(new Pack(1, 1, 0.5));
-		
+		f.ajouterLigne(l);
 		l = new LigneCourse("cat3", "prod2", 0); 
 		l.addPack(new Pack(1, 1, 0.6));
-		
-		l = new LigneCourse("cat1", "prod3", 0); 
+		l.addPack(new Pack(1, 1, 0.6));
+		l.addPack(new Pack(1, 1, 0.6));
+		f.ajouterLigne(l);
+
+		l = new LigneCourse("cat1", "prod3", 0);
 		l.addPack(new Pack(1, 1, 0.7));
-		System.out.println(f);
-		f.writeXLS(null, "CourseTest.xls");
+		l.addPack(new Pack(1, 1, 0.7));
+		l.addPack(new Pack(1, 1, 0.7));
+		l.addPack(new Pack(1, 1, 0.7));
+		f.ajouterLigne(l);
+//		System.out.println(f);
+				
+//		f.writeXLS(null, "CourseTest");
 	}
 	@SuppressWarnings("unused")
 	private static void testInventaire() {
@@ -47,10 +55,15 @@ public class Test {
 		f.ajouterLigne(new LigneInventaire("cat1", "mon produit", 0.1, 1, 0, 0));
 		f.ajouterLigne(new LigneInventaire("cat5", "mon produit", 0.2, 1, 0, 0));
 		f.ajouterLigne(new LigneInventaire("zcat1", "mon produit", 0.3, 1, 0, 0));
+		f.ajouterLigne(new LigneInventaire("zcat1", "mon produit", 0.3, 1, 0, 0));
+		f.ajouterLigne(new LigneInventaire("zcat1", "mon produit", 0.3, 1, 0, 0));
+		f.ajouterLigne(new LigneInventaire("zcat1", "mon produit", 0.3, 1, 0, 0));
+		f.ajouterLigne(new LigneInventaire("zcat1", "mon produit", 0.3, 1, 0, 0));
+		f.ajouterLigne(new LigneInventaire("zcat1", "mon produit", 0.3, 1, 0, 0));
 		System.out.println(f);
-		f.writeXLS(null, "InventaireTest.xls");
+		f.writeXLS();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testConfig() {
 		Configuration conf = new Configuration("Mon chemin");
@@ -80,7 +93,7 @@ public class Test {
 				e.printStackTrace();
 			}
 		}
-		
+
 		conf = null;
 		ObjectInputStream in = null;
 		try {
@@ -105,7 +118,7 @@ public class Test {
 		FenAcceuil f = new FenAcceuil(); 
 	}
 	public static void testPopup(){
-		PopupImportModele pop = new PopupImportModele();
-		pop.showDialog();
+		PopupImportModele pop = new PopupImportModele(true);
+		pop.showDialogCourse();
 	}
 }

@@ -1,6 +1,8 @@
 package Default;
 
-public class Pack {
+import java.io.Serializable;
+
+public class Pack implements Serializable{
 	private int quantiteProd;
 	private int nombrePack;
 	private double prixPack;

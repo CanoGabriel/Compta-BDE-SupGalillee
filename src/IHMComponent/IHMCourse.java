@@ -37,6 +37,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 	public static String BTN_AJOUTER_PACK = "ajouter pack";
 	public static String BTN_SUPPRIMER_PACK = "supprimer pack";
 	public static String BTN_ACCEUIL = "acceuil";
+	public static String BTN_VALIDER = "valider";
 
 	public static String JMI_OUVRIR = "ouvrir";
 	public static String JMI_SAUVER = "sauver";
@@ -66,6 +67,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 	private JPanel center_c2_south_l1 = new JPanel();
 	private JPanel center_c2_south_l2 = new JPanel();
 	private JPanel center_c2_south_l3 = new JPanel();
+	private JPanel center_c2_south_l4 = new JPanel();
 	private JPanel south = new JPanel();
 
 	private Boutton btn_AjouterProd = new Boutton("Ajouter produit");
@@ -73,6 +75,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 	private Boutton btn_AjouterPack = new Boutton("Ajouter pack");
 	private Boutton btn_SupprimerPack = new Boutton("Supprimer pack");
 	private Boutton btn_Acceuil= new Boutton("Acceuil");
+	private Boutton btn_valider= new Boutton("Valider");
 
 	private JScrollPane viewProd = new JScrollPane();
 	public JTable prod = new JTable();
@@ -115,22 +118,25 @@ public class IHMCourse extends JPanel implements IHMBase{
 		btn_SupprimerProd.addActionListener(parent);
 		listBoutton.add(btn_SupprimerProd);
 		btn_SupprimerProd.setName(BTN_SUPPRIMER_PRODUIT);
+		
+		btn_valider.addActionListener(parent);
+		listBoutton.add(btn_valider);
+		btn_valider.setName(BTN_VALIDER);
 
 		this.setLayout(new BorderLayout());
 		center.setLayout(new GridLayout(1, 2));
 		center_c1.setLayout(new BorderLayout());
 		center_c1_center.setLayout(new BorderLayout());
 		center_c1_south.setLayout(new GridLayout(1, 2));
-		//		center_c1_south_c1.setLayout(new BorderLayout());
-		//		center_c1_south_c2.setLayout(new BorderLayout());
 		center_c2.setLayout(new BorderLayout());
 		center_c2_center.setLayout(new BorderLayout());
 		center_c2_center_center.setLayout(new BorderLayout());
 		center_c2_center_south.setLayout(new GridLayout(1, 2));
-		center_c2_south.setLayout(new GridLayout(3, 1));
+		center_c2_south.setLayout(new GridLayout(4, 1));
 		center_c2_south_l1.setLayout(new BorderLayout());
 		center_c2_south_l2.setLayout(new BorderLayout());
 		center_c2_south_l3.setLayout(new BorderLayout());
+//		center_c2_south_l4.setLayout(new BorderLayout());
 		south.setLayout(new BorderLayout());
 
 		center_c1_center.add(viewProd, BorderLayout.CENTER);
@@ -144,6 +150,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_south_l1.add(lab_date,BorderLayout.CENTER);
 		center_c2_south_l2.add(lab_total,BorderLayout.CENTER);
 		center_c2_south_l3.add(ftxtf_totalTicket,BorderLayout.CENTER);
+		center_c2_south_l4.add(btn_valider);
 
 		south.add(btn_Acceuil, BorderLayout.CENTER);
 
@@ -163,6 +170,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_south.add(center_c2_south_l1);
 		center_c2_south.add(center_c2_south_l2);
 		center_c2_south.add(center_c2_south_l3);
+		center_c2_south.add(center_c2_south_l4);
 		this.add(south, BorderLayout.SOUTH);
 
 		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information general :"));
@@ -190,6 +198,10 @@ public class IHMCourse extends JPanel implements IHMBase{
 		expMod.addActionListener(parent);
 		expMod.setName(JMI_EXPORTER_MODELE);
 		listMenuItem.add(expMod);
+	}
+
+	public JFormattedTextField getFtxtf_totalTicket() {
+		return ftxtf_totalTicket;
 	}
 
 	public void setLocal_config(Configuration local_config) {
@@ -220,7 +232,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 	}
 
 	public void actualiserChamp() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy , HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy , HH:mm:ss");
 		lab_date.setText(sdf.format(data.getDateCreation()));
 		lab_total.setText(""+data.getTotalAttendu());
 		ftxtf_totalTicket.setText(""+data.getTotalTicket());
@@ -246,7 +258,10 @@ public class IHMCourse extends JPanel implements IHMBase{
 	}
 	
 	public void actualiserTab() {
-		prod = buildTab(curLine);
+		if(curLine != null)
+			prod = buildTab(curLine);
+		else
+			prod = new JTable();
 		viewInfo = new JScrollPane(prod);
 		center_c2_center_center.removeAll();
 		center_c2_center_center.add(viewInfo, BorderLayout.CENTER);
@@ -265,13 +280,13 @@ public class IHMCourse extends JPanel implements IHMBase{
 				if(histCurrentPath != null && histParentPath != null) {
 					LigneCourse t = data.shearchLine(histParentPath,histCurrentPath);
 					if(t != null) {
-						lab_date.setText((new SimpleDateFormat("jj/mm/aaaa , HH:mm:ss").format(data.getDateCreation())));
-						lab_date.setText(""+data.getTotalAttendu());
+						lab_date.setText((new SimpleDateFormat("dd/MM/yyyy , HH:mm:ss").format(data.getDateCreation())));
+						lab_total.setText(""+data.getTotalAttendu());
 						ftxtf_totalTicket.setText(""+data.getTotalTicket());
 						try {
 							ftxtf_totalTicket.commitEdit();
 						} catch (ParseException e1) {
-							JOptionPane.showConfirmDialog(null, e1.getMessage());
+							JOptionPane.showMessageDialog(null, e1.getMessage());
 							e1.printStackTrace();
 						}
 					}

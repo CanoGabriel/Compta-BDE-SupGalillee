@@ -1,4 +1,4 @@
-package IHMComponent;
+package PopupComponent;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Default.Pack;
+import IHMComponent.Boutton;
 
 public class PopupAjouterPack extends JDialog implements ActionListener{
 

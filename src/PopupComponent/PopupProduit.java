@@ -1,4 +1,4 @@
-package IHMComponent;
+package PopupComponent;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import Default.Produit;
+import IHMComponent.Boutton;
 
 public class PopupProduit extends JDialog implements ActionListener{
 	private Produit p = null;

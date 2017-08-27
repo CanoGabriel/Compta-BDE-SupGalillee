@@ -50,27 +50,30 @@ public class Configuration implements Serializable{
 	public Configuration() {
 		ObjectInputStream in = null;
 		File fichier = new File("configuration.ser");
-		try {
-			in = new ObjectInputStream(new FileInputStream(fichier));
-			Configuration temp = (Configuration) in.readObject();
-			this.defaultSaveFilePath = temp.defaultSaveFilePath;
-			this.listProduit = temp.getList();
-			categorie = temp.getListCategorie();
-		}catch (Exception e) {
-			//			e.printStackTrace();
-			this.defaultSaveFilePath = "";
-			this.listProduit = new ArrayList<Produit>();
-		}
-		finally {
+		if(fichier.exists()) {
 			try {
-				if(in != null)
-					in.close();
-			} catch (IOException e) {
+				in = new ObjectInputStream(new FileInputStream(fichier));
+				Configuration temp = (Configuration) in.readObject();
+				this.defaultSaveFilePath = temp.defaultSaveFilePath;
+				this.listProduit = temp.getList();
+				categorie = temp.getListCategorie();
+			}catch (Exception e) {
+				//			e.printStackTrace();
 				this.defaultSaveFilePath = "";
 				this.listProduit = new ArrayList<Produit>();
 			}
+			finally {
+				try {
+					if(in != null)
+						in.close();
+				} catch (IOException e) {
+					this.defaultSaveFilePath = "";
+					this.listProduit = new ArrayList<Produit>();
+				}
+			}
 		}
-
+		else 
+			defaultSaveFilePath = "";
 	}
 
 	public ArrayList<String> getListCategorie(){
@@ -139,12 +142,12 @@ public class Configuration implements Serializable{
 	}
 
 	public void addProduit(Produit p) {
-		if(!listProduit.contains(p)) {
+		if(shearchProduit(p.categorie, p.nom) == null) {
 			listProduit.add(p);
-			System.out.println("\t"+p);
+			//			System.out.println("\t"+p);
 		}
-		if(shearchProduit(p.categorie, p.nom) == null)
-			categorie.add(p.categorie);
+		//		if(shearchProduit(p.categorie, p.nom) == null)
+		//			categorie.add(p.categorie);
 		categorie = getListCategorie();
 	}
 

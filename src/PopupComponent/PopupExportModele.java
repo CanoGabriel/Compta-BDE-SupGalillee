@@ -1,4 +1,4 @@
-package IHMComponent;
+package PopupComponent;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Default.FeuilleCourse;
+import Default.FeuilleInventaire;
+import IHMComponent.Boutton;
 
 public class PopupExportModele extends JDialog implements ActionListener{
 	
@@ -24,6 +26,10 @@ public class PopupExportModele extends JDialog implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 7059908656710301688L;
+	
+	public static boolean COURSE = true;
+	public static boolean INVENTAIRE = false;
+	
 	private Boutton btn_ok = new Boutton("OK");
 	private JFormattedTextField nom = null;
 	private JLabel ext = new JLabel(".mod");
@@ -32,22 +38,31 @@ public class PopupExportModele extends JDialog implements ActionListener{
 	private JPanel north_center = new JPanel();
 	private JPanel north_east = new JPanel();
 	
-	private final FeuilleCourse data;
+	private final boolean type;
 	
-	public PopupExportModele(FeuilleCourse config) {
+	private final FeuilleCourse data_course;
+	private final FeuilleInventaire data_inventaire;
+	
+	public PopupExportModele(FeuilleCourse config,boolean type) {
 		super((JFrame)null,"Saisie",true);
-		
+		data_course = config;
+		data_inventaire = null;
+		init();
+		this.type = type;
+	}
+	
+	private void init() {
 		this.setResizable(false);
 		this.setSize(600, 200);
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		
-		data = config;
 		
 		btn_ok.addActionListener(this);
 		
 		Pattern pt = Pattern.compile("\\w*");
 		nom = new JFormattedTextField(pt);
+		nom.setText("");
 		
 		this.setLayout(new BorderLayout());
 		north.setLayout(new BorderLayout());
@@ -64,6 +79,13 @@ public class PopupExportModele extends JDialog implements ActionListener{
 		north.setBorder(BorderFactory.createTitledBorder("Entrer le nom du modele :"));
 		
 	}
+	public PopupExportModele(FeuilleInventaire config,boolean type) {
+		super((JFrame)null,"Saisie",true);
+		data_inventaire = config;
+		data_course = null;
+		init();
+		this.type = type;
+	}
 	
 
 	public void showDialog(){
@@ -73,14 +95,18 @@ public class PopupExportModele extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btn_ok){
 			try {
+				String temp = (type == PopupExportModele.COURSE)?"Modele course":"Modele inventaire";
 				nom.commitEdit();
-				File f = new File("Modele");
+				File f = new File(temp);
 				if(!f.exists())
 					f.mkdir();
 				String message = "Nom : " + nom.getText() +"\n Path : " + f.getPath()+"/"+nom.getText()+".mod"; 
 				int option = JOptionPane.showConfirmDialog(null, message,"Confirmation",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if(option == JOptionPane.OK_OPTION){
-					data.writeModele(nom.getText());
+					if(type == PopupExportModele.COURSE)
+						data_course.writeModele(nom.getText());
+					else
+						data_inventaire.writeModele(nom.getText());
 					dispose();
 				}
 				else

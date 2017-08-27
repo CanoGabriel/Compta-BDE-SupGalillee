@@ -10,9 +10,15 @@ public class LigneCourse extends Produit{
 
 	public LigneCourse(String categorie,String nom,double prixUnitaire) {
 		super(categorie,nom,prixUnitaire);
+		pack.add(new Pack(0, 0, 0));
 	}
 	public LigneCourse(Produit p) {
 		super(p.categorie,p.nom,p.prixUnitaire);
+		pack.add(new Pack(0, 0, 0));
+	}
+	public LigneCourse(Produit p,int nbPack,int nbProd, double prix) {
+		super(p.categorie,p.nom,p.prixUnitaire);
+		pack.add(new Pack(nbPack, nbProd, prix));
 	}
 
 	public String toString() {
@@ -21,28 +27,33 @@ public class LigneCourse extends Produit{
 			r += "\t" + i + "\n";
 		return r;
 	}
-	
+
 	public ArrayList<Pack> getPack() {
 		return pack;
 	}
-	public int getPrixLigne() {
-		int r = 0;
-		for (Pack i : pack)
-			r += i.getNombrePack()*i.getPrixPack();
+	public double getPrixLigne() {
+		double r = 0;
+		for (Pack i : pack) {
+			r += i.getNombrePack()*i.getQuantiteProd()*i.getPrixPack();
+			System.out.println("r = "+r+"\t");
+			System.out.println("nb pack = "+i.getNombrePack()+"\t");
+			System.out.println("qt prod = "+i.getQuantiteProd()+"\t");
+			System.out.println("prix pack = "+i.getPrixPack()+"\n");
+		}
 		return r;
 	}
-	
+
 	public int getNombreProduitLigne() {
 		int r = 0;
 		for(Pack i : pack)
 			r += i.getQuantiteProd()*i.getNombrePack();
 		return r;
 	}
-	
+
 	public void addPack(Pack p) {
 		pack.add(p);
 		prixUnitaire = getPrixLigne()/getNombreProduitLigne();
 	}
-	
-	
+
+
 }
