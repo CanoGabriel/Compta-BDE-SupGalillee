@@ -22,7 +22,7 @@ public class IHMAcceuil extends JPanel {
 	private JPanel l2 = new JPanel();
 	private JPanel l3 = new JPanel();
 	
-	private Boutton btn_config = new Boutton("Configuration");
+	private Boutton btn_config = new Boutton("Gestion des produits");
 	private Boutton btn_course = new Boutton("Nouvelle feuille de course");
 	private Boutton btn_inventaire = new Boutton("Nouvelle feuille d'inventaire");
 	private ArrayList<Boutton> listBoutton = new ArrayList<Boutton>();

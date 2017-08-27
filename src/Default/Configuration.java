@@ -142,6 +142,7 @@ public class Configuration implements Serializable{
 	}
 
 	public void addProduit(Produit p) {
+//		System.out.println("debug : " + p);
 		if(shearchProduit(p.categorie, p.nom) == null) {
 			listProduit.add(p);
 			//			System.out.println("\t"+p);

@@ -91,11 +91,11 @@ public class IHMCourse extends JPanel implements IHMBase{
 	private JMenuItem sauver = new JMenuItem("Sauvegarder");
 	private JMenuItem impMod = new JMenuItem("Importer modele");
 	private JMenuItem expMod = new JMenuItem("Exporter modele");
-	
+
 	public LigneCourse curLine = null;
 
 	public IHMCourse(FenAcceuil parent) {
-		NumberFormat nf=  NumberFormat.getNumberInstance();
+		NumberFormat nf = NumberFormat.getNumberInstance();
 		nf.setParseIntegerOnly(false);
 		nf.setMinimumFractionDigits(1);
 		ftxtf_totalTicket = new JFormattedTextField(nf);
@@ -119,7 +119,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		btn_SupprimerProd.addActionListener(parent);
 		listBoutton.add(btn_SupprimerProd);
 		btn_SupprimerProd.setName(BTN_SUPPRIMER_PRODUIT);
-		
+
 		btn_valider.addActionListener(parent);
 		listBoutton.add(btn_valider);
 		btn_valider.setName(BTN_VALIDER);
@@ -137,7 +137,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_south_l1.setLayout(new BorderLayout());
 		center_c2_south_l2.setLayout(new BorderLayout());
 		center_c2_south_l3.setLayout(new BorderLayout());
-//		center_c2_south_l4.setLayout(new BorderLayout());
+		//		center_c2_south_l4.setLayout(new BorderLayout());
 		south.setLayout(new BorderLayout());
 
 		center_c1_center.add(viewProd, BorderLayout.CENTER);
@@ -238,13 +238,13 @@ public class IHMCourse extends JPanel implements IHMBase{
 		lab_total.setText(""+data.getTotalAttendu());
 		ftxtf_totalTicket.setText(""+data.getTotalTicket());
 	}
-	
+
 	public JTable buildTab(LigneCourse l) {
 		Vector<String> titre = new Vector<String>();
 		titre.addElement("Nb Pack");
 		titre.addElement("Nb produit");
 		titre.addElement("Prix Pack");
-		
+
 		@SuppressWarnings("rawtypes")
 		Vector<Vector> d = new Vector<Vector>();
 		Vector<String> val;
@@ -257,7 +257,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		}
 		return new JTable(d,titre);
 	}
-	
+
 	public void actualiserTab() {
 		if(curLine != null)
 			prod = buildTab(curLine);
@@ -306,7 +306,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 
 				else {
 					LigneCourse t = data.shearchLine(parentPath,currentPath);
-//					System.out.println(t);
+					//					System.out.println(t);
 					if(t != null) {
 						//on charge le tableau
 						prod = buildTab(t);

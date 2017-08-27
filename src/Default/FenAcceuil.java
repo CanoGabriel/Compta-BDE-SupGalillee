@@ -38,8 +38,8 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		data_config = new Configuration();
 		this.setTitle("Comptabilite BDE 2017");
 		this.setResizable(true);
-		this.setSize(660, 550);
-		this.setMinimumSize(new Dimension(660, 550));
+		this.setSize(820, 550);
+		this.setMinimumSize(new Dimension(820, 550));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 
@@ -55,32 +55,36 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		}
 		else
 			System.out.println(e.getSource().toString());
-		
-		
+
+
 		if(e.getSource() == config.getBoutton(IHMConfigOverview.BTN_ACCEUIL)
 				|| e.getSource() == modif_config.getBoutton(IHMConfigModifPanel.BTN_ACCEUIL)
 				|| e.getSource() == course.getBoutton(IHMCourse.BTN_ACCEUIL)
 				|| e.getSource() == inventaire.getBoutton(IHMInventaire.BTN_ACCEUIL)) {
 			this.setContentPane(acceuil);
+			this.setTitle("Comptabilite BDE 2017");
 			data_config.setDefaultSaveFilePath(config.getTxtf_path().getText());
 			data_config.write();
 			actualiser();
 		}
 		else if(e.getSource() == acceuil.getBoutton(IHMAcceuil.BTN_CONFIG)) {
 			this.setContentPane(config);
+			this.setTitle("Comptabilite BDE 2017 : Aperçu des produits");
 			config.getTxtf_path().setText(data_config.getDefaultSaveFilePath());
 			config.buildArbre(data_config);
 			actualiser();
 		}
-		else if(e.getSource() == config.getBoutton(IHMConfigOverview.BTN_PATHOK)) {
-			data_config.setDefaultSaveFilePath(config.getTxtf_path().getText());
-		}
+		//		else if(e.getSource() == config.getBoutton(IHMConfigOverview.BTN_PATHOK)) {
+		//			data_config.setDefaultSaveFilePath(config.getTxtf_path().getText());
+		//		}
 		else if (e.getSource() == config.getBoutton(IHMConfigOverview.BTN_MODIFIER)) {
+			this.setTitle("Comptabilite BDE 2017 : Modification de la liste des produits");
 			this.setContentPane(modif_config);
 			modif_config.buildArbre(data_config);
 			actualiser();
 		}
 		else if (e.getSource() == modif_config.getBoutton(IHMConfigModifPanel.BTN_VALIDER)) {
+			this.setTitle("Comptabilite BDE 2017 : Aperçu des produits");
 			this.setContentPane(config);
 			config.buildArbre(data_config);
 			data_config.write();
@@ -106,12 +110,12 @@ public class FenAcceuil extends JFrame implements ActionListener{
 				else
 					inventaire.data.FondCaisseSuivant = Math.abs(((Double)inventaire.getFtxtf_fondSuivant().getValue()).doubleValue());
 				inventaire.getFtxtf_totalCaisse().commitEdit();
-				
+
 				if(inventaire.getFtxtf_totalCaisse().getValue() instanceof Long)
 					inventaire.data.setTotaleCaisse(Math.abs(((Long)inventaire.getFtxtf_totalCaisse().getValue()).doubleValue()));
 				else
 					inventaire.data.setTotaleCaisse(Math.abs(((Double)inventaire.getFtxtf_totalCaisse().getValue()).doubleValue()));
-				
+
 				if(inventaire.getFtxtf_bonSnack().getValue() instanceof Long)
 					inventaire.data.setBonSnac(Math.abs(((Long)inventaire.getFtxtf_bonSnack().getValue()).doubleValue()));
 				else
@@ -131,17 +135,10 @@ public class FenAcceuil extends JFrame implements ActionListener{
 					course.data.setTotalTicket(Math.abs(((Long)course.getFtxtf_totalTicket().getValue()).doubleValue()));
 				else if(course.getFtxtf_totalTicket().getValue() instanceof Double)
 					course.data.setTotalTicket(Math.abs(((Double)course.getFtxtf_totalTicket().getValue()).doubleValue()));
-				inventaire.getFtxtf_qtPrecedente().commitEdit();
-				inventaire.curLine.qtPrecedent=Math.abs(((Long)inventaire.getFtxtf_qtPrecedente().getValue()).intValue());
-				inventaire.getFtxtf_qtRestante().commitEdit();
-				inventaire.curLine.qtRestante=Math.abs(((Long)inventaire.getFtxtf_qtRestante().getValue()).intValue());
-				inventaire.getLab_qtVendu().setText(""+inventaire.curLine.getQtVendu());
-				if(inventaire.curLine.getQtVendu()<0)
-					JOptionPane.showMessageDialog(null, "Attention quantité vendu < 0 !!!", "Avertissement", JOptionPane.WARNING_MESSAGE);
 			} catch (ParseException e1) {
 				JOptionPane.showMessageDialog(null,"Donnee invalide ou inexistente !", "Erreur",JOptionPane.ERROR_MESSAGE);
 			}
-			inventaire.actualiserChamp();
+			course.actualiserChamp();
 		}
 		else if(e.getSource() == modif_config.getBoutton(IHMConfigModifPanel.BTN_AJOUTER)) {
 			Produit t = null;
@@ -156,6 +153,8 @@ public class FenAcceuil extends JFrame implements ActionListener{
 					t.prixUnitaire *= -1;
 				i = JOptionPane.showConfirmDialog(null,"Categorie : "+t.categorie+"\nNom : "+ t.nom+"\nPrix : "+t.prixUnitaire+" E", "Confirmer la saisie !!!",JOptionPane.YES_NO_OPTION);
 			}
+			if(data_config.shearchProduit(t.categorie, t.nom) != null)
+				JOptionPane.showMessageDialog(null, "Le produit que vous tentez d'ajouter existe déjà.\nIl ne sera donc pas ajoute et le produit existant ne sera pas modifie", "Avertissement !!", JOptionPane.WARNING_MESSAGE);
 			data_config.addProduit(t);
 			actualiser();
 
@@ -170,10 +169,12 @@ public class FenAcceuil extends JFrame implements ActionListener{
 			}
 		}
 		else if(e.getSource() == acceuil.getBoutton(IHMAcceuil.BTN_COURSE)) {
+			this.setTitle("Comptabilite BDE 2017 : Edition de feuille de course");
 			this.setContentPane(course);
 			actualiser();
 		}
 		else if(e.getSource() == acceuil.getBoutton(IHMAcceuil.BTN_INVENTAIRE)) {
+			this.setTitle("Comptabilite BDE 2017 : Edition de feuille d'inventaire");
 			this.setContentPane(inventaire);
 			actualiser();
 		}
@@ -248,18 +249,22 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		else if (e.getSource() == course.getJMenuItem(IHMCourse.JMI_IMPORTER_MODELE)){
 			PopupImportModele pop = new PopupImportModele(PopupImportModele.COURSE);
 			course.data = pop.showDialogCourse();
-			int option = JOptionPane.showConfirmDialog(null, "Demander pour l'ajout d'un produit non configure ?", "Mode auto : Activation ?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			course.setLocal_config(course.data.convertToConfig(option != JOptionPane.OK_OPTION));
-			course.actualiserArbre();
-			course.actualiserChamp();
+			if(course.data != null) {
+				int option = JOptionPane.showConfirmDialog(null, "Activer la demande d'ajout pour les produits non configure ?", "Mode auto : Activation ?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				course.setLocal_config(course.data.convertToConfig(option != JOptionPane.OK_OPTION));
+				course.actualiserArbre();
+				course.actualiserChamp();
+			}
 		}
 		else if (e.getSource() == inventaire.getJMenuItem(IHMInventaire.JMI_IMPORTER_MODELE)){
 			PopupImportModele pop = new PopupImportModele(PopupImportModele.INVENTAIRE);
-			inventaire.data = pop.showDialogInventaire();
-			int option = JOptionPane.showConfirmDialog(null, "Demander pour l'ajout d'un produit non configure ?", "Mode auto : Activation ?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			inventaire.setLocal_config(inventaire.data.convertToConfig(option != JOptionPane.OK_OPTION));
-			inventaire.actualiserArbre();
-			inventaire.actualiserChamp();
+			if(inventaire.data != null) {
+				inventaire.data = pop.showDialogInventaire();
+				int option = JOptionPane.showConfirmDialog(null, "Activer la demande d'ajout pour les produits non configure ?", "Mode auto : Activation ?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				inventaire.setLocal_config(inventaire.data.convertToConfig(option != JOptionPane.OK_OPTION));
+				inventaire.actualiserArbre();
+				inventaire.actualiserChamp();
+			}
 		}
 		else if (e.getSource() == inventaire.getJMenuItem(IHMInventaire.JMI_SAUVER)) {
 			String path = inventaire.data.writeXLS();
@@ -272,16 +277,20 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		else if (e.getSource() == inventaire.getJMenuItem(IHMInventaire.JMI_OUVRIR)) {
 			PopupOuvrir pop = new PopupOuvrir(PopupOuvrir.INVENTAIRE);
 			inventaire.data = pop.showDialogInventaire();
-			inventaire.setLocal_config(inventaire.data.convertToConfig(true));
-			inventaire.actualiserArbre();
-			inventaire.actualiserChamp();
+			if(inventaire.data != null) {
+				inventaire.setLocal_config(inventaire.data.convertToConfig(true));
+				inventaire.actualiserArbre();
+				inventaire.actualiserChamp();
+			}
 		}
 		else if (e.getSource() == course.getJMenuItem(IHMInventaire.JMI_OUVRIR)) {
 			PopupOuvrir pop = new PopupOuvrir(PopupOuvrir.COURSE);
 			course.data = pop.showDialogCourse();
-			course.setLocal_config(course.data.convertToConfig(true));
-			course.actualiserArbre();
-			course.actualiserTab();
+			if(course.data != null) {
+				course.setLocal_config(course.data.convertToConfig(true));
+				course.actualiserArbre();
+				course.actualiserTab();
+			}
 		}
 	}
 

@@ -49,7 +49,7 @@ public class PopupOuvrir extends JDialog implements ActionListener{
 
 		this.setResizable(false);
 		this.setSize(300, 100);
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 
 		this.setLayout(new BorderLayout());
@@ -74,6 +74,7 @@ public class PopupOuvrir extends JDialog implements ActionListener{
 		if (e.getSource() == btn_ok){
 			if(type == PopupImportModele.COURSE) {
 				String path = "Course/"+(String) choix.getSelectedItem();
+				data_course = new FeuilleCourse(new Date());
 				data_course.readXLS(new File(path));
 				dispose();
 			}

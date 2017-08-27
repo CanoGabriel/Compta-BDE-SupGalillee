@@ -46,14 +46,14 @@ public class IHMConfigModifPanel extends JPanel implements IHMBase{
 	private JPanel south_c2 = new JPanel();
 	private JPanel south_c3 = new JPanel();
 
-	private Boutton btn_ac= new Boutton("Acceuil");
+	private Boutton btn_ac= new Boutton("Retour à l'acceuil (sauvegarde)");
 
 	private JTextField txtf_categorie = new JTextField();
 	private JTextField txtf_nom = new JTextField();
 	private JFormattedTextField txtf_prix = null;
-	private Boutton btn_ok = new Boutton("OK");
-	private Boutton btn_ajouter = new Boutton("Ajouter");
-	private Boutton btn_valider = new Boutton("Valider");
+	private Boutton btn_ok = new Boutton("Valider modification");
+	private Boutton btn_ajouter = new Boutton("Ajouter un produit");
+	private Boutton btn_valider = new Boutton("Retour au menu precedent (sauvegarde)");
 
 	private JScrollPane completTree = new JScrollPane();
 
@@ -71,7 +71,7 @@ public class IHMConfigModifPanel extends JPanel implements IHMBase{
 		btn_valider.addActionListener(parent);
 		btn_valider.setName(BTN_VALIDER);
 		listBoutton.add(btn_valider);
-
+		
 		this.setLayout(new BorderLayout());
 		center.setLayout(new GridLayout(1, 2));
 		center_c1.setLayout(new BorderLayout());
@@ -89,9 +89,15 @@ public class IHMConfigModifPanel extends JPanel implements IHMBase{
 		center_c1.add(new JScrollPane(completTree),BorderLayout.CENTER);
 		center_c2_north_l1.add(txtf_categorie, BorderLayout.CENTER);
 		center_c2_north_l2.add(txtf_nom, BorderLayout.CENTER);
+		
 		NumberFormat nf=  NumberFormat.getNumberInstance();
 		nf.setParseIntegerOnly(false);
 		txtf_prix = new JFormattedTextField(nf);
+		
+		txtf_categorie.setEnabled(false);
+		txtf_nom.setEnabled(false);
+		txtf_prix.setEnabled(false);
+		
 		center_c2_north_l3.add(txtf_prix, BorderLayout.CENTER);
 		center_c2_south.add(btn_ok, BorderLayout.CENTER);
 		south_c1.add(btn_ac,BorderLayout.CENTER);
@@ -111,7 +117,7 @@ public class IHMConfigModifPanel extends JPanel implements IHMBase{
 		south.add(south_c2);
 		south.add(south_c3);
 
-		center_c1.setBorder(BorderFactory.createTitledBorder("Arbre des produit classe par categorie :"));
+		center_c1.setBorder(BorderFactory.createTitledBorder("Arbre des produits classes par categorie :"));
 		center_c2_north.setBorder(BorderFactory.createTitledBorder("Descriptif de la selection :"));
 		txtf_categorie.setBorder(BorderFactory.createTitledBorder("Categorie :"));
 		txtf_categorie.setSize(center_c2.getSize());

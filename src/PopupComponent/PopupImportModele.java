@@ -49,7 +49,7 @@ public class PopupImportModele extends JDialog implements ActionListener{
 
 		this.setResizable(false);
 		this.setSize(300, 100);
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 
 		this.setLayout(new BorderLayout());

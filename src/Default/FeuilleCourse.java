@@ -61,7 +61,7 @@ public class FeuilleCourse implements Serializable{
 			e.printStackTrace();
 		}
 
-		dateCreation = temp.dateCreation;
+		dateCreation = new Date();
 		listeProd = temp.listeProd;
 		listCategorie = temp.listCategorie;
 		totalAttendu = temp.totalAttendu;
@@ -81,15 +81,16 @@ public class FeuilleCourse implements Serializable{
 				if (!auto){
 					int option = JOptionPane.showConfirmDialog(null, "Produit non repertorie\nImport ","Erreur !!!",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 					if (option == JOptionPane.OK_OPTION){
-						config.addProduit(temp);
-						data.addProduit(temp);
+						config.addProduit(i);
+						data.addProduit(i);
 						config.write();
 						config = new Configuration();
 					}
 				}
 				else {
-					config.addProduit(temp);
-					data.addProduit(temp);
+					System.out.println("debug : "+i);
+					config.addProduit(i);
+					data.addProduit(i);
 					config.write();
 					config = new Configuration();
 				}
@@ -408,7 +409,7 @@ public class FeuilleCourse implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		totalTicket = sheet.getRow(0).getCell(5).getNumericCellValue();
+		totalTicket = sheet.getRow(1).getCell(6).getNumericCellValue();
 		XSSFRow row = sheet.getRow(2);
 		int lign = 2;
 		String cat = null;
@@ -423,7 +424,7 @@ public class FeuilleCourse implements Serializable{
 			}
 			else {
 				l = new LigneCourse(new Produit(cat, nom, 0), (int)row.getCell(4).getNumericCellValue(),(int) row.getCell(5).getNumericCellValue(), row.getCell(6).getNumericCellValue());
-				while(sheet.getRow(lign+1).getCell(6) != null) {
+				while(sheet.getRow(lign+1) != null && sheet.getRow(lign+1).getCell(6) != null) {
 					lign++;
 					row = sheet.getRow(lign);
 					l.addPack(new Pack((int)row.getCell(4).getNumericCellValue(),(int) row.getCell(5).getNumericCellValue(), row.getCell(6).getNumericCellValue()));

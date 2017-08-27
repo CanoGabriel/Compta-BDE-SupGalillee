@@ -50,7 +50,6 @@ public class PopupAjouterPack extends JDialog implements ActionListener{
 		NumberFormat nf3=  NumberFormat.getNumberInstance();
 		nf1.setParseIntegerOnly(true);
 		nf2.setParseIntegerOnly(true);
-//		nf3.setParseIntegerOnly(false);
 		nf3.setMinimumIntegerDigits(0);
 		nf3.setMinimumFractionDigits(2);
 		nf3.setMaximumFractionDigits(2);
@@ -62,7 +61,7 @@ public class PopupAjouterPack extends JDialog implements ActionListener{
 		
 		this.setResizable(false);
 		this.setSize(600, 200);
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setContentPane(content);
 
@@ -102,11 +101,11 @@ public class PopupAjouterPack extends JDialog implements ActionListener{
 				else if(prix.getValue() instanceof Double)
 					pack = new Pack(Math.abs(((Long)nbPack.getValue()).intValue()),Math.abs(((Long) nbProd.getValue()).intValue()),Math.abs(((Double) prix.getValue()).doubleValue()));
 				else
-					JOptionPane.showMessageDialog(null, "Donnée invalide");
+					JOptionPane.showMessageDialog(null, "Prix : Donnée invalide","Erreur",JOptionPane.ERROR_MESSAGE);
 					
 				this.dispose();
 			} catch (ParseException e1) {
-				JOptionPane.showMessageDialog(null, "Donnée invalide");
+				JOptionPane.showMessageDialog(null, "Saisie invalide","Erreur",JOptionPane.ERROR_MESSAGE);
 			}
 			
 		}
