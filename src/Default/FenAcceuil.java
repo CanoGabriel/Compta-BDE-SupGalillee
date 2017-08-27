@@ -38,8 +38,8 @@ public class FenAcceuil extends JFrame implements ActionListener{
 		data_config = new Configuration();
 		this.setTitle("Comptabilite BDE 2017");
 		this.setResizable(true);
-		this.setSize(820, 550);
-		this.setMinimumSize(new Dimension(820, 550));
+		this.setSize(820, 570);
+		this.setMinimumSize(new Dimension(820, 570));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 
@@ -207,6 +207,11 @@ public class FenAcceuil extends JFrame implements ActionListener{
 						course.setLocal_config(course.data.convertToConfig(true));
 					}
 				}
+				else {
+					course.curLine.getPack().remove(row);
+					course.data.supprimerLigne(course.curLine);
+					course.setLocal_config(course.data.convertToConfig(true));
+				}
 				course.actualiserTab();
 				course.actualiserArbre();
 			}
@@ -238,6 +243,23 @@ public class FenAcceuil extends JFrame implements ActionListener{
 			else
 				JOptionPane.showMessageDialog(null, "Vous n'avez selectionner aucune ligne...","Erreur", JOptionPane.ERROR_MESSAGE);
 		}
+		////////////////////////////////////////////////////////////////////////////////////
+		else if(e.getSource() == inventaire.getBoutton(IHMInventaire.BTN_SUPPRIMER_PRODUIT)){
+			if(inventaire.curLine != null) {
+				int option = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer ce produit ?","Demande de confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (option == JOptionPane.OK_OPTION){
+					inventaire.data.supprimerLigne(inventaire.curLine);
+					Configuration temp = inventaire.getLocal_config();
+					temp.listProduit.remove(temp.shearchProduit(inventaire.curLine.categorie, inventaire.curLine.nom));
+					temp.categorie = temp.getListCategorie();
+				}
+				inventaire.actualiserChamp();
+				inventaire.actualiserArbre();
+			}
+			else
+				JOptionPane.showMessageDialog(null, "Vous n'avez selectionner aucune ligne...","Erreur", JOptionPane.ERROR_MESSAGE);
+		}
+		/////////////////////////////////////////////////////////////////////////////////////////////
 		else if(e.getSource() == course.getJMenuItem(IHMCourse.JMI_EXPORTER_MODELE)){
 			PopupExportModele pop = new PopupExportModele(course.data,PopupExportModele.COURSE);
 			pop.showDialog();
@@ -270,7 +292,7 @@ public class FenAcceuil extends JFrame implements ActionListener{
 			String path = inventaire.data.writeXLS();
 			JOptionPane.showMessageDialog(null, "Fichier sauvegarder.\n Chemin : "+path, "Sauvegarde reussi !!!", JOptionPane.INFORMATION_MESSAGE);
 		}
-		else if (e.getSource() == course.getJMenuItem(IHMInventaire.JMI_SAUVER)) {
+		else if (e.getSource() == course.getJMenuItem(IHMCourse.JMI_SAUVER)) {
 			String path = course.data.writeXLS();
 			JOptionPane.showMessageDialog(null, "Fichier sauvegarder.\n Chemin : "+path, "Sauvegarde reussi !!!", JOptionPane.INFORMATION_MESSAGE);
 		}

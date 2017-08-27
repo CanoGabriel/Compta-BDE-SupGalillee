@@ -39,7 +39,7 @@ public class IHMConfigOverview extends JPanel implements IHMBase{
 	
 	private JPanel north_east = new JPanel();
 
-	private Boutton btn_modifier = new Boutton("Modifier");
+	private Boutton btn_modifier = new Boutton("Modifier/Ajouter");
 	private Boutton btn_ac = new Boutton("Acceuil");
 	private Boutton btn_pathOK = new Boutton("OK");
 	private JTextField txtf_path = new JTextField();

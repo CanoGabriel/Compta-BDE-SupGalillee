@@ -43,7 +43,12 @@ public class IHMInventaire extends JPanel{
 	private ArrayList<JMenuItem> listMenuItem = new ArrayList<JMenuItem>();
 
 	public FeuilleInventaire data = new FeuilleInventaire(new Date());
+	
 	private Configuration local_config = new Configuration("none");
+	public Configuration getLocal_config() {
+		return local_config;
+	}
+
 	public LigneInventaire curLine = null;
 
 	private static final long serialVersionUID = -5825014758787535331L;
@@ -236,7 +241,7 @@ public class IHMInventaire extends JPanel{
 		this.add(south, BorderLayout.SOUTH);
 		south.add(btn_Acceuil,BorderLayout.CENTER);
 
-		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information general :"));
+		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information generale :"));
 		center_c2_north.setBorder(BorderFactory.createTitledBorder("Information produit :"));
 		center_c2_north_n1.setBorder(BorderFactory.createTitledBorder("Quantite precedente :"));
 		center_c2_north_n2.setBorder(BorderFactory.createTitledBorder("Quantite course :"));
@@ -391,12 +396,6 @@ public class IHMInventaire extends JPanel{
 					ftxtf_qtCourse.setEnabled(false);
 					ftxtf_qtRestante.setEnabled(false);
 					lab_qtVendu.setEnabled(false);
-					//					viewInfo = new JScrollPane();
-					//					center_c2_north.removeAll();
-					//					center_c2_north.add(viewInfo, BorderLayout.CENTER);
-//					actualiserChamp();
-//					repaint();
-//					revalidate();
 					curLine = null;
 				}
 				else {

@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import Default.Configuration;
 import Default.FenAcceuil;
@@ -174,7 +175,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_south.add(center_c2_south_l4);
 		this.add(south, BorderLayout.SOUTH);
 
-		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information general :"));
+		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information generale :"));
 		center_c2_center.setBorder(BorderFactory.createTitledBorder("Gestion des pack :"));
 		center_c2_south_l1.setBorder(BorderFactory.createTitledBorder("Date :"));
 		center_c2_south_l2.setBorder(BorderFactory.createTitledBorder("Total :"));
@@ -255,7 +256,9 @@ public class IHMCourse extends JPanel implements IHMBase{
 			val.addElement(""+i.getPrixPack());
 			d.addElement(val);
 		}
-		return new JTable(d,titre);
+		UnEditableTableModel mod = new UnEditableTableModel(d, titre);
+		return new JTable(mod);
+		
 	}
 
 	public void actualiserTab() {
@@ -330,5 +333,20 @@ public class IHMCourse extends JPanel implements IHMBase{
 
 	public Configuration getLocal_config() {
 		return local_config;
+	}
+	
+	private class UnEditableTableModel extends DefaultTableModel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1512147668454621396L;
+
+		@SuppressWarnings("rawtypes")
+		public UnEditableTableModel(Vector data,Vector head) {
+			super(data,head);
+		}
+		public boolean isCellEditable(int row, int colum) {
+			return false;
+		}
 	}
 }

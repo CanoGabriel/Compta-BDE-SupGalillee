@@ -478,4 +478,25 @@ public class FeuilleInventaire implements Serializable {
 		}
 		config.write();
 	}
+	
+	public void supprimerLigne(LigneInventaire l){
+		if(listeProd.remove(l)){
+			listCategorie.clear();
+			for(LigneInventaire i : listeProd){
+				if(!listCategorie.contains(i.getCategorie())) {
+					listCategorie.add(i.getCategorie());
+					Collections.sort(listCategorie, new Comparator<String>() {
+
+						@Override
+						public int compare(String o1, String o2) {
+							// TODO Auto-generated method stub
+							return o1.compareTo(o2);
+						}
+					});
+				}
+			}
+			recetteTheorique = getRecetteTheorique();
+			recetteReelle = getRecetteReelle();
+		}
+	}
 }
