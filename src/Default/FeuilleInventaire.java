@@ -1,4 +1,6 @@
 package Default;
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,93 +38,114 @@ import org.apache.poi.xssf.usermodel.XSSFSheetConditionalFormatting;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class FeuilleInventaire implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2484182944097210790L;
-	private Date dateCreation;
-	public double FondCaissePrecedent = 50;
-	private double TotaleCaisse = 0;
-	public double FondCaisseSuivant = 50;
-	private double recetteTheorique;
-	public Date getDateCreation() {
+	private static final long	serialVersionUID	= -2484182944097210790L;
+	private Date				dateCreation;
+	public double				FondCaissePrecedent	= 50;
+	private double				TotaleCaisse		= 0;
+	public double				FondCaisseSuivant	= 50;
+	private double				recetteTheorique;
+
+	public Date getDateCreation () {
+
 		return dateCreation;
 	}
 
-	public void setDateCreation(Date dateCreation) {
+	public void setDateCreation (Date dateCreation) {
+
 		this.dateCreation = dateCreation;
 	}
 
-	public double getTotaleCaisse() {
+	public double getTotaleCaisse () {
+
 		return TotaleCaisse;
 	}
 
-	public void setTotaleCaisse(double d) {
+	public void setTotaleCaisse (double d) {
+
 		TotaleCaisse = d;
 	}
 
-	public double getRecetteTheorique() {
+	public double getRecetteTheorique () {
+
 		recetteTheorique = 0;
-		for(LigneInventaire i : listeProd)
-			recetteTheorique += i.prixUnitaire*i.getQtVendu();
+		for (LigneInventaire i : listeProd)
+			recetteTheorique += i.prixUnitaire * i.getQtVendu();
 		return recetteTheorique;
 	}
 
-	public void setRecetteTheorique(double recetteTheorique) {
+	public void setRecetteTheorique (double recetteTheorique) {
+
 		this.recetteTheorique = recetteTheorique;
 	}
 
-	public double getRecetteReelle() {
-		recetteReelle = TotaleCaisse-FondCaissePrecedent;
-		return TotaleCaisse-FondCaissePrecedent;
+	public double getRecetteReelle () {
+
+		recetteReelle = TotaleCaisse - FondCaissePrecedent;
+		return TotaleCaisse - FondCaissePrecedent;
 	}
 
-	public double getBonSnac() {
+	public double getBonSnac () {
+
 		return BonSnac;
 	}
 
-	public void setBonSnac(double bonSnac) {
+	public void setBonSnac (double bonSnac) {
+
 		BonSnac = bonSnac;
 	}
 
-	public ArrayList<LigneInventaire> getListeProd() {
+	public ArrayList<LigneInventaire> getListeProd () {
+
 		return listeProd;
 	}
 
-	public void setListeProd(ArrayList<LigneInventaire> listeProd) {
+	public void setListeProd (ArrayList<LigneInventaire> listeProd) {
+
 		this.listeProd = listeProd;
 	}
 
-	public ArrayList<String> getListCategorie() {
+	public ArrayList<String> getListCategorie () {
+
 		return listCategorie;
 	}
 
-	public void setListCategorie(ArrayList<String> listCategorie) {
+	public void setListCategorie (ArrayList<String> listCategorie) {
+
 		this.listCategorie = listCategorie;
 	}
-	private double recetteReelle;
-	private double BonSnac;
 
-	private ArrayList<LigneInventaire> listeProd = new ArrayList<LigneInventaire>();
-	private ArrayList<String> listCategorie = new ArrayList<String>();
+	private double	recetteReelle;
+	private double	BonSnac;
 
-	public FeuilleInventaire(Date date) {
+	private ArrayList<LigneInventaire>	listeProd		= new ArrayList<LigneInventaire>();
+	private ArrayList<String>			listCategorie	= new ArrayList<String>();
+
+	public FeuilleInventaire (Date date) {
+
 		dateCreation = date;
 	}
 
-	public FeuilleInventaire(File modele){
+	public FeuilleInventaire (File modele) {
+
 		ObjectInputStream in = null;
 		FeuilleInventaire temp = null;
 		try {
 			in = new ObjectInputStream(new FileInputStream(modele));
-			if(in != null) {
+			if (in != null) {
 				temp = (FeuilleInventaire) in.readObject();
 			}
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -136,48 +159,51 @@ public class FeuilleInventaire implements Serializable {
 		TotaleCaisse = temp.getTotaleCaisse();
 	}
 
-	public void ajouterLigne(LigneInventaire l) {
-		if(!listeProd.contains(l)) {
+	public void ajouterLigne (LigneInventaire l) {
+
+		if ( !listeProd.contains(l)) {
 			listeProd.add(l);
-			//Mise a jour de la list des categorie relative � la feuille courante
-			if(!listCategorie.contains(l.getCategorie())) {
+			// Mise a jour de la list des categorie relative � la feuille
+			// courante
+			if ( !listCategorie.contains(l.getCategorie())) {
 				listCategorie.add(l.getCategorie());
 				Collections.sort(listCategorie, new Comparator<String>() {
 
-					public int compare(String o1, String o2) {
+					public int compare (String o1, String o2) {
+
 						return o1.compareTo(o2);
 					}
 				});
 			}
 
-			//Mise a jour de la recette theorique
+			// Mise a jour de la recette theorique
 			recetteTheorique = 0;
-			for(LigneInventaire i : listeProd) {
+			for (LigneInventaire i : listeProd) {
 				recetteTheorique += i.getRecetteLigne();
 			}
 		}
 	}
 
-
 	@Override
-	public String toString() {
-		String r = "FeuilleInventaire [dateCreation=" + dateCreation + ", FondCaissePrecedent=" + FondCaissePrecedent
-				+ ", TotaleCaisse=" + TotaleCaisse + ", FondCaisseSuivant=" + FondCaisseSuivant + ", recetteTheorique="
-				+ recetteTheorique + ", recetteReelle=" + recetteReelle + "]";
-		r +="\nlisteProd\n";
-		for(LigneInventaire i : listeProd)
-			r+= "\t"+i+"\n";
-		r+="\nlistCategorie\n";
-		for(String i : listCategorie)
-			r+="\t"+i+"\n";
+	public String toString () {
+
+		String r = "FeuilleInventaire [dateCreation=" + dateCreation + ", FondCaissePrecedent=" + FondCaissePrecedent + ", TotaleCaisse=" + TotaleCaisse + ", FondCaisseSuivant=" + FondCaisseSuivant + ", recetteTheorique=" + recetteTheorique
+				+ ", recetteReelle=" + recetteReelle + "]";
+		r += "\nlisteProd\n";
+		for (LigneInventaire i : listeProd)
+			r += "\t" + i + "\n";
+		r += "\nlistCategorie\n";
+		for (String i : listCategorie)
+			r += "\t" + i + "\n";
 		return r;
 	}
 
-	public String writeXLS() {
+	public String writeXLS () {
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss");
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet("Inventaire");
-		XSSFCellStyle [] parite = new XSSFCellStyle[2];
+		XSSFCellStyle [] parite = new XSSFCellStyle [2];
 		XSSFCellStyle style_normal = wb.createCellStyle();
 		style_normal.setAlignment(HorizontalAlignment.CENTER);
 		style_normal.setBorderBottom(BorderStyle.THIN);
@@ -225,22 +251,22 @@ public class FeuilleInventaire implements Serializable {
 		XSSFConditionalFormattingRule color_rule1 = conditionLayout.createConditionalFormattingRule(ComparisonOperator.EQUAL, "oui");
 		XSSFConditionalFormattingRule color_rule2 = conditionLayout.createConditionalFormattingRule(ComparisonOperator.EQUAL, "non");
 
-		XSSFFontFormatting  font_form = font_rule.createFontFormatting();
-		XSSFPatternFormatting  color_form1 = color_rule1.createPatternFormatting();
-		XSSFPatternFormatting  color_form2 = color_rule2.createPatternFormatting();
+		XSSFFontFormatting font_form = font_rule.createFontFormatting();
+		XSSFPatternFormatting color_form1 = color_rule1.createPatternFormatting();
+		XSSFPatternFormatting color_form2 = color_rule2.createPatternFormatting();
 
 		font_form.setFontColorIndex(IndexedColors.RED.getIndex());
 		color_form1.setFillForegroundColor(IndexedColors.GREEN.index);
 		color_form2.setFillForegroundColor(IndexedColors.RED.index);
 
-		CellRangeAddress[] range1 = {CellRangeAddress.valueOf("K12")};
-		conditionLayout.addConditionalFormatting(range1,font_rule);
+		CellRangeAddress [] range1 = {CellRangeAddress.valueOf("K12")};
+		conditionLayout.addConditionalFormatting(range1, font_rule);
 
-		CellRangeAddress[] range2 = {CellRangeAddress.valueOf("K15")};
-		conditionLayout.addConditionalFormatting(range2,color_rule1);
+		CellRangeAddress [] range2 = {CellRangeAddress.valueOf("K15")};
+		conditionLayout.addConditionalFormatting(range2, color_rule1);
 
-		CellRangeAddress[] range3 = {CellRangeAddress.valueOf("K15")};
-		conditionLayout.addConditionalFormatting(range3,color_rule2);
+		CellRangeAddress [] range3 = {CellRangeAddress.valueOf("K15")};
+		conditionLayout.addConditionalFormatting(range3, color_rule2);
 
 		int ligne = 1;
 		addCell(sheet, ligne, 0, "Categorie", style_emphase);
@@ -253,25 +279,25 @@ public class FeuilleInventaire implements Serializable {
 		addCell(sheet, ligne, 7, "Recette", style_emphase);
 		ligne++;
 
-		for(int indexCat = 0 ; indexCat < listCategorie.size();indexCat++ ) {
+		for (int indexCat = 0 ; indexCat < listCategorie.size() ; indexCat++) {
 			addCell(sheet, ligne, 0, listCategorie.get(indexCat), style_normal);
 			ligne++;
-			for(LigneInventaire i : listeProd) {
-				if(i.getCategorie().equals(listCategorie.get(indexCat))) {
+			for (LigneInventaire i : listeProd) {
+				if (i.getCategorie().equals(listCategorie.get(indexCat))) {
 
-					addCell(sheet, ligne, 1, i.nom, parite[ligne%2]);
-					addCell(sheet, ligne, 2,i.qtPrecedent, parite[ligne%2]);
-					addCell(sheet, ligne, 3,i.qtCourse, parite[ligne%2]);
-					addCell(sheet, ligne, 4,i.qtRestante, parite[ligne%2]);
-					addCellFormule(sheet, ligne, 5,"C"+(ligne+1)+"+D"+(ligne+1)+"-E"+(ligne+1), parite[ligne%2]);
-					addCell(sheet, ligne, 6,i.prixUnitaire, parite[ligne%2]);
-					addCellFormule(sheet, ligne, 7,"F"+(ligne+1)+"*G"+(ligne+1), parite[ligne%2]);
+					addCell(sheet, ligne, 1, i.nom, parite[ligne % 2]);
+					addCell(sheet, ligne, 2, i.qtPrecedent, parite[ligne % 2]);
+					addCell(sheet, ligne, 3, i.qtCourse, parite[ligne % 2]);
+					addCell(sheet, ligne, 4, i.qtRestante, parite[ligne % 2]);
+					addCellFormule(sheet, ligne, 5, "C" + (ligne + 1) + "+D" + (ligne + 1) + "-E" + (ligne + 1), parite[ligne % 2]);
+					addCell(sheet, ligne, 6, i.prixUnitaire, parite[ligne % 2]);
+					addCellFormule(sheet, ligne, 7, "F" + (ligne + 1) + "*G" + (ligne + 1), parite[ligne % 2]);
 					ligne++;
 				}
 			}
-		}        
+		}
 
-		sheet.addMergedRegion(new CellRangeAddress(0,0,0,7));
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 7));
 		addCell(sheet, 0, 8, sdf.format(dateCreation), style_valeur);
 		addCell(sheet, 0, 0, "Fiche d'inventaire", style_emphase);
 		addCell(sheet, 2, 9, "Fond de caisse precedent", style_emphase);
@@ -283,8 +309,8 @@ public class FeuilleInventaire implements Serializable {
 		addCell(sheet, 10, 9, "Recette theorique", style_emphase);
 
 		String temp = "H4";
-		for(int i = 5 ; i <= 100;i++)
-			temp+="+H"+i;
+		for (int i = 5 ; i <= 100 ; i++)
+			temp += "+H" + i;
 		addCellFormule(sheet, 11, 9, temp, style_valeur);
 		addCell(sheet, 13, 9, "Recette reelle", style_emphase);
 		addCellFormule(sheet, 14, 9, "J6-J8", style_valeur);
@@ -293,112 +319,125 @@ public class FeuilleInventaire implements Serializable {
 
 		addCell(sheet, 10, 10, "Difference", style_emphase);
 		addCellFormule(sheet, 11, 10, "J15+J17-J12", style_emphase);
-		//		addCell(sheet, 13, 10, "Inventaire OK", style_emphase);
-		//		addCellFormule(sheet, 14, 10, "SI(ABS(J15-J12) <= 0,025*J12;\"Oui\";\"Non\")", style_valeur);
+		// addCell(sheet, 13, 10, "Inventaire OK", style_emphase);
+		// addCellFormule(sheet, 14, 10, "SI(ABS(J15-J12) <=
+		// 0,025*J12;\"Oui\";\"Non\")", style_valeur);
 
 		sheet.setForceFormulaRecalculation(true);
 
-		for(int i = 0 ; i < 11 ; i++)
+		for (int i = 0 ; i < 11 ; i++)
 			sheet.autoSizeColumn(i, true);
 
 		FileOutputStream fileOut;
-		String chemin = "Inventaire/Feuille d'inventaire du "+(new SimpleDateFormat("dd-MM-yyyy_HHmmss").format(dateCreation))+".xlsx";
+		String chemin = "Inventaire/Feuille d'inventaire du " + (new SimpleDateFormat("dd-MM-yyyy_HHmmss").format(dateCreation)) + ".xlsx";
 		try {
-			//			if(path == null)
-			//				chemin = name+".xlsx";
-			//			else
-			//				chemin = path+name+".xlsx";
+			// if(path == null)
+			// chemin = name+".xlsx";
+			// else
+			// chemin = path+name+".xlsx";
 			File dir = new File("Inventaire");
-			if(!dir.exists())
-				dir.mkdir();
+			if ( !dir.exists()) dir.mkdir();
 			fileOut = new FileOutputStream(chemin);
 			wb.write(fileOut);
-			fileOut.close();  
-		} catch (FileNotFoundException e) {
+			fileOut.close();
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		finally {
 			try {
 				wb.close();
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return chemin;
 	}
-	private void addCell(XSSFSheet sheet,int r,int c, String valeur, XSSFCellStyle style) {
+
+	private void addCell (XSSFSheet sheet, int r, int c, String valeur, XSSFCellStyle style) {
+
 		XSSFRow row;
 		XSSFCell cell;
 		row = sheet.getRow(r);
-		if(row == null)
-			row = sheet.createRow(r);
-		cell = row.createCell(c,CellType.STRING);
+		if (row == null) row = sheet.createRow(r);
+		cell = row.createCell(c, CellType.STRING);
 		cell.setCellValue(valeur);
 		cell.setCellStyle(style);
 	}
-	private void addCell(XSSFSheet sheet,int r,int c, double valeur, XSSFCellStyle style) {
+
+	private void addCell (XSSFSheet sheet, int r, int c, double valeur, XSSFCellStyle style) {
+
 		XSSFRow row;
 		XSSFCell cell;
 		row = sheet.getRow(r);
-		if(row == null)
-			row = sheet.createRow(r);
-		cell = row.createCell(c,CellType.NUMERIC);
+		if (row == null) row = sheet.createRow(r);
+		cell = row.createCell(c, CellType.NUMERIC);
 		cell.setCellValue(valeur);
 		cell.setCellStyle(style);
 	}
-	private void addCellFormule(XSSFSheet sheet,int r,int c, String formule, XSSFCellStyle style) {
+
+	private void addCellFormule (XSSFSheet sheet, int r, int c, String formule, XSSFCellStyle style) {
+
 		XSSFRow row;
 		XSSFCell cell;
 		row = sheet.getRow(r);
-		if(row == null)
-			row = sheet.createRow(r);
-		cell = row.createCell(c,CellType.FORMULA);
+		if (row == null) row = sheet.createRow(r);
+		cell = row.createCell(c, CellType.FORMULA);
 		cell.setCellFormula(formule);
 		cell.setCellStyle(style);
 	}
 
-	public LigneInventaire shearchLine(String cat,String nom) {
-		for(LigneInventaire i : listeProd)
-			if(cat.equals(i.categorie) && nom.equals(i.nom))
-				return i;
+	public LigneInventaire shearchLine (String cat, String nom) {
+
+		for (LigneInventaire i : listeProd)
+			if (cat.equals(i.categorie) && nom.equals(i.nom)) return i;
 		return null;
 	}
-	public double getDifference() {
-		return recetteReelle+BonSnac-recetteTheorique;
+
+	public double getDifference () {
+
+		return recetteReelle + BonSnac - recetteTheorique;
 	}
 
-	public void writeModele(String name) {
+	public void writeModele (String name) {
+
 		ObjectOutputStream out = null;
-		File fichier = new File("Modele inventaire/"+name+".mod");
+		File fichier = new File("Modele inventaire/" + name + ".mod");
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(fichier));
-			if(out != null) {
+			if (out != null) {
 				out.writeObject(this);
 				out.flush();
 				out.close();
 			}
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public Configuration convertToConfig(boolean auto){
-		//auto --> vrai alors on rajoute tous les produits inconnu
-		//auto --> faux on pose la question de l'ajout pour chaque produit inconnu
+	public Configuration convertToConfig (boolean auto) {
+
+		// auto --> vrai alors on rajoute tous les produits inconnu
+		// auto --> faux on pose la question de l'ajout pour chaque produit
+		// inconnu
 		Configuration data = new Configuration("");
 		Configuration config = new Configuration();
-		for(LigneInventaire i : listeProd){
+		for (LigneInventaire i : listeProd) {
 			Produit temp = config.shearchProduit(i.categorie, i.nom);
-			if(temp != null)
+			if (temp != null)
 				data.addProduit(temp);
 			else {
-				if (!auto){
-					int option = JOptionPane.showConfirmDialog(null, "Produit non repertorie\nImport \n"+temp,"Erreur !!!",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-					if (option == JOptionPane.OK_OPTION){
+				if ( !auto) {
+					int option = JOptionPane.showConfirmDialog(null, "Produit non repertorie\nImport \n" + temp, "Erreur !!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (option == JOptionPane.OK_OPTION) {
 						config.addProduit(temp);
 						data.addProduit(temp);
 						config.write();
@@ -416,11 +455,13 @@ public class FeuilleInventaire implements Serializable {
 		return data;
 	}
 
-	public void readXLS(File fichier) {
+	public void readXLS (File fichier) {
+
 		XSSFWorkbook wb = null;
 		try {
 			wb = new XSSFWorkbook(fichier);
-		} catch (InvalidFormatException | IOException e) {
+		}
+		catch (InvalidFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -433,33 +474,34 @@ public class FeuilleInventaire implements Serializable {
 		Configuration config = new Configuration();
 		LigneInventaire l = null;
 		Produit p;
-//		System.out.println(row.getCell(0).getCellTypeEnum() != CellType.BLANK || row.getCell(1).getCellTypeEnum() != CellType.BLANK);
-		while(row != null && (row.getCell(0) != null || row.getCell(1) != null)) {
-			System.out.println(row.getCell(0)+" | "+row.getCell(1));
-			if(row.getCell(0) != null) {
+		// System.out.println(row.getCell(0).getCellTypeEnum() != CellType.BLANK
+		// || row.getCell(1).getCellTypeEnum() != CellType.BLANK);
+		while (row != null && (row.getCell(0) != null || row.getCell(1) != null)) {
+			System.out.println(row.getCell(0) + " | " + row.getCell(1));
+			if (row.getCell(0) != null) {
 				cat = row.getCell(0).getStringCellValue();
-				
+
 			}
 			else {
 				nom = row.getCell(1).getStringCellValue();
-				if((p = config.shearchProduit(cat, nom)) != null)
+				if ((p = config.shearchProduit(cat, nom)) != null)
 					l = new LigneInventaire(p);
 				else {
 					p = new Produit(cat, nom, row.getCell(6).getNumericCellValue());
 					config.addProduit(p);
 					l = new LigneInventaire(p);
 				}
-				l.qtCourse = (int) row.getCell(3).getNumericCellValue(); 
-				l.qtPrecedent = (int) row.getCell(2).getNumericCellValue(); 
-				l.qtRestante= (int) row.getCell(4).getNumericCellValue(); 
+				l.qtCourse = (int) row.getCell(3).getNumericCellValue();
+				l.qtPrecedent = (int) row.getCell(2).getNumericCellValue();
+				l.qtRestante = (int) row.getCell(4).getNumericCellValue();
 				this.ajouterLigne(l);
 			}
 			lign++;
 			row = sheet.getRow(lign);
-//			System.out.println(row);
+			// System.out.println(row);
 		}
-//		System.out.println(lign);
-		
+		// System.out.println(lign);
+
 		row = sheet.getRow(3);
 		FondCaissePrecedent = row.getCell(9).getNumericCellValue();
 		row = sheet.getRow(5);
@@ -473,22 +515,25 @@ public class FeuilleInventaire implements Serializable {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss");
 		try {
 			dateCreation = sdf.parse(sheet.getRow(0).getCell(8).getStringCellValue());
-		} catch (ParseException e) {
+		}
+		catch (ParseException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Probleme avec les format de la date !!!", JOptionPane.ERROR_MESSAGE);
 		}
 		config.write();
 	}
-	
-	public void supprimerLigne(LigneInventaire l){
-		if(listeProd.remove(l)){
+
+	public void supprimerLigne (LigneInventaire l) {
+
+		if (listeProd.remove(l)) {
 			listCategorie.clear();
-			for(LigneInventaire i : listeProd){
-				if(!listCategorie.contains(i.getCategorie())) {
+			for (LigneInventaire i : listeProd) {
+				if ( !listCategorie.contains(i.getCategorie())) {
 					listCategorie.add(i.getCategorie());
 					Collections.sort(listCategorie, new Comparator<String>() {
 
 						@Override
-						public int compare(String o1, String o2) {
+						public int compare (String o1, String o2) {
+
 							// TODO Auto-generated method stub
 							return o1.compareTo(o2);
 						}

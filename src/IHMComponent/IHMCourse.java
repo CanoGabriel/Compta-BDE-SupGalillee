@@ -1,5 +1,6 @@
 package IHMComponent;
 
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.text.NumberFormat;
@@ -31,71 +32,72 @@ import Default.LigneCourse;
 import Default.Pack;
 import Default.Produit;
 
-public class IHMCourse extends JPanel implements IHMBase{
+public class IHMCourse extends JPanel implements IHMBase {
 
-	public static String BTN_AJOUTER_PRODUIT = "ajouter produit";
-	public static String BTN_SUPPRIMER_PRODUIT = "supprimer produit";
-	public static String BTN_AJOUTER_PACK = "ajouter pack";
-	public static String BTN_SUPPRIMER_PACK = "supprimer pack";
-	public static String BTN_ACCEUIL = "acceuil";
-	public static String BTN_VALIDER = "valider";
+	public static String	BTN_AJOUTER_PRODUIT		= "ajouter produit";
+	public static String	BTN_SUPPRIMER_PRODUIT	= "supprimer produit";
+	public static String	BTN_AJOUTER_PACK		= "ajouter pack";
+	public static String	BTN_SUPPRIMER_PACK		= "supprimer pack";
+	public static String	BTN_ACCEUIL				= "acceuil";
+	public static String	BTN_VALIDER				= "valider";
 
-	public static String JMI_OUVRIR = "ouvrir";
-	public static String JMI_SAUVER = "sauver";
-	public static String JMI_IMPORTER_MODELE = "impMod"; 
-	public static String JMI_EXPORTER_MODELE = "expMod";
+	public static String	JMI_OUVRIR			= "ouvrir";
+	public static String	JMI_SAUVER			= "sauver";
+	public static String	JMI_IMPORTER_MODELE	= "impMod";
+	public static String	JMI_EXPORTER_MODELE	= "expMod";
 
-	private ArrayList<Boutton> listBoutton = new ArrayList<Boutton>();
-	private ArrayList<JMenuItem> listMenuItem = new ArrayList<JMenuItem>();
+	private ArrayList<Boutton>		listBoutton		= new ArrayList<Boutton>();
+	private ArrayList<JMenuItem>	listMenuItem	= new ArrayList<JMenuItem>();
 
-	public FeuilleCourse data = new FeuilleCourse(new Date());
-	private Configuration local_config = new Configuration("none");
+	public FeuilleCourse	data			= new FeuilleCourse(new Date());
+	private Configuration	local_config	= new Configuration("none");
 
-	private static final long serialVersionUID = -5825014758787535331L;
-	private JPanel center = new JPanel();
-	private JPanel center_c1 = new JPanel();
-	private JPanel center_c1_center = new JPanel();
-	private JPanel center_c1_south = new JPanel();
-	private JPanel center_c1_south_c1 = new JPanel();
-	private JPanel center_c1_south_c2 = new JPanel();
-	private JPanel center_c2 = new JPanel();
-	private JPanel center_c2_center = new JPanel();
-	private JPanel center_c2_center_center = new JPanel();
-	private JPanel center_c2_center_south = new JPanel();
-	private JPanel center_c2_center_south_c1 = new JPanel();
-	private JPanel center_c2_center_south_c2 = new JPanel();
-	private JPanel center_c2_south = new JPanel();
-	private JPanel center_c2_south_l1 = new JPanel();
-	private JPanel center_c2_south_l2 = new JPanel();
-	private JPanel center_c2_south_l3 = new JPanel();
-	private JPanel center_c2_south_l4 = new JPanel();
-	private JPanel south = new JPanel();
+	private static final long	serialVersionUID			= -5825014758787535331L;
+	private JPanel				center						= new JPanel();
+	private JPanel				center_c1					= new JPanel();
+	private JPanel				center_c1_center			= new JPanel();
+	private JPanel				center_c1_south				= new JPanel();
+	private JPanel				center_c1_south_c1			= new JPanel();
+	private JPanel				center_c1_south_c2			= new JPanel();
+	private JPanel				center_c2					= new JPanel();
+	private JPanel				center_c2_center			= new JPanel();
+	private JPanel				center_c2_center_center		= new JPanel();
+	private JPanel				center_c2_center_south		= new JPanel();
+	private JPanel				center_c2_center_south_c1	= new JPanel();
+	private JPanel				center_c2_center_south_c2	= new JPanel();
+	private JPanel				center_c2_south				= new JPanel();
+	private JPanel				center_c2_south_l1			= new JPanel();
+	private JPanel				center_c2_south_l2			= new JPanel();
+	private JPanel				center_c2_south_l3			= new JPanel();
+	private JPanel				center_c2_south_l4			= new JPanel();
+	private JPanel				south						= new JPanel();
 
-	private Boutton btn_AjouterProd = new Boutton("Ajouter produit");
-	private Boutton btn_SupprimerProd = new Boutton("Supprimer produit");
-	private Boutton btn_AjouterPack = new Boutton("Ajouter pack");
-	private Boutton btn_SupprimerPack = new Boutton("Supprimer pack");
-	private Boutton btn_Acceuil= new Boutton("Acceuil");
-	private Boutton btn_valider= new Boutton("Valider");
+	private Boutton	btn_AjouterProd		= new Boutton("Ajouter produit");
+	private Boutton	btn_SupprimerProd	= new Boutton("Supprimer produit");
+	private Boutton	btn_AjouterPack		= new Boutton("Ajouter pack");
+	private Boutton	btn_SupprimerPack	= new Boutton("Supprimer pack");
+	private Boutton	btn_Acceuil			= new Boutton("Acceuil");
+	private Boutton	btn_valider			= new Boutton("Valider");
 
-	private JScrollPane viewProd = new JScrollPane();
-	public JTable prod = new JTable();
-	private JScrollPane viewInfo = new JScrollPane();
+	private JScrollPane	viewProd	= new JScrollPane();
+	public JTable		prod		= new JTable();
+	private JScrollPane	viewInfo	= new JScrollPane();
 
-	private JLabel lab_date = new JLabel();
-	private JLabel lab_total = new JLabel();
-	private JFormattedTextField ftxtf_totalTicket = null;
+	private JLabel				lab_date			= new JLabel();
+	private JLabel				lab_total			= new JLabel();
+	private JFormattedTextField	ftxtf_totalTicket	= null;
 
-	private JMenuBar menu = new JMenuBar();
-	private JMenu fichier = new JMenu("Fichier");
-	private JMenuItem ouvrir = new JMenuItem("Ouvrir");
-	private JMenuItem sauver = new JMenuItem("Sauvegarder");
-	private JMenuItem impMod = new JMenuItem("Importer modele");
-	private JMenuItem expMod = new JMenuItem("Exporter modele");
+	private JMenuBar	menu	= new JMenuBar();
+	private JMenu		fichier	= new JMenu("Fichier");
+	private JMenuItem	ouvrir	= new JMenuItem("Ouvrir");
+	private JMenuItem	sauver	= new JMenuItem("Sauvegarder");
+	private JMenuItem	impMod	= new JMenuItem("Importer modele");
+	private JMenuItem	expMod	= new JMenuItem("Exporter modele");
 
 	public LigneCourse curLine = null;
 
-	public IHMCourse(FenAcceuil parent) {
+	public IHMCourse (FenAcceuil parent) {
+
 		NumberFormat nf = NumberFormat.getNumberInstance();
 		nf.setParseIntegerOnly(false);
 		nf.setMinimumFractionDigits(1);
@@ -138,7 +140,7 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_south_l1.setLayout(new BorderLayout());
 		center_c2_south_l2.setLayout(new BorderLayout());
 		center_c2_south_l3.setLayout(new BorderLayout());
-		//		center_c2_south_l4.setLayout(new BorderLayout());
+		// center_c2_south_l4.setLayout(new BorderLayout());
 		south.setLayout(new BorderLayout());
 
 		center_c1_center.add(viewProd, BorderLayout.CENTER);
@@ -149,9 +151,9 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c2_center_south_c1.add(btn_AjouterPack, BorderLayout.CENTER);
 		center_c2_center_south_c2.add(btn_SupprimerPack, BorderLayout.CENTER);
 
-		center_c2_south_l1.add(lab_date,BorderLayout.CENTER);
-		center_c2_south_l2.add(lab_total,BorderLayout.CENTER);
-		center_c2_south_l3.add(ftxtf_totalTicket,BorderLayout.CENTER);
+		center_c2_south_l1.add(lab_date, BorderLayout.CENTER);
+		center_c2_south_l2.add(lab_total, BorderLayout.CENTER);
+		center_c2_south_l3.add(ftxtf_totalTicket, BorderLayout.CENTER);
 		center_c2_south_l4.add(btn_valider);
 
 		south.add(btn_Acceuil, BorderLayout.CENTER);
@@ -164,8 +166,8 @@ public class IHMCourse extends JPanel implements IHMBase{
 		center_c1_south.add(center_c1_south_c2);
 		center.add(center_c2);
 		center_c2.add(center_c2_center, BorderLayout.CENTER);
-		center_c2_center.add(center_c2_center_center,BorderLayout.CENTER);
-		center_c2_center.add(center_c2_center_south,BorderLayout.SOUTH);
+		center_c2_center.add(center_c2_center_center, BorderLayout.CENTER);
+		center_c2_center.add(center_c2_center_south, BorderLayout.SOUTH);
 		center_c2_center_south.add(center_c2_center_south_c1);
 		center_c2_center_south.add(center_c2_center_south_c2);
 		center_c2.add(center_c2_south, BorderLayout.SOUTH);
@@ -202,70 +204,74 @@ public class IHMCourse extends JPanel implements IHMBase{
 		listMenuItem.add(expMod);
 	}
 
-	public JFormattedTextField getFtxtf_totalTicket() {
+	public JFormattedTextField getFtxtf_totalTicket () {
+
 		return ftxtf_totalTicket;
 	}
 
-	public void setLocal_config(Configuration local_config) {
+	public void setLocal_config (Configuration local_config) {
+
 		this.local_config = local_config;
 	}
 
-	public Boutton getBoutton(String name) {
-		for(Boutton i : listBoutton ){
-			if(name.equals(i.getName()))
-				return i;
+	public Boutton getBoutton (String name) {
+
+		for (Boutton i : listBoutton) {
+			if (name.equals(i.getName())) return i;
 		}
 		return null;
 	}
 
-	public JMenuItem getJMenuItem(String name) {
-		for(JMenuItem i : listMenuItem){
-			if(name.equals(i.getName()))
-				return i;
+	public JMenuItem getJMenuItem (String name) {
+
+		for (JMenuItem i : listMenuItem) {
+			if (name.equals(i.getName())) return i;
 		}
 		return null;
 	}
 
-	public void addProduit(Produit p) {
-		if(data == null)
-			data = new FeuilleCourse(new Date());
+	public void addProduit (Produit p) {
+
+		if (data == null) data = new FeuilleCourse(new Date());
 		data.ajouterLigne(new LigneCourse(p));
 		local_config.addProduit(p);
 	}
 
-	public void actualiserChamp() {
+	public void actualiserChamp () {
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy , HH:mm:ss");
 		lab_date.setText(sdf.format(data.getDateCreation()));
-		lab_total.setText(""+data.getTotalAttendu());
-		ftxtf_totalTicket.setText(""+data.getTotalTicket());
+		lab_total.setText("" + data.getTotalAttendu());
+		ftxtf_totalTicket.setText("" + data.getTotalTicket());
 	}
 
-	public JTable buildTab(LigneCourse l) {
+	public JTable buildTab (LigneCourse l) {
+
 		Vector<String> titre = new Vector<String>();
 		titre.addElement("Nb Pack");
 		titre.addElement("Nb produit");
 		titre.addElement("Prix Pack");
 
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings ("rawtypes")
 		Vector<Vector> d = new Vector<Vector>();
 		Vector<String> val;
-		for(Pack i : l.getPack()) {
+		for (Pack i : l.getPack()) {
 			val = new Vector<String>();
-			val.addElement(""+i.getNombrePack());
-			val.addElement(""+i.getQuantiteProd());
-			val.addElement(""+i.getPrixPack());
+			val.addElement("" + i.getNombrePack());
+			val.addElement("" + i.getQuantiteProd());
+			val.addElement("" + i.getPrixPack());
 			d.addElement(val);
 		}
 		UnEditableTableModel mod = new UnEditableTableModel(d, titre);
 		return new JTable(mod);
-		
+
 	}
 
-	public void actualiserTab() {
-		if(curLine != null)
+	public void actualiserTab () {
+
+		if (curLine != null)
 			prod = buildTab(curLine);
-		else
-			prod = new JTable();
+		else prod = new JTable();
 		viewInfo = new JScrollPane(prod);
 		center_c2_center_center.removeAll();
 		center_c2_center_center.add(viewInfo, BorderLayout.CENTER);
@@ -274,30 +280,34 @@ public class IHMCourse extends JPanel implements IHMBase{
 		revalidate();
 	}
 
-	public void actualiserArbre() {
+	public void actualiserArbre () {
+
 		JTree temp = local_config.buildTree(null, true);
 		temp.addTreeSelectionListener(new TreeSelectionListener() {
 
-			String histParentPath = null;
-			String histCurrentPath = null;
-			public void valueChanged(TreeSelectionEvent e) {
-				if(histCurrentPath != null && histParentPath != null) {
-					LigneCourse t = data.shearchLine(histParentPath,histCurrentPath);
-					if(t != null) {
+			String	histParentPath	= null;
+			String	histCurrentPath	= null;
+
+			public void valueChanged (TreeSelectionEvent e) {
+
+				if (histCurrentPath != null && histParentPath != null) {
+					LigneCourse t = data.shearchLine(histParentPath, histCurrentPath);
+					if (t != null) {
 						lab_date.setText((new SimpleDateFormat("dd/MM/yyyy , HH:mm:ss").format(data.getDateCreation())));
-						lab_total.setText(""+data.getTotalAttendu());
-						ftxtf_totalTicket.setText(""+data.getTotalTicket());
+						lab_total.setText("" + data.getTotalAttendu());
+						ftxtf_totalTicket.setText("" + data.getTotalTicket());
 						try {
 							ftxtf_totalTicket.commitEdit();
-						} catch (ParseException e1) {
-							JOptionPane.showMessageDialog(null, e1.getMessage(),"Erreur",JOptionPane.ERROR_MESSAGE);
+						}
+						catch (ParseException e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
 							e1.printStackTrace();
 						}
 					}
 				}
 				String parentPath = e.getPath().getParentPath().getLastPathComponent().toString();
 				String currentPath = e.getPath().getLastPathComponent().toString();
-				if(parentPath.equals("root")){
+				if (parentPath.equals("root")) {
 					viewInfo = new JScrollPane();
 					center_c2_center_center.removeAll();
 					center_c2_center_center.add(viewInfo, BorderLayout.CENTER);
@@ -308,10 +318,10 @@ public class IHMCourse extends JPanel implements IHMBase{
 				}
 
 				else {
-					LigneCourse t = data.shearchLine(parentPath,currentPath);
-					//					System.out.println(t);
-					if(t != null) {
-						//on charge le tableau
+					LigneCourse t = data.shearchLine(parentPath, currentPath);
+					// System.out.println(t);
+					if (t != null) {
+						// on charge le tableau
 						prod = buildTab(t);
 						viewInfo = new JScrollPane(prod);
 						center_c2_center_center.removeAll();
@@ -331,21 +341,27 @@ public class IHMCourse extends JPanel implements IHMBase{
 		revalidate();
 	}
 
-	public Configuration getLocal_config() {
+	public Configuration getLocal_config () {
+
 		return local_config;
 	}
-	
-	private class UnEditableTableModel extends DefaultTableModel{
+
+	private class UnEditableTableModel extends DefaultTableModel {
+
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1512147668454621396L;
 
-		@SuppressWarnings("rawtypes")
-		public UnEditableTableModel(Vector data,Vector head) {
-			super(data,head);
+		@SuppressWarnings ("rawtypes")
+		public UnEditableTableModel (	Vector data,
+										Vector head) {
+
+			super(data, head);
 		}
-		public boolean isCellEditable(int row, int colum) {
+
+		public boolean isCellEditable (int row, int colum) {
+
 			return false;
 		}
 	}

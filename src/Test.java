@@ -19,21 +19,24 @@ import PopupComponent.PopupImportModele;
 
 public class Test {
 
-	public static void main(String[] args) {
+	public static void main (String [] args) {
+
 		// TODO Auto-generated method stub
-//		testPopup();
+		// testPopup();
 		testIHM();
-//		testConfig();
-//		testCourse();
-//		testInventaire();
+		// testConfig();
+		// testCourse();
+		// testInventaire();
 	}
-	@SuppressWarnings("unused")
-	private static void testCourse() {
+
+	@SuppressWarnings ("unused")
+	private static void testCourse () {
+
 		FeuilleCourse f = new FeuilleCourse(new Date());
-		LigneCourse l = new LigneCourse("cat1", "prod1",0);
+		LigneCourse l = new LigneCourse("cat1", "prod1", 0);
 		l.addPack(new Pack(1, 1, 0.5));
 		f.ajouterLigne(l);
-		l = new LigneCourse("cat3", "prod2", 0); 
+		l = new LigneCourse("cat3", "prod2", 0);
 		l.addPack(new Pack(1, 1, 0.6));
 		l.addPack(new Pack(1, 1, 0.6));
 		l.addPack(new Pack(1, 1, 0.6));
@@ -45,12 +48,14 @@ public class Test {
 		l.addPack(new Pack(1, 1, 0.7));
 		l.addPack(new Pack(1, 1, 0.7));
 		f.ajouterLigne(l);
-//		System.out.println(f);
-				
-//		f.writeXLS(null, "CourseTest");
+		// System.out.println(f);
+
+		// f.writeXLS(null, "CourseTest");
 	}
-	@SuppressWarnings("unused")
-	private static void testInventaire() {
+
+	@SuppressWarnings ("unused")
+	private static void testInventaire () {
+
 		FeuilleInventaire f = new FeuilleInventaire(new Date());
 		f.ajouterLigne(new LigneInventaire("cat1", "mon produit", 0.1, 1, 0, 0));
 		f.ajouterLigne(new LigneInventaire("cat5", "mon produit", 0.2, 1, 0, 0));
@@ -64,22 +69,25 @@ public class Test {
 		f.writeXLS();
 	}
 
-	@SuppressWarnings("unused")
-	private static void testConfig() {
+	@SuppressWarnings ("unused")
+	private static void testConfig () {
+
 		Configuration conf = new Configuration("Mon chemin");
-		for(int i = 0; i < 5 ; i++)
-			conf.listProduit.add(new Produit("Categ "+(i%2)+1,"Produit " +i, i));
-		System.out.println(conf+"\n\n");
+		for (int i = 0 ; i < 5 ; i++)
+			conf.listProduit.add(new Produit("Categ " + (i % 2) + 1, "Produit " + i, i));
+		System.out.println(conf + "\n\n");
 		ObjectOutputStream out = null;
 		File fichier = null;
 		fichier = new File("serialTest.ser");
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(fichier));
 			out.writeObject(conf);
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -89,7 +97,8 @@ public class Test {
 					out.flush();
 					out.close();
 				}
-			}catch(IOException e) {
+			}
+			catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -99,25 +108,30 @@ public class Test {
 		try {
 			in = new ObjectInputStream(new FileInputStream(fichier));
 			conf = (Configuration) in.readObject();
-		}catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		finally {
 			try {
-				if(in != null)
-					in.close();
-			} catch (IOException e) {
+				if (in != null) in.close();
+			}
+			catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.out.println(conf);
 		}
 	}
-	public static void testIHM() {
-		@SuppressWarnings("unused")
-		FenAcceuil f = new FenAcceuil(); 
+
+	public static void testIHM () {
+
+		@SuppressWarnings ("unused")
+		FenAcceuil f = new FenAcceuil();
 	}
-	public static void testPopup(){
+
+	public static void testPopup () {
+
 		PopupImportModele pop = new PopupImportModele(true);
 		pop.showDialogCourse();
 	}

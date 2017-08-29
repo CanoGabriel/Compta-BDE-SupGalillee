@@ -1,49 +1,60 @@
 package Default;
 
+
 import java.io.Serializable;
 
-public class Pack implements Serializable{
+public class Pack implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3334835104321955905L;
-	private int quantiteProd;
-	private int nombrePack;
-	private double prixPack ;
-	
-	public Pack(int nb,int qtProd,double prix) {
+	private static final long	serialVersionUID	= 3334835104321955905L;
+	private int					quantiteProd;
+	private int					nombrePack;
+	private double				prixPack;
+
+	public Pack (	int nb,
+					int qtProd,
+					double prix) {
+
 		nombrePack = nb;
 		quantiteProd = qtProd;
 		prixPack = prix;
 	}
 
 	@Override
-	public String toString() {
-		return "Pack [quantiteProd=" + quantiteProd + ", nombrePack=" + nombrePack + ", prixPack=" + prixPack
-				+ "]";
+	public String toString () {
+
+		return "Pack [quantiteProd=" + quantiteProd + ", nombrePack=" + nombrePack + ", prixPack=" + prixPack + "]";
 	}
 
-	public int getQuantiteProd() {
+	public int getQuantiteProd () {
+
 		return quantiteProd;
 	}
 
-	public void setQuantiteProd(int quantiteProd) {
+	public void setQuantiteProd (int quantiteProd) {
+
 		this.quantiteProd = quantiteProd;
 	}
 
-	public int getNombrePack() {
+	public int getNombrePack () {
+
 		return nombrePack;
 	}
 
-	public void setNombrePack(int nombrePack) {
+	public void setNombrePack (int nombrePack) {
+
 		this.nombrePack = nombrePack;
 	}
 
-	public double getPrixPack() {
+	public double getPrixPack () {
+
 		return prixPack;
 	}
 
-	public void setPrixPack(double prixPack) {
+	public void setPrixPack (double prixPack) {
+
 		this.prixPack = prixPack;
 	}
 

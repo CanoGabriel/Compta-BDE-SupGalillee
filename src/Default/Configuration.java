@@ -1,4 +1,6 @@
 package Default;
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,78 +15,105 @@ import java.util.Comparator;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+/**
+ * 
+ * @author Gabriel
+ *
+ */
+public class Configuration implements Serializable {
 
-public class Configuration implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8123741264481871298L;
 
-	private String defaultSaveFilePath;
-	public ArrayList<Produit> listProduit = new ArrayList<Produit>();
-	public ArrayList<String> categorie = new ArrayList<String>();
-	public ArrayList<Produit> getListProduit() {
+	private String				defaultSaveFilePath;
+	public ArrayList<Produit>	listProduit	= new ArrayList<Produit>();
+	public ArrayList<String>	categorie	= new ArrayList<String>();
+/**
+ * Renvoie l'array des produits de la configuration appelante
+ * @return
+ */
+	public ArrayList<Produit> getListProduit () {
+
 		return listProduit;
 	}
+/**
+ * Attribut l'array des produits de la configuration appelante
+ * @param listProduit
+ */
+	public void setListProduit (ArrayList<Produit> listProduit) {
 
-	public void setListProduit(ArrayList<Produit> listProduit) {
 		this.listProduit = listProduit;
 	}
+/**
+ * Renvoie la liste des cat�gorie de la configuration appelante
+ * @return
+ */
+	public ArrayList<String> getCategorie () {
 
-	public ArrayList<String> getCategorie() {
 		return categorie;
 	}
+/**
+ * Attribut la list des categorie a la configuration appelante
+ * @param categorie
+ */
+	public void setCategorie (ArrayList<String> categorie) {
 
-	public void setCategorie(ArrayList<String> categorie) {
 		this.categorie = categorie;
 	}
+/**
+ * 
+ * @return
+ */
+	public String getDefaultSaveFilePath () {
 
-	public String getDefaultSaveFilePath() {
 		return defaultSaveFilePath;
 	}
 
-	public Configuration(String path) {
+	public Configuration (String path) {
+
 		defaultSaveFilePath = path;
 	}
 
-	public Configuration() {
+	public Configuration () {
+
 		ObjectInputStream in = null;
 		File fichier = new File("configuration.ser");
-		if(fichier.exists()) {
+		if (fichier.exists()) {
 			try {
 				in = new ObjectInputStream(new FileInputStream(fichier));
 				Configuration temp = (Configuration) in.readObject();
 				this.defaultSaveFilePath = temp.defaultSaveFilePath;
 				this.listProduit = temp.getList();
 				categorie = temp.getListCategorie();
-			}catch (Exception e) {
-				//			e.printStackTrace();
+			}
+			catch (Exception e) {
+				// e.printStackTrace();
 				this.defaultSaveFilePath = "";
 				this.listProduit = new ArrayList<Produit>();
 			}
 			finally {
 				try {
-					if(in != null)
-						in.close();
-				} catch (IOException e) {
+					if (in != null) in.close();
+				}
+				catch (IOException e) {
 					this.defaultSaveFilePath = "";
 					this.listProduit = new ArrayList<Produit>();
 				}
 			}
 		}
-		else 
-			defaultSaveFilePath = "";
+		else defaultSaveFilePath = "";
 	}
 
-	public ArrayList<String> getListCategorie(){
+	public ArrayList<String> getListCategorie () {
+
 		ArrayList<String> l = new ArrayList<String>();
-		for(Produit i : listProduit) {
-			if(!l.contains(i.getCategorie())) {
+		for (Produit i : listProduit) {
+			if ( !l.contains(i.getCategorie())) {
 				l.add(i.getCategorie());
 				Collections.sort(l, new Comparator<String>() {
 
 					@Override
-					public int compare(String o1, String o2) {
+					public int compare (String o1, String o2) {
+
 						return o1.compareTo(o2);
 					}
 				});
@@ -93,21 +122,24 @@ public class Configuration implements Serializable{
 		return l;
 	}
 
-	public Produit shearchProduit(String cat,String nom) {
-		for(Produit i : listProduit)
-			if(cat.equals(i.categorie) && nom.equals(i.nom))
-				return i;
+	public Produit shearchProduit (String cat, String nom) {
+
+		for (Produit i : listProduit)
+			if (cat.equals(i.categorie) && nom.equals(i.nom)) return i;
 		return null;
 	}
-	public ArrayList<Produit> getProduitByCategorie(String cat){
+
+	public ArrayList<Produit> getProduitByCategorie (String cat) {
+
 		ArrayList<Produit> l = new ArrayList<Produit>();
-		for(Produit i : this.listProduit)
-			if(cat != null && i.getCategorie().equals(cat)) {
+		for (Produit i : this.listProduit)
+			if (cat != null && i.getCategorie().equals(cat)) {
 				l.add(i);
 				Collections.sort(l, new Comparator<Produit>() {
 
 					@Override
-					public int compare(Produit o1, Produit o2) {
+					public int compare (Produit o1, Produit o2) {
+
 						return o1.getNom().compareTo(o2.getNom());
 					}
 				});
@@ -117,75 +149,86 @@ public class Configuration implements Serializable{
 				Collections.sort(l, new Comparator<Produit>() {
 
 					@Override
-					public int compare(Produit o1, Produit o2) {
+					public int compare (Produit o1, Produit o2) {
+
 						return o1.getNom().compareTo(o2.getNom());
 					}
 				});
 			}
 		return l;
 	}
-	public void write() {
+
+	public void write () {
+
 		ObjectOutputStream out = null;
 		File fichier = new File("configuration.ser");
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(fichier));
-			if(out != null) {
+			if (out != null) {
 				out.writeObject(this);
 				out.flush();
 				out.close();
 			}
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void addProduit(Produit p) {
-//		System.out.println("debug : " + p);
-		if(shearchProduit(p.categorie, p.nom) == null) {
+	public void addProduit (Produit p) {
+
+		// System.out.println("debug : " + p);
+		if (shearchProduit(p.categorie, p.nom) == null) {
 			listProduit.add(p);
-			//			System.out.println("\t"+p);
+			// System.out.println("\t"+p);
 		}
-		//		if(shearchProduit(p.categorie, p.nom) == null)
-		//			categorie.add(p.categorie);
+		// if(shearchProduit(p.categorie, p.nom) == null)
+		// categorie.add(p.categorie);
 		categorie = getListCategorie();
 	}
 
-	public void setDefaultSaveFilePath(String defaultSaveFilePath) {
+	public void setDefaultSaveFilePath (String defaultSaveFilePath) {
+
 		this.defaultSaveFilePath = defaultSaveFilePath;
 	}
 
-	public ArrayList<Produit> getList() {
+	public ArrayList<Produit> getList () {
+
 		return listProduit;
 	}
 
 	@Override
-	public String toString() {
+	public String toString () {
+
 		String r = "defaultSaveFilePath = " + defaultSaveFilePath + "\n";
-		for(Produit i : listProduit)
-			r += i+"\n";
+		for (Produit i : listProduit)
+			r += i + "\n";
 		return r;
 	}
 
-	public JTree buildTree(String categorie,boolean produit){
-		//si categorie == null -> prendre toutes les categories
-		//si produit == true -> prendre les produit pour toutes les categorie considérées.
+	public JTree buildTree (String categorie, boolean produit) {
+
+		// si categorie == null -> prendre toutes les categories
+		// si produit == true -> prendre les produit pour toutes les categorie
+		// considérées.
 		DefaultMutableTreeNode racine = new DefaultMutableTreeNode("root");
-		if(categorie == null){
-			for(String i : getCategorie()){
+		if (categorie == null) {
+			for (String i : getCategorie()) {
 				DefaultMutableTreeNode node = new DefaultMutableTreeNode(i);
-				if(produit){
-					for(Produit j : getProduitByCategorie(i)){
+				if (produit) {
+					for (Produit j : getProduitByCategorie(i)) {
 						node.add(new DefaultMutableTreeNode(j.getNom()));
 					}
 				}
 				racine.add(node);
 			}
 		}
-		else{
-			if (produit == true){
-				for(Produit j : getProduitByCategorie(categorie)){
+		else {
+			if (produit == true) {
+				for (Produit j : getProduitByCategorie(categorie)) {
 					racine.add(new DefaultMutableTreeNode(j.getNom()));
 				}
 			}

@@ -1,4 +1,6 @@
 package Default;
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,34 +31,40 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class FeuilleCourse implements Serializable{
+public class FeuilleCourse implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 372538109112150394L;
-	private Date dateCreation;
-	private ArrayList<LigneCourse> listeProd = new ArrayList<LigneCourse>();
-	private ArrayList<String> listCategorie = new ArrayList<String>();
-	private double totalTicket = 0;
-	private double totalAttendu = 0;
+	private static final long		serialVersionUID	= 372538109112150394L;
+	private Date					dateCreation;
+	private ArrayList<LigneCourse>	listeProd			= new ArrayList<LigneCourse>();
+	private ArrayList<String>		listCategorie		= new ArrayList<String>();
+	private double					totalTicket			= 0;
+	private double					totalAttendu		= 0;
 
-	public FeuilleCourse(Date date) {
+	public FeuilleCourse (Date date) {
+
 		dateCreation = date;
 	}
 
-	public FeuilleCourse(File modele){
+	public FeuilleCourse (File modele) {
+
 		ObjectInputStream in = null;
 		FeuilleCourse temp = null;
 		try {
 			in = new ObjectInputStream(new FileInputStream(modele));
-			if(in != null) {
+			if (in != null) {
 				temp = (FeuilleCourse) in.readObject();
 			}
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -68,19 +76,21 @@ public class FeuilleCourse implements Serializable{
 		totalTicket = temp.totalTicket;
 	}
 
-	public Configuration convertToConfig(boolean auto){
-		//auto --> vrai alors on rajoute tous les produits inconnu
-		//auto --> faux on pose la question de l'ajout pour chaque produit inconnu
+	public Configuration convertToConfig (boolean auto) {
+
+		// auto --> vrai alors on rajoute tous les produits inconnu
+		// auto --> faux on pose la question de l'ajout pour chaque produit
+		// inconnu
 		Configuration data = new Configuration("");
 		Configuration config = new Configuration();
-		for(LigneCourse i : listeProd){
+		for (LigneCourse i : listeProd) {
 			Produit temp = config.shearchProduit(i.categorie, i.nom);
-			if(temp != null)
+			if (temp != null)
 				data.addProduit(temp);
 			else {
-				if (!auto){
-					int option = JOptionPane.showConfirmDialog(null, "Produit non repertorie\nImport ","Erreur !!!",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-					if (option == JOptionPane.OK_OPTION){
+				if ( !auto) {
+					int option = JOptionPane.showConfirmDialog(null, "Produit non repertorie\nImport ", "Erreur !!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (option == JOptionPane.OK_OPTION) {
 						config.addProduit(i);
 						data.addProduit(i);
 						config.write();
@@ -88,7 +98,7 @@ public class FeuilleCourse implements Serializable{
 					}
 				}
 				else {
-					System.out.println("debug : "+i);
+					System.out.println("debug : " + i);
 					config.addProduit(i);
 					data.addProduit(i);
 					config.write();
@@ -100,41 +110,44 @@ public class FeuilleCourse implements Serializable{
 		return data;
 	}
 
-	public void setTotalTicket(double totalTicket) {
+	public void setTotalTicket (double totalTicket) {
+
 		this.totalTicket = totalTicket;
 	}
 
-	public void ajouterLigne(LigneCourse l) {
+	public void ajouterLigne (LigneCourse l) {
 
-		if(shearchLine(l.categorie, l.nom) == null)
-			listeProd.add(l);
-		if(!listCategorie.contains(l.getCategorie())) {
+		if (shearchLine(l.categorie, l.nom) == null) listeProd.add(l);
+		if ( !listCategorie.contains(l.getCategorie())) {
 			listCategorie.add(l.getCategorie());
 			Collections.sort(listCategorie, new Comparator<String>() {
 
 				@Override
-				public int compare(String o1, String o2) {
+				public int compare (String o1, String o2) {
+
 					// TODO Auto-generated method stub
 					return o1.compareTo(o2);
 				}
 			});
 		}
 		totalAttendu = 0;
-		for(LigneCourse i : listeProd) {
+		for (LigneCourse i : listeProd) {
 			totalAttendu += i.getPrixLigne();
 		}
 	}
 
-	public void supprimerLigne(LigneCourse l){
-		if(listeProd.remove(l)){
+	public void supprimerLigne (LigneCourse l) {
+
+		if (listeProd.remove(l)) {
 			listCategorie.clear();
-			for(LigneCourse i : listeProd){
-				if(!listCategorie.contains(i.getCategorie())) {
+			for (LigneCourse i : listeProd) {
+				if ( !listCategorie.contains(i.getCategorie())) {
 					listCategorie.add(i.getCategorie());
 					Collections.sort(listCategorie, new Comparator<String>() {
 
 						@Override
-						public int compare(String o1, String o2) {
+						public int compare (String o1, String o2) {
+
 							// TODO Auto-generated method stub
 							return o1.compareTo(o2);
 						}
@@ -142,32 +155,33 @@ public class FeuilleCourse implements Serializable{
 				}
 			}
 			totalAttendu = 0;
-			for(LigneCourse i : listeProd) {
+			for (LigneCourse i : listeProd) {
 				totalAttendu += i.getPrixLigne();
 			}
 		}
 	}
 
-	public LigneCourse shearchLine(String cat,String nom) {
-		for(LigneCourse i : listeProd)
-			if(cat.equals(i.categorie) && nom.equals(i.nom))
-				return i;
+	public LigneCourse shearchLine (String cat, String nom) {
+
+		for (LigneCourse i : listeProd)
+			if (cat.equals(i.categorie) && nom.equals(i.nom)) return i;
 		return null;
 	}
 
 	@Override
-	public String toString() {
+	public String toString () {
+
 		String r = "FeuilleCourse [dateCreation=" + dateCreation + ", totalAttendu=" + totalAttendu + ", totalTicket=" + totalTicket + "]";
 		r += "\nlistProd : \n";
-		for(LigneCourse i : listeProd)
-			r += "\t"+i.toString()+"\n";
+		for (LigneCourse i : listeProd)
+			r += "\t" + i.toString() + "\n";
 		r += "\nlistCategorie : \n";
-		for(String i : this.listCategorie)
-			r += "\t"+i+"\n";
+		for (String i : this.listCategorie)
+			r += "\t" + i + "\n";
 		return r;
 	}
 
-	public String writeXLS() {
+	public String writeXLS () {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss");
 		XSSFWorkbook wb = new XSSFWorkbook();
@@ -187,7 +201,7 @@ public class FeuilleCourse implements Serializable{
 		style_emphase.setBorderTop(BorderStyle.MEDIUM);
 		style_emphase.setAlignment(HorizontalAlignment.CENTER);
 
-		XSSFCellStyle [] parite = new XSSFCellStyle[2];
+		XSSFCellStyle [] parite = new XSSFCellStyle [2];
 		parite[0] = wb.createCellStyle();
 		parite[0].setFillForegroundColor(new XSSFColor(new java.awt.Color(0, 176, 240)));
 		parite[0].setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -224,8 +238,8 @@ public class FeuilleCourse implements Serializable{
 		addCell(sheetSimple, 0, 4, sdf.format(dateCreation), style_valeur);
 
 		String temp = "D4";
-		for(int i = 5;i<=100;i++)
-			temp +="+D"+i;
+		for (int i = 5 ; i <= 100 ; i++)
+			temp += "+D" + i;
 		addCell(sheet, 0, 5, "Total theorique", style_emphase);
 		addCell(sheetSimple, 0, 5, "Total theorique", style_emphase);
 		addCellFormule(sheet, 0, 6, temp, style_valeur);
@@ -251,75 +265,76 @@ public class FeuilleCourse implements Serializable{
 
 		ArrayList<String> ref_total = new ArrayList<String>();
 		ArrayList<String> ref_qt = new ArrayList<String>();
-		for(int indexCat = 0 ; indexCat < listCategorie.size();indexCat++ ) {
+		for (int indexCat = 0 ; indexCat < listCategorie.size() ; indexCat++) {
 			addCell(sheet, ligne, 0, listCategorie.get(indexCat), style_normal);
 			ligne++;
-			for(LigneCourse i : listeProd) {
-				if(i.getCategorie().equals(listCategorie.get(indexCat))) {
-					addCell(sheet, ligne, 1, i.nom, parite[ligne%2]);
-					String temp1 = "F"+(ligne+3);
-					String temp2 = "G"+(ligne+3)+"*E"+(ligne+3);
-					for(int k = ligne+4; k <= ligne+2+i.getPack().size();k++) {
-						temp1 += "+F"+k;
-						temp2 += "+G"+k+"*E"+k;
+			for (LigneCourse i : listeProd) {
+				if (i.getCategorie().equals(listCategorie.get(indexCat))) {
+					addCell(sheet, ligne, 1, i.nom, parite[ligne % 2]);
+					String temp1 = "F" + (ligne + 3);
+					String temp2 = "G" + (ligne + 3) + "*E" + (ligne + 3);
+					for (int k = ligne + 4 ; k <= ligne + 2 + i.getPack().size() ; k++) {
+						temp1 += "+F" + k;
+						temp2 += "+G" + k + "*E" + k;
 					}
-					addCellFormule(sheet, ligne, 2, temp1, parite[ligne%2]);
-					ref_qt.add("'detail'!C"+(ligne+1));
-					addCellFormule(sheet, ligne, 3, temp2, parite[ligne%2]);
-					ref_total.add("'detail'!D"+(ligne+1));
+					addCellFormule(sheet, ligne, 2, temp1, parite[ligne % 2]);
+					ref_qt.add("'detail'!C" + (ligne + 1));
+					addCellFormule(sheet, ligne, 3, temp2, parite[ligne % 2]);
+					ref_total.add("'detail'!D" + (ligne + 1));
 					ligne++;
-					addCell(sheet, ligne-1, 4, "Pack :", style_emphase);
+					addCell(sheet, ligne - 1, 4, "Pack :", style_emphase);
 					addCell(sheet, ligne, 4, "Nombre de Pack", style_emphase);
 					addCell(sheet, ligne, 5, "Qt de produit/Pack", style_emphase);
 					addCell(sheet, ligne, 6, "Prix/Pack", style_emphase);
 					ligne++;
-					for(Pack j : i.getPack()) {
-						addCell(sheet, ligne, 4, j.getNombrePack(), parite[ligne%2]);
-						addCell(sheet, ligne, 5, j.getQuantiteProd(), parite[ligne%2]);
-						addCell(sheet, ligne, 6, j.getPrixPack(), parite[ligne%2]);
+					for (Pack j : i.getPack()) {
+						addCell(sheet, ligne, 4, j.getNombrePack(), parite[ligne % 2]);
+						addCell(sheet, ligne, 5, j.getQuantiteProd(), parite[ligne % 2]);
+						addCell(sheet, ligne, 6, j.getPrixPack(), parite[ligne % 2]);
 						ligne++;
 					}
 				}
 			}
 		}
-		for(int indexCat = 0 ; indexCat < listCategorie.size();indexCat++ ) {
+		for (int indexCat = 0 ; indexCat < listCategorie.size() ; indexCat++) {
 			addCell(sheetSimple, ligne2, 0, listCategorie.get(indexCat), style_normal);
 			ligne2++;
-			for(LigneCourse i : listeProd) {
-				if(i.getCategorie().equals(listCategorie.get(indexCat))) {
-					addCell(sheetSimple, ligne2, 1, i.nom, parite[ligne2%2]);
-					addCellFormule(sheetSimple, ligne2, 2, ref_qt.get(0), parite[ligne2%2]);
+			for (LigneCourse i : listeProd) {
+				if (i.getCategorie().equals(listCategorie.get(indexCat))) {
+					addCell(sheetSimple, ligne2, 1, i.nom, parite[ligne2 % 2]);
+					addCellFormule(sheetSimple, ligne2, 2, ref_qt.get(0), parite[ligne2 % 2]);
 					ref_qt.remove(0);
-					addCellFormule(sheetSimple, ligne2, 3, ref_total.get(0), parite[ligne2%2]);
+					addCellFormule(sheetSimple, ligne2, 3, ref_total.get(0), parite[ligne2 % 2]);
 					ref_total.remove(0);
 					ligne2++;
 				}
 			}
 		}
 
-		for(int i = 0 ; i < 9 ; i++) {
+		for (int i = 0 ; i < 9 ; i++) {
 			sheet.autoSizeColumn(i, true);
-			if (i<6)
-				sheetSimple.autoSizeColumn(i, true);
+			if (i < 6) sheetSimple.autoSizeColumn(i, true);
 		}
 		FileOutputStream fileOut;
-		String chemin = "Course/Feuille de course du "+(new SimpleDateFormat("dd-MM-yyyy_HHmmss").format(dateCreation))+".xlsx";
+		String chemin = "Course/Feuille de course du " + (new SimpleDateFormat("dd-MM-yyyy_HHmmss").format(dateCreation)) + ".xlsx";
 		try {
 			File dir = new File("Course");
-			if(!dir.exists())
-				dir.mkdir();
+			if ( !dir.exists()) dir.mkdir();
 			fileOut = new FileOutputStream(chemin);
 			wb.write(fileOut);
-			fileOut.close();  
-		} catch (FileNotFoundException e) {
+			fileOut.close();
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		finally {
 			try {
 				wb.close();
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -327,76 +342,85 @@ public class FeuilleCourse implements Serializable{
 		return chemin;
 	}
 
-	public Date getDateCreation() {
+	public Date getDateCreation () {
+
 		return dateCreation;
 	}
 
-	public double getTotalAttendu() {
+	public double getTotalAttendu () {
+
 		totalAttendu = 0;
 		for (LigneCourse i : listeProd)
-			for(Pack j : i.getPack())
-				totalAttendu += j.getPrixPack()*j.getNombrePack();
+			for (Pack j : i.getPack())
+				totalAttendu += j.getPrixPack() * j.getNombrePack();
 		return totalAttendu;
 	}
 
-	public double getTotalTicket() {
+	public double getTotalTicket () {
+
 		return totalTicket;
 	}
 
-	private void addCell(XSSFSheet sheet,int r,int c, String valeur, XSSFCellStyle style) {
+	private void addCell (XSSFSheet sheet, int r, int c, String valeur, XSSFCellStyle style) {
+
 		XSSFRow row;
 		XSSFCell cell;
 		row = sheet.getRow(r);
-		if(row == null)
-			row = sheet.createRow(r);
-		cell = row.createCell(c,CellType.STRING);
-		cell.setCellValue(valeur);
-		cell.setCellStyle(style);
-	}
-	private void addCell(XSSFSheet sheet,int r,int c, double valeur, XSSFCellStyle style) {
-		XSSFRow row;
-		XSSFCell cell;
-		row = sheet.getRow(r);
-		if(row == null)
-			row = sheet.createRow(r);
-		cell = row.createCell(c,CellType.NUMERIC);
+		if (row == null) row = sheet.createRow(r);
+		cell = row.createCell(c, CellType.STRING);
 		cell.setCellValue(valeur);
 		cell.setCellStyle(style);
 	}
 
-	private void addCellFormule(XSSFSheet sheet,int r,int c, String formule, XSSFCellStyle style) {
+	private void addCell (XSSFSheet sheet, int r, int c, double valeur, XSSFCellStyle style) {
+
 		XSSFRow row;
 		XSSFCell cell;
 		row = sheet.getRow(r);
-		if(row == null)
-			row = sheet.createRow(r);
-		cell = row.createCell(c,CellType.FORMULA);
+		if (row == null) row = sheet.createRow(r);
+		cell = row.createCell(c, CellType.NUMERIC);
+		cell.setCellValue(valeur);
+		cell.setCellStyle(style);
+	}
+
+	private void addCellFormule (XSSFSheet sheet, int r, int c, String formule, XSSFCellStyle style) {
+
+		XSSFRow row;
+		XSSFCell cell;
+		row = sheet.getRow(r);
+		if (row == null) row = sheet.createRow(r);
+		cell = row.createCell(c, CellType.FORMULA);
 		cell.setCellFormula(formule);
 		cell.setCellStyle(style);
 	}
 
-	public void writeModele(String name) {
+	public void writeModele (String name) {
+
 		ObjectOutputStream out = null;
-		File fichier = new File("Modele course/"+name+".mod");
+		File fichier = new File("Modele course/" + name + ".mod");
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(fichier));
-			if(out != null) {
+			if (out != null) {
 				out.writeObject(this);
 				out.flush();
 				out.close();
 			}
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void readXLS(File fichier) {
+	public void readXLS (File fichier) {
+
 		XSSFWorkbook wb = null;
 		try {
 			wb = new XSSFWorkbook(fichier);
-		} catch (InvalidFormatException | IOException e) {
+		}
+		catch (InvalidFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -405,7 +429,8 @@ public class FeuilleCourse implements Serializable{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy | HH:mm:ss");
 		try {
 			dateCreation = sdf.parse(sheet.getRow(0).getCell(4).getStringCellValue());
-		} catch (ParseException e) {
+		}
+		catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -415,19 +440,19 @@ public class FeuilleCourse implements Serializable{
 		String cat = null;
 		String nom = null;
 		LigneCourse l = null;
-		while(row != null && (row.getCell(0) != null || row.getCell(1) != null || row.getCell(6) != null)) {
-			if(row.getCell(0) != null)
+		while (row != null && (row.getCell(0) != null || row.getCell(1) != null || row.getCell(6) != null)) {
+			if (row.getCell(0) != null)
 				cat = row.getCell(0).getStringCellValue();
-			else if(row.getCell(1) != null){
+			else if (row.getCell(1) != null) {
 				nom = row.getCell(1).getStringCellValue();
 				lign++;
 			}
 			else {
-				l = new LigneCourse(new Produit(cat, nom, 0), (int)row.getCell(4).getNumericCellValue(),(int) row.getCell(5).getNumericCellValue(), row.getCell(6).getNumericCellValue());
-				while(sheet.getRow(lign+1) != null && sheet.getRow(lign+1).getCell(6) != null) {
+				l = new LigneCourse(new Produit(cat, nom, 0), (int) row.getCell(4).getNumericCellValue(), (int) row.getCell(5).getNumericCellValue(), row.getCell(6).getNumericCellValue());
+				while (sheet.getRow(lign + 1) != null && sheet.getRow(lign + 1).getCell(6) != null) {
 					lign++;
 					row = sheet.getRow(lign);
-					l.addPack(new Pack((int)row.getCell(4).getNumericCellValue(),(int) row.getCell(5).getNumericCellValue(), row.getCell(6).getNumericCellValue()));
+					l.addPack(new Pack((int) row.getCell(4).getNumericCellValue(), (int) row.getCell(5).getNumericCellValue(), row.getCell(6).getNumericCellValue()));
 				}
 				ajouterLigne(l);
 			}
@@ -436,4 +461,3 @@ public class FeuilleCourse implements Serializable{
 		}
 	}
 }
-
