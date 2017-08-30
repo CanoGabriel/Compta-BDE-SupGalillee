@@ -440,18 +440,17 @@ public class FeuilleInventaire implements Serializable {
 					if (option == JOptionPane.OK_OPTION) {
 						config.addProduit(temp);
 						data.addProduit(temp);
-						config.write();
 					}
 				}
 				else {
 					config.addProduit(temp);
 					data.addProduit(temp);
-					config.write();
-					config = new Configuration();
+//					config.write();
 				}
 			}
 		}
-
+		config.write();
+		FenAcceuil.data_config = config;
 		return data;
 	}
 

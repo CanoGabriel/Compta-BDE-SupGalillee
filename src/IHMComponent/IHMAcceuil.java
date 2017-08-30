@@ -2,6 +2,7 @@ package IHMComponent;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class IHMAcceuil extends JPanel {
 	private JPanel	l2	= new JPanel();
 	private JPanel	l3	= new JPanel();
 
-	private Boutton				btn_config		= new Boutton("Gestion des produits");
+	private Boutton				btn_config		= new Boutton("Gestion des produits (admin)");
 	private Boutton				btn_course		= new Boutton("Nouvelle feuille de course");
 	private Boutton				btn_inventaire	= new Boutton("Nouvelle feuille d'inventaire");
 	private ArrayList<Boutton>	listBoutton		= new ArrayList<Boutton>();
@@ -31,6 +32,7 @@ public class IHMAcceuil extends JPanel {
 	public IHMAcceuil (FenAcceuil parent) {
 
 		btn_config.addActionListener(parent);
+		btn_config.setForeground(Color.RED);
 		btn_course.addActionListener(parent);
 		btn_inventaire.addActionListener(parent);
 

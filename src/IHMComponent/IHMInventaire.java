@@ -2,6 +2,7 @@ package IHMComponent;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
@@ -121,6 +123,7 @@ public class IHMInventaire extends JPanel {
 
 	private JMenuBar	menu	= new JMenuBar();
 	private JMenu		fichier	= new JMenu("Fichier");
+	private JMenu		modele	= new JMenu("Modele");
 	private JMenuItem	ouvrir	= new JMenuItem("Ouvrir");
 	private JMenuItem	sauver	= new JMenuItem("Sauvegarder");
 	private JMenuItem	impMod	= new JMenuItem("Importer modele");
@@ -246,8 +249,8 @@ public class IHMInventaire extends JPanel {
 		this.add(south, BorderLayout.SOUTH);
 		south.add(btn_Acceuil, BorderLayout.CENTER);
 
-		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information generale :"));
-		center_c2_north.setBorder(BorderFactory.createTitledBorder("Information produit :"));
+		center_c2_south.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED),"Information generale",TitledBorder.CENTER,TitledBorder.TOP));
+		center_c2_north.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED),"Information produit",TitledBorder.CENTER,TitledBorder.TOP));
 		center_c2_north_n1.setBorder(BorderFactory.createTitledBorder("Quantite precedente :"));
 		center_c2_north_n2.setBorder(BorderFactory.createTitledBorder("Quantite course :"));
 		center_c2_north_n3.setBorder(BorderFactory.createTitledBorder("Quantite restante :"));
@@ -262,11 +265,11 @@ public class IHMInventaire extends JPanel {
 		center_c2_south_l7_c2.setBorder(BorderFactory.createTitledBorder("Bon Snac :"));
 
 		menu.add(fichier);
+		menu.add(modele);
 		fichier.add(ouvrir);
 		fichier.add(sauver);
-		fichier.addSeparator();
-		fichier.add(impMod);
-		fichier.add(expMod);
+		modele.add(impMod);
+		modele.add(expMod);
 		this.add(menu, BorderLayout.NORTH);
 		ouvrir.addActionListener(parent);
 		ouvrir.setName(JMI_OUVRIR);

@@ -88,25 +88,23 @@ public class FeuilleCourse implements Serializable {
 			if (temp != null)
 				data.addProduit(temp);
 			else {
-				if ( !auto) {
+				if ( auto) {
 					int option = JOptionPane.showConfirmDialog(null, "Produit non repertorie\nImport ", "Erreur !!!", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (option == JOptionPane.OK_OPTION) {
 						config.addProduit(i);
 						data.addProduit(i);
-						config.write();
-						config = new Configuration();
 					}
 				}
 				else {
 					System.out.println("debug : " + i);
 					config.addProduit(i);
 					data.addProduit(i);
-					config.write();
-					config = new Configuration();
+//					config.write();
 				}
 			}
 		}
-
+		config.write();
+		FenAcceuil.data_config = config;
 		return data;
 	}
 

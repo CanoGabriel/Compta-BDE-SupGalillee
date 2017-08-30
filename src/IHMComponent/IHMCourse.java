@@ -2,6 +2,7 @@ package IHMComponent;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -21,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -89,6 +91,7 @@ public class IHMCourse extends JPanel implements IHMBase {
 
 	private JMenuBar	menu	= new JMenuBar();
 	private JMenu		fichier	= new JMenu("Fichier");
+	private JMenu		modele	= new JMenu("Modele");
 	private JMenuItem	ouvrir	= new JMenuItem("Ouvrir");
 	private JMenuItem	sauver	= new JMenuItem("Sauvegarder");
 	private JMenuItem	impMod	= new JMenuItem("Importer modele");
@@ -177,18 +180,18 @@ public class IHMCourse extends JPanel implements IHMBase {
 		center_c2_south.add(center_c2_south_l4);
 		this.add(south, BorderLayout.SOUTH);
 
-		center_c2_south.setBorder(BorderFactory.createTitledBorder("Information generale :"));
-		center_c2_center.setBorder(BorderFactory.createTitledBorder("Gestion des pack :"));
+		center_c2_south.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED),"Information generale",TitledBorder.CENTER,TitledBorder.TOP));
+		center_c2_center.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED),"Gestion des packs",TitledBorder.CENTER,TitledBorder.TOP));
 		center_c2_south_l1.setBorder(BorderFactory.createTitledBorder("Date :"));
 		center_c2_south_l2.setBorder(BorderFactory.createTitledBorder("Total :"));
 		center_c2_south_l3.setBorder(BorderFactory.createTitledBorder("Total Ticket :"));
 
 		menu.add(fichier);
+		menu.add(modele);
 		fichier.add(ouvrir);
 		fichier.add(sauver);
-		fichier.addSeparator();
-		fichier.add(impMod);
-		fichier.add(expMod);
+		modele.add(impMod);
+		modele.add(expMod);
 		this.add(menu, BorderLayout.NORTH);
 		ouvrir.addActionListener(parent);
 		ouvrir.setName(JMI_OUVRIR);

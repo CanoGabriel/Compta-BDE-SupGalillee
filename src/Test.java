@@ -32,6 +32,7 @@ public class Test {
 	@SuppressWarnings ("unused")
 	private static void testCourse () {
 
+		
 		FeuilleCourse f = new FeuilleCourse(new Date());
 		LigneCourse l = new LigneCourse("cat1", "prod1", 0);
 		l.addPack(new Pack(1, 1, 0.5));

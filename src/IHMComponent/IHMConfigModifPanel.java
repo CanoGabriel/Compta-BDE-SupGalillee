@@ -215,4 +215,13 @@ public class IHMConfigModifPanel extends JPanel implements IHMBase {
 		}
 		return null;
 	}
+
+	public void reInitChamp () {
+		txtf_categorie.setEnabled(false);
+		txtf_nom.setEnabled(false);
+		txtf_prix.setEnabled(false);
+		txtf_categorie.setText("");
+		txtf_prix.setText("");
+		txtf_nom.setText("");
+	}
 }
