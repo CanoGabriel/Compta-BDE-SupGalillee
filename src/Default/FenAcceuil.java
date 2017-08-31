@@ -175,7 +175,7 @@ public class FenAcceuil extends JFrame implements ActionListener {
 				i = JOptionPane.showConfirmDialog(null, "Categorie : " + t.categorie + "\nNom : " + t.nom + "\nPrix : " + t.prixUnitaire + " E", "Confirmer la saisie !!!", JOptionPane.YES_NO_OPTION);
 			}
 			if (data_config.shearchProduit(t.categorie, t.nom) != null)
-				JOptionPane.showMessageDialog(null, "Le produit que vous tentez d'ajouter existe déjà.\nIl ne sera donc pas ajoute et le produit existant ne sera pas modifie", "Avertissement !!", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Le produit que vous tentez d'ajouter existe déjà. \n Il ne sera donc pas ajoute et le produit existant ne sera pas modifie", "Avertissement !!", JOptionPane.WARNING_MESSAGE);
 			data_config.addProduit(t);
 			actualiser();
 

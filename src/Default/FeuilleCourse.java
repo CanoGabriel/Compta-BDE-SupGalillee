@@ -269,10 +269,10 @@ public class FeuilleCourse implements Serializable {
 			for (LigneCourse i : listeProd) {
 				if (i.getCategorie().equals(listCategorie.get(indexCat))) {
 					addCell(sheet, ligne, 1, i.nom, parite[ligne % 2]);
-					String temp1 = "F" + (ligne + 3);
+					String temp1 = "F" + (ligne + 3)+ "*E" + (ligne + 3);
 					String temp2 = "G" + (ligne + 3) + "*E" + (ligne + 3);
 					for (int k = ligne + 4 ; k <= ligne + 2 + i.getPack().size() ; k++) {
-						temp1 += "+F" + k;
+						temp1 += "+F" + k + "*E" + k;
 						temp2 += "+G" + k + "*E" + k;
 					}
 					addCellFormule(sheet, ligne, 2, temp1, parite[ligne % 2]);
@@ -285,10 +285,11 @@ public class FeuilleCourse implements Serializable {
 					addCell(sheet, ligne, 5, "Qt de produit/Pack", style_emphase);
 					addCell(sheet, ligne, 6, "Prix/Pack", style_emphase);
 					ligne++;
+					int l = ligne;
 					for (Pack j : i.getPack()) {
-						addCell(sheet, ligne, 4, j.getNombrePack(), parite[ligne % 2]);
-						addCell(sheet, ligne, 5, j.getQuantiteProd(), parite[ligne % 2]);
-						addCell(sheet, ligne, 6, j.getPrixPack(), parite[ligne % 2]);
+						addCell(sheet, ligne, 4, j.getNombrePack(), parite[(ligne-l) % 2]);
+						addCell(sheet, ligne, 5, j.getQuantiteProd(), parite[(ligne-l) % 2]);
+						addCell(sheet, ligne, 6, j.getPrixPack(), parite[(ligne-l) % 2]);
 						ligne++;
 					}
 				}
